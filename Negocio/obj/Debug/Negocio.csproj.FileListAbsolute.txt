@@ -1,0 +1,8 @@
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\bin\Debug\Negocio.dll
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\bin\Debug\Negocio.pdb
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\bin\Debug\Modelo.dll
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\bin\Debug\Modelo.pdb
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\obj\Debug\Negocio.csprojAssemblyReference.cache
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\obj\Debug\Negocio.csproj.CopyComplete
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\obj\Debug\Negocio.dll
+D:\Santi\Personal\Programacion\2020\Programacion 3\TPFinal_Flores\TPC_Flores\Negocio\obj\Debug\Negocio.pdb
