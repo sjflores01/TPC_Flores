@@ -70,10 +70,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ABM_Categorias.aspx" />
+    <Content Include="ABM_Marcas.aspx" />
+    <Content Include="ABM_Productos.aspx" />
+    <Content Include="CategoriaEdit.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="MarcaEdit.aspx" />
+    <Content Include="ProductoEdit.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM_Categorias.aspx.cs">
+      <DependentUpon>ABM_Categorias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Categorias.aspx.designer.cs">
+      <DependentUpon>ABM_Categorias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Marcas.aspx.cs">
+      <DependentUpon>ABM_Marcas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Marcas.aspx.designer.cs">
+      <DependentUpon>ABM_Marcas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Productos.aspx.cs">
+      <DependentUpon>ABM_Productos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Productos.aspx.designer.cs">
+      <DependentUpon>ABM_Productos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CasaMusica.Master.cs">
       <DependentUpon>CasaMusica.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -81,12 +108,33 @@
     <Compile Include="CasaMusica.Master.designer.cs">
       <DependentUpon>CasaMusica.Master</DependentUpon>
     </Compile>
+    <Compile Include="CategoriaEdit.aspx.cs">
+      <DependentUpon>CategoriaEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CategoriaEdit.aspx.designer.cs">
+      <DependentUpon>CategoriaEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MarcaEdit.aspx.cs">
+      <DependentUpon>MarcaEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MarcaEdit.aspx.designer.cs">
+      <DependentUpon>MarcaEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoEdit.aspx.cs">
+      <DependentUpon>ProductoEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductoEdit.aspx.designer.cs">
+      <DependentUpon>ProductoEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

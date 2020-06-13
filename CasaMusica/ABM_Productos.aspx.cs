@@ -9,11 +9,14 @@ using Negocio;
 
 namespace CasaMusica
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class ABM_Productos : System.Web.UI.Page
     {
+        public List<Producto> listaProductos { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            listaProductos = productoNegocio.Listar();
         }
     }
 }
