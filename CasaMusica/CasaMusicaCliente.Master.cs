@@ -4,14 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Modelo;
-using Negocio;
 
 namespace CasaMusica
 {
-    public partial class ABM_Marcas : System.Web.UI.Page
+    public partial class CasaMusicaCliente : System.Web.UI.MasterPage
     {
-        public List<Marca> listadoMarcas { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
 

@@ -11,6 +11,7 @@ namespace Modelo
         public long ID { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
+        public string URLImagen { get; set; }
         public bool Eliminado { get; set; }
     }
 }

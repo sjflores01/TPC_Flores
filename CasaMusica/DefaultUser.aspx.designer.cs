@@ -11,7 +11,7 @@ namespace CasaMusica
 {
 
 
-    public partial class ABM_Categorias
+    public partial class DefaultUser
     {
     }
 }

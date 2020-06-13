@@ -73,8 +73,11 @@
     <Content Include="ABM_Categorias.aspx" />
     <Content Include="ABM_Marcas.aspx" />
     <Content Include="ABM_Productos.aspx" />
+    <Content Include="Carrito.aspx" />
     <Content Include="CategoriaEdit.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="DefaultUser.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="MarcaEdit.aspx" />
     <Content Include="ProductoEdit.aspx" />
     <Content Include="Web.config" />
@@ -101,12 +104,26 @@
     <Compile Include="ABM_Productos.aspx.designer.cs">
       <DependentUpon>ABM_Productos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Carrito.aspx.cs">
+      <DependentUpon>Carrito.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Carrito.aspx.designer.cs">
+      <DependentUpon>Carrito.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CasaMusica.Master.cs">
       <DependentUpon>CasaMusica.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CasaMusica.Master.designer.cs">
       <DependentUpon>CasaMusica.Master</DependentUpon>
+    </Compile>
+    <Compile Include="CasaMusicaCliente.Master.cs">
+      <DependentUpon>CasaMusicaCliente.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CasaMusicaCliente.Master.designer.cs">
+      <DependentUpon>CasaMusicaCliente.Master</DependentUpon>
     </Compile>
     <Compile Include="CategoriaEdit.aspx.cs">
       <DependentUpon>CategoriaEdit.aspx</DependentUpon>
@@ -121,6 +138,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultUser.aspx.cs">
+      <DependentUpon>DefaultUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DefaultUser.aspx.designer.cs">
+      <DependentUpon>DefaultUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="MarcaEdit.aspx.cs">
       <DependentUpon>MarcaEdit.aspx</DependentUpon>
@@ -140,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CasaMusica.Master" />
+    <Content Include="CasaMusicaCliente.Master" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
