@@ -18,10 +18,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("SELECT P.ID, P.Codigo, P.Nombre, P.Descripcion, P.ImagenURL, P.Precio, P.Stock, M.ID, C.ID, P.Eliminado, M.Codigo, M.Nombre, C.Nombre, M.Eliminado, C.Eliminado " +
-                                  "FROM Productos AS P " +
-                                  "INNER JOIN Marcas AS M ON P.IDMarca = M.ID " +
-                                  "INNER JOIN Categorias as C ON P.IDCategoria = C.ID");
+                datos.SetearQuery("SELECT * FROM VW_ProductosLista");
                 datos.EjecutarLector();
 
                 while (datos.Lector.Read())
@@ -31,8 +28,8 @@ namespace Negocio
                     producto.Categoria = new Categoria();
 
                     producto.Eliminado = datos.Lector.GetBoolean(9);
-                    producto.Marca.Eliminado = datos.Lector.GetBoolean(13);
-                    producto.Categoria.Eliminado = datos.Lector.GetBoolean(14);
+                    producto.Marca.Eliminado = datos.Lector.GetBoolean(14);
+                    producto.Categoria.Eliminado = datos.Lector.GetBoolean(17);
 
                     if (!producto.Eliminado && !producto.Marca.Eliminado && !producto.Categoria.Eliminado)
                     {
@@ -43,11 +40,12 @@ namespace Negocio
                         producto.URLImagen = datos.Lector.GetString(4);
                         producto.Precio = datos.Lector.GetDecimal(5);
                         producto.Stock = datos.Lector.GetInt64(6);
-                        producto.Marca.ID = datos.Lector.GetInt64(7);
-                        producto.Categoria.ID = datos.Lector.GetInt32(8);
-                        producto.Marca.Codigo = datos.Lector.GetString(10);
-                        producto.Marca.Nombre = datos.Lector.GetString(11);
-                        producto.Categoria.Nombre = datos.Lector.GetString(12);
+                        producto.Marca.ID = datos.Lector.GetInt64(10);
+                        producto.Marca.Codigo = datos.Lector.GetString(11);
+                        producto.Marca.Nombre = datos.Lector.GetString(12);
+                        producto.Marca.URLImagen = datos.Lector.GetString(13);
+                        producto.Categoria.ID = datos.Lector.GetInt32(15);
+                        producto.Categoria.Nombre = datos.Lector.GetString(16);
 
                         lista.Add(producto);
                     }

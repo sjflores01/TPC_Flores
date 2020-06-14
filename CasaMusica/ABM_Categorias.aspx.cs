@@ -15,7 +15,9 @@ namespace CasaMusica
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
+            listadoCategorias = categoriaNegocio.Listar();
         }
     }
 }

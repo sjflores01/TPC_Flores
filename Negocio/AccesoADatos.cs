@@ -15,7 +15,7 @@ namespace Negocio
 
         public AccesoADatos()
         {
-            Conexion = new SqlConnection("data source=DESKTOP-1CME8C0\\SQLEXPRESS; initial catalog= MUSICA_DB; integrated security= sspi");
+            Conexion = new SqlConnection("data source=DESKTOP-1CME8C0\\SQLEXPRESS; initial catalog= DB_FLORES; integrated security= sspi");
             Comando = new SqlCommand();
             Comando.Connection = Conexion;
         }
@@ -23,6 +23,12 @@ namespace Negocio
         public void SetearQuery(string query)
         {
             Comando.CommandType = System.Data.CommandType.Text;
+            Comando.CommandText = query;
+        }
+
+        public void SetearSP(string query)
+        {
+            Comando.CommandType = System.Data.CommandType.StoredProcedure;
             Comando.CommandText = query;
         }
 

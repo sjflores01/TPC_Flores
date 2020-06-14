@@ -4,20 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Modelo;
-using Negocio;
 
 namespace CasaMusica
 {
-    public partial class ABM_Marcas : System.Web.UI.Page
+    public partial class CrearUsuario : System.Web.UI.Page
     {
-        public List<Marca> listadoMarcas { get; set; }
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
 
-            listadoMarcas = marcaNegocio.Listar();
         }
     }
 }

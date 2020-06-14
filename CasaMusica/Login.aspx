@@ -7,19 +7,22 @@
         <div class="row mt-4">
             <div class="col-4 offset-4">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <label>Email</label>
+                    <asp:TextBox runat="server" CssClass="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label>Contraseña</label>
+                    <asp:TextBox runat="server" CssClass="form-control" ID="txtBoxPassword" TextMode="Password" />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="form-check mb-3">
+                        <asp:CheckBox Text="" CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" />
+                        <asp:Label Text="Ver Contraseña" CssClass="form-check-label" runat="server" />
+                    </div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col offset-3">
-                            <a href="#" class="">No tengo Cuenta</a>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <a href="CrearUsuario.aspx" class="">No tengo Cuenta</a>
                         </div>
                     </div>
                 </div>

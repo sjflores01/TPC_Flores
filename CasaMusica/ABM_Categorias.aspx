@@ -7,7 +7,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Codigo</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">#</th>
                         <th scope="col">
@@ -22,7 +22,7 @@
                     <%foreach (var item in listadoCategorias)
                         {%>
                     <tr>
-                        <th scope="row"><% = item.Codigo %></th>
+                        <th scope="row"><% = item.ID %></th>
                         <td><% = item.Nombre %></td>
                         <td><a class="btn btn-outline-primary" href="#">Modificar</a></td>
                         <td><a href="#">
