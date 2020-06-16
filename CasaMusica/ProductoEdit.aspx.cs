@@ -20,6 +20,8 @@ namespace CasaMusica
             {
                 if (!IsPostBack)
                 {
+                    lblCodigoRequerido.Visible = false;
+
                     dropDownMarcas.DataSource = marcaNegocio.Listar();
                     dropDownMarcas.SelectedIndex = -1;
                     dropDownMarcas.DataValueField = "ID";
@@ -44,35 +46,56 @@ namespace CasaMusica
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Producto producto = new Producto();
-
-            try
+            if (ValidarForm())
             {
-                ProductoNegocio productoNegocio = new ProductoNegocio();
-                MarcaNegocio marcaNegocio = new MarcaNegocio();
-                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                Producto producto = new Producto();
 
-                producto.Codigo = txtBoxCodigo.Text;
-                producto.Nombre = txtBoxNombre.Text;
-                producto.Descripcion = txtBoxDescripcion.Text;
-                producto.URLImagen = txtBoxImagen.Text;
-                producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
-                producto.Stock = Convert.ToInt64(txtBoxStock.Text);
-                producto.Marca = new Marca();
-                producto.Marca = marcaNegocio.Listar().Find(m => m.ID.ToString() == dropDownMarcas.SelectedItem.Value.ToString());
-                producto.Categoria = new Categoria();
-                producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID.ToString() == dropDownCategorias.SelectedItem.Value.ToString());
-                producto.Eliminado = false;
+                try
+                {
+                    ProductoNegocio productoNegocio = new ProductoNegocio();
+                    MarcaNegocio marcaNegocio = new MarcaNegocio();
+                    CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
-                productoNegocio.Agregar(producto);
+                    producto.Codigo = txtBoxCodigo.Text;
+                    producto.Nombre = txtBoxNombre.Text;
+                    producto.Descripcion = txtBoxDescripcion.Text;
+                    producto.URLImagen = txtBoxImagen.Text;
+                    producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
+                    producto.Stock = Convert.ToInt64(txtBoxStock.Text);
+                    producto.Marca = new Marca();
+                    producto.Marca = marcaNegocio.Listar().Find(m => m.ID.ToString() == dropDownMarcas.SelectedItem.Value.ToString());
+                    producto.Categoria = new Categoria();
+                    producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID.ToString() == dropDownCategorias.SelectedItem.Value.ToString());
+                    producto.Eliminado = false;
+
+                    productoNegocio.Agregar(producto);
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
 
             }
-            catch (Exception ex)
-            {
 
-                throw ex;
+        }
+
+        public bool ValidarForm()
+        {
+            bool result = false;
+
+            if (txtBoxCodigo.Text == "")
+            {
+                lblCodigoRequerido.Visible = true;
+            }
+            else
+            {
+                lblCodigoRequerido.Visible = false;
+                result = true;
             }
 
+            return result;
         }
     }
 }

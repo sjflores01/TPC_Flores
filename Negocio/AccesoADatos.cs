@@ -26,10 +26,10 @@ namespace Negocio
             Comando.CommandText = query;
         }
 
-        public void SetearSP(string query)
+        public void SetearSP(string sp)
         {
             Comando.CommandType = System.Data.CommandType.StoredProcedure;
-            Comando.CommandText = query;
+            Comando.CommandText = sp;
         }
 
         public void SetearParametro(string param, object val)
@@ -37,7 +37,7 @@ namespace Negocio
             Comando.Parameters.AddWithValue(param, val);
         }
 
-        public void EjecutarAccion(string accion)
+        public void EjecutarAccion()
         {
             try
             {

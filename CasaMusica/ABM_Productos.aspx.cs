@@ -16,7 +16,20 @@ namespace CasaMusica
         protected void Page_Load(object sender, EventArgs e)
         {
             ProductoNegocio productoNegocio = new ProductoNegocio();
-            listaProductos = productoNegocio.Listar();
+            try
+            {
+                if(Request.QueryString["ID"] != null && Request.QueryString["ID"] != "")
+                {
+                    productoNegocio.Baja(Request.QueryString["ID"]);
+                }
+                listaProductos = productoNegocio.Listar();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

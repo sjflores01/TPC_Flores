@@ -78,6 +78,7 @@
     <Content Include="CrearUsuario.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultUser.aspx" />
+    <Content Include="JS\Funciones_Cliente.js" />
     <Content Include="Login.aspx" />
     <Content Include="MarcaEdit.aspx" />
     <Content Include="ProductoEdit.aspx" />

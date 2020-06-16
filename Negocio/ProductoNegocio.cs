@@ -71,18 +71,19 @@ namespace Negocio
 
             try
             {
-                datos.SetearSP("Exec SP_AltaProducto @Codigo, @Nombre, @Descripcion, @ImagenURL, @Precio, @Stock, @IDMarca, @IDCategoria, @Eliminado");
+                datos.SetearSP("SP_AltaProducto");
+                datos.Comando.Parameters.Clear();
                 datos.SetearParametro("@Codigo", producto.Codigo);
                 datos.SetearParametro("@Nombre", producto.Nombre);
                 datos.SetearParametro("@Descripcion", producto.Descripcion);
                 datos.SetearParametro("@ImagenURL", producto.URLImagen);
                 datos.SetearParametro("@Precio", producto.Precio);
                 datos.SetearParametro("@Stock", producto.Stock);
-                producto.Marca = new Marca();
                 datos.SetearParametro("@IDMarca", producto.Marca.ID);
-                producto.Categoria = new Categoria();
                 datos.SetearParametro("@IDCategoria", producto.Categoria.ID);
                 datos.SetearParametro("@Eliminado", producto.Eliminado);
+
+                datos.EjecutarAccion();
 
             }
             catch (Exception ex)
@@ -95,6 +96,27 @@ namespace Negocio
                 datos.CerrarConexion();
             }
             
+        }
+
+        public void Baja(string id)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_BajaProducto");
+                datos.SetearParametro("@ID", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
     }
 }

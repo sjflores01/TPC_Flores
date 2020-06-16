@@ -286,6 +286,14 @@ CREATE PROCEDURE SP_AltaProducto (
 BEGIN
 INSERT INTO Productos VALUES(@Codigo,@Nombre,@Descripcion,@ImagenURL,@Precio,@Stock,@IDMarca,@IDCategoria,@Eliminado)
 END
+GO
+
+CREATE PROCEDURE SP_BajaProducto (
+	@ID bigint ) AS
+BEGIN
+UPDATE Productos SET Eliminado = 1 WHERE ID = @ID
+END
+GO
 
 
 
