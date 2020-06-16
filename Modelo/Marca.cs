@@ -13,5 +13,10 @@ namespace Modelo
         public string Nombre { get; set; }
         public string URLImagen { get; set; }
         public bool Eliminado { get; set; }
+
+        public override string ToString()
+        {
+            return Nombre;
+        }
     }
 }

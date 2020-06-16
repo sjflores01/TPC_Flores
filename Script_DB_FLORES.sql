@@ -270,8 +270,23 @@ SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre
 FROM Productos AS P
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
 INNER JOIN Categorias as C ON P.IDCategoria = C.ID
+GO
 
-
-SELECT * FROM Usuarios
 --Store Procedures
+CREATE PROCEDURE SP_AltaProducto (
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@Descripcion varchar(150),
+	@ImagenURL varchar(200),
+	@Precio money,
+	@Stock bigint,
+	@IDMarca bigint,
+	@IDCategoria int,
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Productos VALUES(@Codigo,@Nombre,@Descripcion,@ImagenURL,@Precio,@Stock,@IDMarca,@IDCategoria,@Eliminado)
+END
+
+
+
 

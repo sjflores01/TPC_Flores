@@ -9,50 +9,53 @@
         </div>
         <div class="row">
             <div class="form-group col-md-3">
-                <label for="inputAddress">Codigo</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="">
+                <label>Codigo</label>
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxCodigo" />
             </div>
             <div class="form-group col-md-6">
-                <label for="inputAddress2">Nombre</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="">
+                <label>Nombre</label>
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxNombre" />
             </div>
         </div>
         <div class="form-group">
-            <label for="inputAddress2">Descripcion</label>
-            <input type="text" class="form-control" placeholder="">
+            <label>Descripcion</label>
+            <asp:TextBox CssClass="form-control" runat="server" TextMode="MultiLine" ID="txtBoxDescripcion" />
         </div>
         <div class="form-group">
-            <label for="inputAddress2">URL Imagen</label>
-            <input type="text" class="form-control" placeholder="">
+            <label>URL Imagen</label>
+            <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxImagen" />
         </div>
         <div class="row">
+
             <div class="form-group col-md-4">
                 <label>Marca</label>
-                <select class="form-control">
-                    <option selected></option>
-                    <option>...</option>
-                </select>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownMarcas">
+                    <asp:ListItem Text="text1" />
+                </asp:DropDownList>
             </div>
             <div class="form-group col-md-4">
                 <label>Categoria</label>
-                <select class="form-control">
-                    <option selected></option>
-                    <option>...</option>
-                </select>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownCategorias">
+                    <asp:ListItem Text="text1" />
+                </asp:DropDownList>
             </div>
+
         </div>
         <div class="row">
+
             <div class="form-group col-md-2">
                 <label>Precio</label>
-                <input type="text" class="form-control">
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxPrecio" />
             </div>
             <div class="form-group col-md-2">
                 <label>Stock</label>
-                <input type="text" class="form-control">
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxStock" />
             </div>
+
         </div>
         
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <asp:Button CssClass="btn btn-primary" Text="Agregar" runat="server" ID="btnAgregar" OnClick="btnAgregar_Click" />
         <a href="ABM_Productos.aspx" class="btn btn-primary">Volver</a>
+
     </div>
 </asp:Content>
