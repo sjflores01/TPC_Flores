@@ -17,7 +17,21 @@ namespace CasaMusica
         {
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
-            listadoCategorias = categoriaNegocio.Listar();
+            try
+            {
+                if (Request.QueryString["ID"] != null && Request.QueryString["ID"] != "")
+                {
+                    categoriaNegocio.Baja(Request.QueryString["ID"]);
+                }
+
+                listadoCategorias = categoriaNegocio.Listar();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

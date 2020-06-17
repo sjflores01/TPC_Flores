@@ -18,5 +18,10 @@ namespace Modelo
         {
             return Nombre;
         }
+
+        public void Agregar(Marca marca)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

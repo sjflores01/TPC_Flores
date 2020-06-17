@@ -17,6 +17,11 @@ namespace CasaMusica
         {
             MarcaNegocio marcaNegocio = new MarcaNegocio();
 
+            if(Request.QueryString["ID"] != null && Request.QueryString["ID"] != "")
+            {
+                marcaNegocio.Baja(Request.QueryString["ID"]);
+            }
+
             listadoMarcas = marcaNegocio.Listar();
         }
     }

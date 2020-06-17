@@ -288,6 +288,24 @@ INSERT INTO Productos VALUES(@Codigo,@Nombre,@Descripcion,@ImagenURL,@Precio,@St
 END
 GO
 
+CREATE PROCEDURE SP_AltaMarca (
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@ImagenURL varchar(200),
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Marcas VALUES(@Codigo,@Nombre,@ImagenURL,@Eliminado)
+END
+GO
+
+CREATE PROCEDURE SP_AltaCategoria (
+	@Nombre varchar(60),
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Categorias VALUES(@Nombre, @Eliminado)
+END
+GO
+
 CREATE PROCEDURE SP_BajaProducto (
 	@ID bigint ) AS
 BEGIN
@@ -295,6 +313,51 @@ UPDATE Productos SET Eliminado = 1 WHERE ID = @ID
 END
 GO
 
+CREATE PROCEDURE SP_BajaMarca (
+	@ID bigint ) AS
+BEGIN
+UPDATE Marcas SET Eliminado = 1 WHERE ID = @ID
+END
+GO
 
+CREATE PROCEDURE SP_BajaCategoria (
+	@ID bigint ) AS
+BEGIN
+UPDATE Categorias SET Eliminado = 1 WHERE ID = @ID
+END
+GO
 
+CREATE PROCEDURE SP_ModifProducto (
+	@ID bigint,
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@Descripcion varchar(150),
+	@ImagenURL varchar(200),
+	@Precio money,
+	@Stock bigint,
+	@IDMarca bigint,
+	@IDCategoria int) AS
+BEGIN
+UPDATE Productos SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, ImagenURL = @ImagenURL, Precio = @Precio,
+					 Stock = @Stock, IDMarca = @IDMarca, IDCategoria = @IDCategoria
+				WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModifMarca (
+	@ID bigint,
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@ImagenURL varchar(200) ) AS
+BEGIN
+UPDATE Marcas SET Codigo = @Codigo, Nombre = @Nombre, ImagenURL = @ImagenURL WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModifCategoria (
+	@ID bigint,
+	@Nombre varchar(60) ) AS
+BEGIN
+UPDATE Categorias SET Nombre = @Nombre WHERE ID = @ID
+END
 

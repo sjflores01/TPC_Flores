@@ -49,5 +49,78 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
+        public void Agregar(Marca marca)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_AltaMarca");
+                datos.SetearParametro("@Codigo", marca.Codigo);
+                datos.SetearParametro("@Nombre", marca.Nombre);
+                datos.SetearParametro("@ImagenURL", marca.URLImagen);
+                datos.SetearParametro("@Eliminado", marca.Eliminado);
+
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void Modificar(Marca marca)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_ModifMarca");
+                datos.SetearParametro("@ID", marca.ID);
+                datos.SetearParametro("@Codigo", marca.Codigo);
+                datos.SetearParametro("@Nombre", marca.Nombre);
+                datos.SetearParametro("ImagenURL", marca.URLImagen);
+
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void Baja(string ID)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_BajaMarca");
+                datos.SetearParametro("@ID", ID);
+
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
     }
 }

@@ -98,6 +98,37 @@ namespace Negocio
             
         }
 
+        public void Modificar(Producto producto)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_ModifProducto");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@ID", producto.ID);
+                datos.SetearParametro("@Codigo", producto.Codigo);
+                datos.SetearParametro("@Nombre", producto.Nombre);
+                datos.SetearParametro("@Descripcion", producto.Descripcion);
+                datos.SetearParametro("@ImagenURL", producto.URLImagen);
+                datos.SetearParametro("@Precio", producto.Precio);
+                datos.SetearParametro("@Stock", producto.Stock);
+                datos.SetearParametro("@IDMarca", producto.Marca.ID);
+                datos.SetearParametro("@IDCategoria", producto.Categoria.ID);
+
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Baja(string id)
         {
             AccesoADatos datos = new AccesoADatos();

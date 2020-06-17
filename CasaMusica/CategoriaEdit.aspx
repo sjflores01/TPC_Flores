@@ -9,13 +9,13 @@
         <div class="row">
 
             <div class="form-group col-md-6">
-                <label for="inputAddress2">Nombre</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="">
+                <label>Nombre</label>
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxNombre" />
             </div>
 
         </div>
 
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <asp:Button Text="Aceptar" CssClass="btn btn-primary" runat="server" ID="btnAceptar" OnClick="btnAceptar_Click" />
         <a href="ABM_Categorias.aspx" class="btn btn-primary">Volver</a>
     </div>
 </asp:Content>

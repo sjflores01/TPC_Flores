@@ -9,19 +9,19 @@
         </div>
         <div class="row">
             <div class="form-group col-md-3">
-                <label for="inputAddress">Codigo</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="">
+                <label>Codigo</label>
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxCodigo" />
             </div>
             <div class="form-group col-md-6">
-                <label for="inputAddress2">Nombre</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="">
+                <label>Nombre</label>
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxNombre" />
             </div>
         </div>
         <div class="form-group">
-            <label for="inputAddress2">URL Imagen</label>
-            <input type="text" class="form-control" placeholder="">
+            <label>URL Imagen</label>
+            <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxImagen" />
         </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <asp:Button Text="Aceptar" CssClass="btn btn-primary" runat="server" ID="btnAceptar" OnClick="btnAceptar_Click" />
         <a href="ABM_Marcas.aspx" class="btn btn-primary">Volver</a>
     </div>
 </asp:Content>
