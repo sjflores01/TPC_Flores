@@ -73,6 +73,7 @@
     <Content Include="ABM_Categorias.aspx" />
     <Content Include="ABM_Marcas.aspx" />
     <Content Include="ABM_Productos.aspx" />
+    <Content Include="ABM_Usuarios.aspx" />
     <Content Include="Carrito.aspx" />
     <Content Include="CategoriaEdit.aspx" />
     <Content Include="CrearUsuario.aspx" />
@@ -82,6 +83,7 @@
     <Content Include="Login.aspx" />
     <Content Include="MarcaEdit.aspx" />
     <Content Include="ProductoEdit.aspx" />
+    <Content Include="UsuarioEdit.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +107,13 @@
     </Compile>
     <Compile Include="ABM_Productos.aspx.designer.cs">
       <DependentUpon>ABM_Productos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Usuarios.aspx.cs">
+      <DependentUpon>ABM_Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Usuarios.aspx.designer.cs">
+      <DependentUpon>ABM_Usuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Carrito.aspx.cs">
       <DependentUpon>Carrito.aspx</DependentUpon>
@@ -177,6 +186,13 @@
       <DependentUpon>ProductoEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsuarioEdit.aspx.cs">
+      <DependentUpon>UsuarioEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UsuarioEdit.aspx.designer.cs">
+      <DependentUpon>UsuarioEdit.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="CasaMusica.Master" />
