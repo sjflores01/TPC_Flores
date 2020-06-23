@@ -11,9 +11,13 @@ namespace CasaMusica
 {
     public partial class Default : System.Web.UI.Page
     {
+        public List<Usuario> listadoUsuarios { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
+            listadoUsuarios = usuarioNegocio.ListarUltimos();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CasaMusica
     public partial class DefaultUser : System.Web.UI.Page
     {
         public List<Producto> listaProductos { get; set; }
+        public Usuario usuario { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {

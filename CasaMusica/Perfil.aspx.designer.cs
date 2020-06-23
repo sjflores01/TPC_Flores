@@ -11,43 +11,43 @@ namespace CasaMusica
 {
 
 
-    public partial class ABM_Usuarios
+    public partial class Perfil
     {
 
         /// <summary>
-        /// Control btn_Eliminar.
+        /// Control txtBoxEmail.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_Eliminar;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxEmail;
 
         /// <summary>
-        /// Control upModal.
+        /// Control txtBoxUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upModal;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxUsuario;
 
         /// <summary>
-        /// Control lblModalTitle.
+        /// Control txtBoxDomicilio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblModalTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxDomicilio;
 
         /// <summary>
-        /// Control lblModalBody.
+        /// Control btnEditar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblModalBody;
+        protected global::System.Web.UI.WebControls.Button btnEditar;
     }
 }

@@ -15,6 +15,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">MusicApp</a>
@@ -29,7 +31,9 @@
                         <a class="nav-item nav-link" href="#">Accesorios</a>
                         <a class="nav-item nav-link" href="#">Discos</a>
                         <a class="nav-item nav-link" href="#">Contacto</a>
-                        <a href="Login.aspx" class="btn btn-dark offset-10">Login</a>
+                        <asp:Button Text="AdminView" ID="btnAdminView" CssClass="btn btn-dark" Visible="false" runat="server" OnClick="btnAdminView_Click" />
+                        <asp:Button Text="Login" ID="btnLogin" CssClass="btn btn-dark offset-10" runat="server" OnClick="btnLogin_Click" />
+                        <asp:Button Text="Perfil" ID="btnPerfil" CssClass="btn btn-dark offset-9" runat="server" OnClick="btnPerfil_Click" Visible="false" />
                         <div class="dropdown show">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <svg class="bi bi-music-note-list text-light" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

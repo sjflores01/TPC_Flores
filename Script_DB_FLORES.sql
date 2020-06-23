@@ -75,6 +75,7 @@ CREATE TABLE Usuarios(
 	Dpto varchar(30),
 	Telefono int,
 	IDLocalidad int null,
+	CP varchar(10) not null,
 	FechaNac date not null,
 	FechaReg date not null,
 	Eliminado bit not null,
@@ -6311,6 +6312,7 @@ GO
 
 
 --Views
+
 CREATE VIEW VW_ProductosLista AS
 SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre, M.ImagenURL AS Marca_ImagenURL, M.Eliminado AS Marca_Eliminado,
  C.ID AS Categoria_ID, C.Nombre AS Categoria_Nombre, C.Eliminado AS Categoria_Eliminado
@@ -6327,6 +6329,21 @@ INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
 INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
 WHERE TU.Nombre LIKE 'Admin'
 GO
+
+CREATE VIEW VW_UltimosUsuarios AS
+SELECT TOP 10 U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE TU.Nombre LIKE 'Cliente'
+ORDER BY U.FechaReg ASC
+GO
+
+
+
+
+
 
 --Store Procedures
 CREATE PROCEDURE SP_AltaProducto (
@@ -6432,14 +6449,73 @@ CREATE PROCEDURE SP_AltaUsuario (
 	@Dpto varchar(30),
 	@Telefono int,
 	@IDLocalidad int,
+	@CP varchar(10),
 	@FechaNac date,
 	@FechaReg date,
 	@Eliminado bit ) AS
 BEGIN
-INSERT INTO Usuarios VALUES (@Email, @Clave, @NombreUsuario, @Nombres, @Apellidos, @Dni, @IDTipo, @Calle, @Numero, @Piso, @Dpto, @Telefono, @IDLocalidad, @FechaNac, @FechaReg, @Eliminado)
+INSERT INTO Usuarios VALUES (@Email, @Clave, @NombreUsuario, @Nombres, @Apellidos, @Dni, @IDTipo, @Calle, @Numero, @Piso, @Dpto, @Telefono, @IDLocalidad, @CP, @FechaNac, @FechaReg, @Eliminado)
 END
 GO
 
+CREATE PROCEDURE SP_ModificarUsuario (
+	@ID bigint,
+	@Email varchar(50),
+	@Clave varchar(10),
+	@NombreUsuario varchar(150),
+	@Nombres varchar(100),
+	@Apellidos varchar(100),
+	@Dni int,
+	@IDTipo int,
+	@Calle varchar(50),
+	@Numero int,
+	@Piso varchar(30),
+	@Dpto varchar(30),
+	@Telefono int,
+	@IDLocalidad int,
+	@CP varchar(10),
+	@FechaNac date ) AS
+BEGIN
+UPDATE Usuarios SET Email = @Email, Clave = @Clave, NombreUsuario = @NombreUsuario, Nombres = @Nombres, Apellidos = @Apellidos, Dni = @Dni,
+Calle = @Calle, Numero = @Numero, Piso = @Piso, Dpto = @Dpto, Telefono = @Telefono, IDLocalidad = @IDLocalidad, CP = @CP, FechaNac = @FechaNac
+WHERE @ID = ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaUsuario (
+	@ID bigint ) AS
+BEGIN
+UPDATE Usuarios SET Eliminado = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ValidarUsuario (
+	@Email varchar(100),
+	@Clave varchar(10) ) AS
+BEGIN
+SELECT U.*, L.ID, D.ID, P.ID FROM Usuarios AS U
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE Email = @EMail AND Clave = @Clave
+END
+GO
+
+CREATE PROCEDURE SP_FiltrarDptoXProv (
+	@IDProvincia int ) AS
+BEGIN
+SELECT * FROM Departamentos
+WHERE IDProvincia = @IDProvincia
+END
+GO
+
+CREATE PROCEDURE SP_FiltrarLocalidadXDpto (
+	@IDDepartamento int ) AS
+BEGIN
+SELECT * FROM Localidades
+WHERE IDDepartamento = @IDDepartamento
+END
+GO
 
 
 select * from Usuarios

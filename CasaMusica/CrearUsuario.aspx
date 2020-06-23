@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CasaMusicaCliente.Master" AutoEventWireup="true" CodeBehind="CrearUsuario.aspx.cs" Inherits="CasaMusica.CrearUsuario" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CasaMusicaCliente.Master" AutoEventWireup="true" CodeBehind="CrearUsuario.aspx.cs" Inherits="CasaMusica.CrearUsuario" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -7,13 +7,25 @@
 
         <div class="form-row">
 
-            <div class="form-group col">
+            <div class="form-group col-md-4">
                 <label>Nombre</label>
                 <asp:TextBox runat="server" CssClass="form-control" placeholder="Nombre" ID="txtBoxNombre" />
             </div>
-            <div class="form-group col">
+            <div class="form-group col-md-4">
                 <label>Apellido</label>
                 <asp:TextBox runat="server" CssClass="form-control" placeholder="Apellido" ID="txtBoxApellido" />
+            </div>
+            <div class="form-group col-md-3">
+                <label>DNI</label>
+                <asp:TextBox runat="server" CssClass="form-control" placeholder="DNI" ID="txtBoxDni" />
+            </div>
+
+        </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-3">
+                <label>Fecha de Nacimiento</label>
+                <asp:TextBox CssClass="form-control" runat="server" placeholder="DD/MM/AAAA" MaxLength="10" ID="txtBoxFechaNac" />
             </div>
 
         </div>
@@ -63,41 +75,51 @@
         </div>
         <div class="form-row">
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label>Provincia</label>
-                <select class="form-control">
-                    <option selected>Elegir</option>
-
-                    <%--Crear lista con provincias--%>
-
-                    <option>...</option>
-                </select>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true" />
             </div>
             <div class="form-group col-md-4">
-                <label>Localidades</label>
-                <select class="form-control">
-                    <option selected>Elegir</option>
-
-                    <%--Crear lista con provincias--%>
-
-                    <option>...</option>
-                </select>
+                <label>Departamento</label>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownDpto" OnSelectedIndexChanged="dropDownDpto_SelectedIndexChanged" AutoPostBack="true" />
             </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip">CP</label>
-                <asp:TextBox runat="server" CssClass="form-control" placeholder="Cod. Postal" ID="txtBoxCP" />  
+            <div class="form-group col-md-4">
+                <label>Localidad</label>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownLocal" AutoPostBack="true" />
+            </div>
+            <div class="form-group col-md-1">
+                <label>CP</label>
+                <asp:TextBox runat="server" CssClass="form-control" placeholder="CP" ID="txtBoxCP" />
             </div>
 
         </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
+
+        <asp:Button Text="Crear Usuario" ID="btnCrearUsuario" CssClass="btn btn-primary" runat="server" OnClick="btnCrearUsuario_Click" />
+        <asp:Button Text="Volver" ID="btnVolver" CssClass="btn btn-primary" runat="server" OnClick="btnVolver_Click" />
+
+
+        <div class="modal fade" id="modalNuevoUsuario" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Usuario Creado con exito!</asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblModalBody" runat="server" Text="">Que queres hacer?</asp:Label>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="DefaultUser.aspx" class="btn btn-info">Seguir Navegando</a>
+                                <a href="Perfil.aspx" class="btn btn-info">Ver mi Perfil</a>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
 
     </div>
 </asp:Content>

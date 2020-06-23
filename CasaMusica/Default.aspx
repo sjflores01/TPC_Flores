@@ -100,11 +100,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%foreach (var item in listadoUsuarios)
+                            {%>
                         <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td><a href="#" class="btn btn-dark">Ver Datos</a></td>
+                            <td><% = item.FechaReg.ToShortDateString() %></td>
+                            <td><% = item.NombreUsuario %></td>
+                            <td><a href="DatosCliente.aspx?ID=<% = item.ID %>" class="btn btn-dark">Ver Datos</a></td>
                         </tr>
+                        <%} %>
                     </tbody>
                 </table>
             </div>

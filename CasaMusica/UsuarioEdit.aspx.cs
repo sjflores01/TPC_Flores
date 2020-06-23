@@ -12,32 +12,42 @@ namespace CasaMusica
     public partial class UsuarioEdit : System.Web.UI.Page
     {
         public Usuario usuario { get; set; }
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
                 ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
-                DepartamentoNegocio departamentoNegocio = new DepartamentoNegocio();
-                LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+                usuario = usuarioNegocio.Listar().Find(u => u.ID == Convert.ToInt64(Request.QueryString["ID"]));
 
                 if (!IsPostBack)
                 {
                     dropDownProv.DataSource = provinciaNegocio.Listar();
                     dropDownProv.DataValueField = "ID";
                     dropDownProv.DataTextField = "Nombre";
-                    dropDownProv.SelectedIndex = -1;
                     dropDownProv.DataBind();
-                    dropDownDpto.DataSource = departamentoNegocio.Listar();
-                    dropDownDpto.DataValueField = "ID";
-                    dropDownDpto.DataTextField = "Nombre";
-                    dropDownDpto.SelectedIndex = -1;
-                    dropDownDpto.DataBind();
-                    dropDownLocal.DataSource = localidadNegocio.Listar();
-                    dropDownLocal.DataValueField = "ID";
-                    dropDownLocal.DataTextField = "Nombre";
-                    dropDownDpto.SelectedIndex = -1;
-                    dropDownLocal.DataBind();
+
+                    dropDownProv.Items.Insert(0, new ListItem("", ""));
+
+                    if (usuario != null)
+                    {
+                        txtBoxApellido.Text = usuario.Apellido;
+                        txtBoxNombre.Text = usuario.Nombre;
+                        txtBoxDni.Text = usuario.Dni.ToString();
+                        txtBoxFechaNac.Text = usuario.FechaNac.ToString();
+                        txtBoxEmail.Text = usuario.Contacto.Email;
+                        txtBoxUsuario.Text = usuario.NombreUsuario;
+                        txtBoxPassword.Text = usuario.Clave;
+                        txtBoxDireccionCalle.Text = usuario.Contacto.Direccion.Calle;
+                        txtBoxDireccionNumero.Text = usuario.Contacto.Direccion.Numero.ToString();
+                        txtBoxDireccionPiso.Text = usuario.Contacto.Direccion.Piso;
+                        txtBoxDireccionDpto.Text = usuario.Contacto.Direccion.Dpto;
+                        txtBoxTelefono.Text = usuario.Contacto.Telefono.ToString();
+                        txtBoxCP.Text = usuario.Contacto.Direccion.CP;
+                        dropDownLocal.SelectedIndex = usuario.Contacto.Direccion.Localidad.ID - 1;
+                    }
                 }
 
             }
@@ -54,7 +64,7 @@ namespace CasaMusica
 
             try
             {
-                if(usuario == null)
+                if (usuario == null)
                 {
                     usuario = new Usuario();
                 }
@@ -75,11 +85,62 @@ namespace CasaMusica
                 usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
                 usuario.Contacto.Direccion.Dpto = txtBoxDireccionDpto.Text;
                 usuario.Contacto.Direccion.Localidad.ID = Convert.ToInt32(dropDownLocal.SelectedValue);
+                usuario.Contacto.Direccion.CP = txtBoxCP.Text;
 
-                usuarioNegocio.AltaUsuario(usuario);
+                if (usuario.ID != 0)
+                {
+                    usuarioNegocio.ModificarUsuario(usuario);
+                }
+                else
+                {
+                    usuarioNegocio.AltaUsuario(usuario);
+
+                }
 
                 Response.Redirect("ABM_Usuarios.aspx");
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        protected void dropDownProv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DepartamentoNegocio departamentoNegocio = new DepartamentoNegocio();
+
+            try
+            {
+                if (dropDownProv.SelectedIndex != 0)
+                {
+                    dropDownDpto.DataSource = departamentoNegocio.FiltrarXProv(Convert.ToInt32(dropDownProv.SelectedValue));
+                    dropDownDpto.DataValueField = "ID";
+                    dropDownDpto.DataTextField = "Nombre";
+                    dropDownDpto.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        protected void dropDownDpto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+
+            try
+            {
+                if (dropDownDpto.SelectedIndex != 0)
+                {
+                    dropDownLocal.DataSource = localidadNegocio.FiltrarXDpto(Convert.ToInt32(dropDownDpto.SelectedValue));
+                    dropDownLocal.DataValueField = "ID";
+                    dropDownLocal.DataTextField = "Nombre";
+                    dropDownLocal.DataBind();
+                }
             }
             catch (Exception ex)
             {

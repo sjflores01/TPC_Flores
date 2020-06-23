@@ -27,5 +27,11 @@ namespace CasaMusica
                 throw ex;
             }
         }
+
+        protected void btn_Eliminar_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalBaja", "$('#modalBaja').modal();", true);
+            upModal.Update();
+        }
     }
 }

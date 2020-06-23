@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CasaMusica.Master" AutoEventWireup="true" CodeBehind="UsuarioEdit.aspx.cs" Inherits="CasaMusica.UsuarioEdit" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CasaMusica.Master" AutoEventWireup="true" CodeBehind="UsuarioEdit.aspx.cs" Inherits="CasaMusica.UsuarioEdit" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -79,15 +79,15 @@
 
             <div class="form-group col-md-3">
                 <label>Provincia</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" />
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true"/>
             </div>
             <div class="form-group col-md-4">
                 <label>Departamento</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownDpto" />
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownDpto" OnSelectedIndexChanged="dropDownDpto_SelectedIndexChanged" AutoPostBack="true" />
             </div>
             <div class="form-group col-md-4">
                 <label>Localidad</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownLocal" />
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownLocal" AutoPostBack="true" />
             </div>
             <div class="form-group col-md-1">
                 <label>CP</label>
