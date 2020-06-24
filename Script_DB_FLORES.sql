@@ -275,6 +275,7 @@ INSERT INTO [Provincias] VALUES('SANTA FE')
 INSERT INTO [Provincias] VALUES('SANTIAGO DEL ESTERO')
 INSERT INTO [Provincias] VALUES('TIERRA DEL FUEGO')
 INSERT INTO [Provincias] VALUES('TUCUMAN')
+INSERT INTO [Provincias] VALUES('CIUDAD AUTONOMA DE BUENOS AIRES')
 GO
 --Departamentos
 INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(1,'AZUL')
@@ -851,7 +852,10 @@ INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(23,'TAFI')
 INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(23,'GRANEROS')
 INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(23,'FAMAILLA')
 INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(23,'CAPITAL')
+INSERT INTO [Departamentos] ([idProvincia],[Nombre])VALUES(24,'CABA')
 GO
+
+
 
 --SCRIPT Localidades
 SET IDENTITY_INSERT [dbo].[Localidades] ON
@@ -6298,7 +6302,54 @@ INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5436,565,'VIPOS
 INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5437,566,'YACUCHINA')
 INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5438,572,'YANIMAS')
 INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5439,571,'YERBA BUENA')
-
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5440,575,'AGRONOMIA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5441,575,'ALMAGRO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5442,575,'BALVANERA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5443,575,'BARRACAS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5444,575,'BELGRANO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5445,575,'BOEDO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5446,575,'CABALLITTO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5447,575,'CHACARITA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5448,575,'COGHLAN')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5449,575,'COLEGIALES')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5450,575,'CONSTITUCION')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5451,575,'FLORES')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5452,575,'FLORESTA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5453,575,'LA BOCA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5454,575,'LA PATERNAL')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5455,575,'LINIERS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5456,575,'MATADEROS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5457,575,'MONTE CASTRO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5458,575,'MONSERRAT')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5459,575,'NUEVA POMPEYA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5460,575,'NUÑEZ')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5461,575,'PALERMO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5462,575,'PARQUE AVELLANEDA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5463,575,'PARQUE CHACABUCO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5464,575,'PARQUE CHAS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5465,575,'PARQUE PATRICIOS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5466,575,'PUERTO MADERO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5467,575,'RECOLETA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5468,575,'RETIRO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5469,575,'SAAVEDRA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5470,575,'SAN CRISTOBAL')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5471,575,'SAN NICOLAS')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5472,575,'SAN TELMO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5473,575,'VELEZ SARSFIELD')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5474,575,'VERSALLES')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5475,575,'VILLA CRESPO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5476,575,'VILLA DEL PARQUE')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5477,575,'VILLA DEVOTO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5478,575,'VILLA GENERAL MITRE')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5479,575,'VILLA LUGANO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5480,575,'VILLA LURO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5481,575,'VILLA ORTUZAR')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5482,575,'VILLA PUEYRREDON')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5483,575,'VILLA REAL')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5484,575,'VILLA RIACHUELO')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5485,575,'VILLA SANTA RITA')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5486,575,'VILLA SOLDATI')
+INSERT INTO [Localidades] ([ID],[idDepartamento],[Nombre])VALUES(5487,575,'VILLA URQUIZA')
  
  
 SET IDENTITY_INSERT [dbo].[Localidades] OFF
@@ -6501,6 +6552,35 @@ WHERE Email = @EMail AND Clave = @Clave
 END
 GO
 
+CREATE PROCEDURE SP_ListarFavoritos (
+	@IDUsuario bigint ) AS
+BEGIN
+SELECT P.Eliminado, P.ID, P.Nombre, M.Nombre AS Marca, P.Precio FROM Favoritos AS F
+INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
+INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+WHERE F.IDUsuario = @IDUsuario
+END
+GO
+
+CREATE PROCEDURE SP_AgregarFavorito (
+	@IDUsuario bigint,
+	@IDProducto bigint ) AS
+BEGIN
+DECLARE @IDFavorito bigint = (SELECT ID FROM Favoritos WHERE IDUsuario = @IDUsuario)
+INSERT INTO Productos_X_Favoritos VALUES (@IDFavorito, @IDProducto)
+END
+GO
+
+CREATE PROCEDURE SP_EliminarFavorito (
+	@IDUsuario bigint,
+	@IDProducto bigint ) AS
+BEGIN
+DECLARE @IDFavorito bigint = (SELECT ID FROM Favoritos WHERE IDUsuario = @IDUsuario)
+DELETE FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
+END
+GO
+
 CREATE PROCEDURE SP_FiltrarDptoXProv (
 	@IDProvincia int ) AS
 BEGIN
@@ -6518,4 +6598,27 @@ END
 GO
 
 
-select * from Usuarios
+
+
+
+
+
+
+
+
+
+
+--Triggers
+
+CREATE TRIGGER TR_FavoritosXUsuario 
+ON Usuarios
+AFTER INSERT AS
+BEGIN
+DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
+DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
+IF(@IDTipo = 2) INSERT INTO Favoritos VALUES (@IDUsuario)
+END
+GO
+
+SELECT * FROM Productos_X_Favoritos
+

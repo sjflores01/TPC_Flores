@@ -28,7 +28,6 @@ namespace CasaMusica
                     dropDownProv.DataValueField = "ID";
                     dropDownProv.DataTextField = "Nombre";
                     dropDownProv.DataBind();
-
                     dropDownProv.Items.Insert(0, new ListItem("", ""));
 
                     if (usuario != null)
@@ -119,6 +118,7 @@ namespace CasaMusica
                     dropDownDpto.DataValueField = "ID";
                     dropDownDpto.DataTextField = "Nombre";
                     dropDownDpto.DataBind();
+                    dropDownDpto.Items.Insert(0, new ListItem("", ""));
                 }
             }
             catch (Exception ex)
@@ -140,6 +140,7 @@ namespace CasaMusica
                     dropDownLocal.DataValueField = "ID";
                     dropDownLocal.DataTextField = "Nombre";
                     dropDownLocal.DataBind();
+                    dropDownLocal.Items.Insert(0, new ListItem("", ""));
                 }
             }
             catch (Exception ex)

@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
 
-        <div class="form-row">
+        <div class="form-row mt-4">
 
             <div class="form-group col-md-4">
                 <label>Nombre</label>
@@ -94,7 +94,7 @@
 
         </div>
 
-        <asp:Button Text="Crear Usuario" ID="btnCrearUsuario" CssClass="btn btn-primary" runat="server" OnClick="btnCrearUsuario_Click" />
+        <asp:Button Text="Aceptar" ID="btnCrearUsuario" CssClass="btn btn-primary mt-4 mb-4" runat="server" OnClick="btnCrearUsuario_Click" />
         <asp:Button Text="Volver" ID="btnVolver" CssClass="btn btn-primary" runat="server" OnClick="btnVolver_Click" />
 
 

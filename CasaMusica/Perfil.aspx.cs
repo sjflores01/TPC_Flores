@@ -12,15 +12,28 @@ namespace CasaMusica
     public partial class Perfil : System.Web.UI.Page
     {
         public Usuario usuario { get; set; }
+        public List<Favorito> listadoFavoritos { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+
             try
             {
                 usuario = (Usuario)Session["sesionUsuario"];
+
+                if (usuario == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
+
+                FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
+                listadoFavoritos = favoritoNegocio.Listar(usuario.ID);
+
+
                 txtBoxEmail.Text = usuario.Contacto.Email;
                 txtBoxUsuario.Text = usuario.NombreUsuario;
                 txtBoxDomicilio.Text = usuario.Contacto.Direccion.Calle + usuario.Contacto.Direccion.Numero;
-                if(usuario.Contacto.Direccion.Piso != null)
+                if (usuario.Contacto.Direccion.Piso != null)
                 {
                     txtBoxDomicilio.Text += ", Piso: " + usuario.Contacto.Direccion.Piso;
                 }

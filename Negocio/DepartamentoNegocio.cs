@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("SELECT * FROM Departamentos");
+                datos.SetearQuery("SELECT * FROM Departamentos ORDER BY Nombre");
                 datos.EjecutarLector();
 
                 while (datos.Lector.Read())

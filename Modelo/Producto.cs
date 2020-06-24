@@ -18,5 +18,11 @@ namespace Modelo
         public decimal Precio { get; set; }
         public long Stock { get; set; }
         public bool Eliminado { get; set; }
+
+        public Producto()
+        {
+            this.Marca = new Marca();
+            this.Categoria = new Categoria();
+        }
     }
 }

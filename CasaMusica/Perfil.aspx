@@ -28,14 +28,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%--Cargar Lista Favoritos--%>
+                        <%foreach (var item in listadoFavoritos)
+                            {%>
                         <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td><a href="#" class="btn btn-dark">Ver Detalle</a></td>
+                            <td><% = item.Producto.Nombre %></td>
+                            <td><% = item.Producto.Marca.Nombre %></td>
+                            <td><% = item.Producto.Precio.ToString("F2") %></td>
+                            <td><a href="VerDetalle.aspx?ID=<% = item.Producto.ID %>" class="btn btn-dark">Ver</a></td>
                         </tr>
-
+                        <%} %>
                     </tbody>
                 </table>
             </div>
