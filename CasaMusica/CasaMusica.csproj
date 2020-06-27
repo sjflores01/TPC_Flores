@@ -85,6 +85,7 @@
     <Content Include="Perfil.aspx" />
     <Content Include="ProductoEdit.aspx" />
     <Content Include="UsuarioEdit.aspx" />
+    <Content Include="VerDetalle.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,13 @@
     </Compile>
     <Compile Include="UsuarioEdit.aspx.designer.cs">
       <DependentUpon>UsuarioEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.designer.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

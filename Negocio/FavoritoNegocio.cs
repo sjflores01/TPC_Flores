@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class FavoritoNegocio
     {
-        public List<Favorito> Listar(long idUsuario)
+        public List<Favorito> Listar(long idFavorito)
         {
             AccesoADatos datos = new AccesoADatos();
             List<Favorito> lista = new List<Favorito>();
@@ -19,7 +19,7 @@ namespace Negocio
             {
                 datos.SetearSP("SP_ListarFavoritos");
                 datos.Comando.Parameters.Clear();
-                datos.SetearParametro("@IDUsuario", idUsuario);
+                datos.SetearParametro("@IDFavorito", idFavorito);
                 datos.EjecutarLector();
 
                 while (datos.Lector.Read())
@@ -43,7 +43,7 @@ namespace Negocio
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             finally
             {
@@ -52,7 +52,7 @@ namespace Negocio
 
         }
 
-        public void AgregarFavorito(long IDusuario, long IDProducto)
+        public void AgregarFavorito(long IDFavorito, long IDProducto)
         {
             AccesoADatos datos = new AccesoADatos();
 
@@ -60,10 +60,66 @@ namespace Negocio
             {
                 datos.SetearSP("SP_AgregarFavorito");
                 datos.Comando.Parameters.Clear();
-                datos.SetearParametro("@IDUsuario", IDusuario);
+                datos.SetearParametro("@IDFavorito", IDFavorito);
                 datos.SetearParametro("@IDProducto", IDProducto);
                 datos.EjecutarAccion();
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void BorrarFavorito(long IDFavorito, long IDProducto)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_EliminarFavorito");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDFavorito", IDFavorito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool BuscarFavorito(long IDFavorito, long IDProducto)
+        {
+            AccesoADatos datos = new AccesoADatos();
+            bool result = false;
+
+            try
+            {
+                datos.SetearSP("SP_ContarFavoritos");
+                datos.SetearParametro("@IDFavorito", IDFavorito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (datos.Lector.GetInt32(0) > 0)
+                    {
+                        result = true;
+                    }
+                }
+
+                return result;
             }
             catch (Exception ex)
             {

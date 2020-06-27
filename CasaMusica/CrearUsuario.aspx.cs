@@ -81,7 +81,7 @@ namespace CasaMusica
                 usuario.Clave = txtBoxPassword.Text;
                 usuario.NombreUsuario = txtBoxUsuario.Text;
                 usuario.Contacto.Email = txtBoxEmail.Text;
-                usuario.Contacto.Telefono = Convert.ToInt32(txtBoxTelefono.Text);
+                usuario.Contacto.Telefono = txtBoxTelefono.Text;
                 usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
                 usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
                 usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
@@ -98,7 +98,8 @@ namespace CasaMusica
                 else
                 {
                     usuarioNegocio.AltaUsuario(usuario);
-                    Session.Add("sesionUsuario", usuario);
+
+                    Session.Add("sesionUsuario", usuarioNegocio.ValidarUsuario(usuario));
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
                     upModal.Update();
                 }

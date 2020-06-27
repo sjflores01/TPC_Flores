@@ -10,7 +10,7 @@ namespace Modelo
     {
         public Direccion Direccion { get; set; }
         public string Email { get; set; }
-        public int Telefono { get; set; }
+        public string Telefono { get; set; }
 
         public Contacto()
         {

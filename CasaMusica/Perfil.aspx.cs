@@ -27,7 +27,7 @@ namespace CasaMusica
                 }
 
                 FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
-                listadoFavoritos = favoritoNegocio.Listar(usuario.ID);
+                listadoFavoritos = favoritoNegocio.Listar(usuario.IDFavorito);
 
 
                 txtBoxEmail.Text = usuario.Contacto.Email;

@@ -73,26 +73,29 @@
             </div>
 
         </div>
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>
         <div class="form-row">
-
-            <div class="form-group col-md-3">
-                <label>Provincia</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Departamento</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownDpto" OnSelectedIndexChanged="dropDownDpto_SelectedIndexChanged" AutoPostBack="true" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Localidad</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownLocal" AutoPostBack="true" />
-            </div>
-            <div class="form-group col-md-1">
-                <label>CP</label>
-                <asp:TextBox runat="server" CssClass="form-control" placeholder="CP" ID="txtBoxCP" />
-            </div>
-
+                    <div class="form-group col-md-3">
+                        <label>Provincia</label>
+                        <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Departamento</label>
+                        <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownDpto" OnSelectedIndexChanged="dropDownDpto_SelectedIndexChanged" AutoPostBack="true" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Localidad</label>
+                        <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownLocal" AutoPostBack="true" />
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>CP</label>
+                        <asp:TextBox runat="server" CssClass="form-control" placeholder="CP" ID="txtBoxCP" />
+                    </div>
         </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+
 
         <asp:Button Text="Aceptar" ID="btnCrearUsuario" CssClass="btn btn-primary mt-4 mb-4" runat="server" OnClick="btnCrearUsuario_Click" />
         <asp:Button Text="Volver" ID="btnVolver" CssClass="btn btn-primary" runat="server" OnClick="btnVolver_Click" />

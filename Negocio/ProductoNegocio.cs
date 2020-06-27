@@ -24,9 +24,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     producto = new Producto();
-                    producto.Marca = new Marca();
-                    producto.Categoria = new Categoria();
-
+                    
                     producto.Eliminado = datos.Lector.GetBoolean(9);
                     producto.Marca.Eliminado = datos.Lector.GetBoolean(14);
                     producto.Categoria.Eliminado = datos.Lector.GetBoolean(17);
@@ -89,7 +87,7 @@ namespace Negocio
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             finally
             {
@@ -149,5 +147,6 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
     }
 }

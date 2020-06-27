@@ -40,7 +40,7 @@ namespace Negocio
                         usuario.Contacto.Direccion.Numero = datos.Lector.GetInt32(9);
                         usuario.Contacto.Direccion.Piso = datos.Lector.GetString(10);
                         usuario.Contacto.Direccion.Dpto = datos.Lector.GetString(11);
-                        usuario.Contacto.Telefono = datos.Lector.GetInt32(12);
+                        usuario.Contacto.Telefono = datos.Lector.GetString(12);
                         usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
                         usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
                         usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
@@ -48,6 +48,8 @@ namespace Negocio
                         usuario.Contacto.Direccion.Provincia.Nombre = datos.Lector.GetString(20);
                         usuario.FechaNac = datos.Lector.GetDateTime(15);
                         usuario.FechaReg = datos.Lector.GetDateTime(16);
+                        usuario.IDFavorito = datos.Lector.GetInt64(21);
+                        usuario.IDCarrito = datos.Lector.GetInt64(22);
 
                         lista.Add(usuario);
                     }
@@ -94,7 +96,7 @@ namespace Negocio
                     usuario.Contacto.Direccion.Numero = datos.Lector.GetInt32(9);
                     usuario.Contacto.Direccion.Piso = datos.Lector.GetString(10);
                     usuario.Contacto.Direccion.Dpto = datos.Lector.GetString(11);
-                    usuario.Contacto.Telefono = datos.Lector.GetInt32(12);
+                    usuario.Contacto.Telefono = datos.Lector.GetString(12);
                     usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
                     usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
                     usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
@@ -238,11 +240,15 @@ namespace Negocio
                     result.Contacto.Direccion.Numero = datos.Lector.GetInt32(9);
                     result.Contacto.Direccion.Piso = datos.Lector.GetString(10);
                     result.Contacto.Direccion.Dpto = datos.Lector.GetString(11);
-                    result.Contacto.Telefono = datos.Lector.GetInt32(12);
+                    result.Contacto.Telefono = datos.Lector.GetString(12);
                     result.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
                     result.Contacto.Direccion.CP = datos.Lector.GetString(14);
                     result.FechaNac = datos.Lector.GetDateTime(15);
                     result.FechaReg = datos.Lector.GetDateTime(16);
+                    result.Contacto.Direccion.Departamento.ID = datos.Lector.GetInt32(18);
+                    result.Contacto.Direccion.Provincia.ID = datos.Lector.GetInt32(19);
+                    result.IDFavorito = datos.Lector.GetInt64(20);
+                    result.IDCarrito = datos.Lector.GetInt64(21);
 
                 }
                 return result;

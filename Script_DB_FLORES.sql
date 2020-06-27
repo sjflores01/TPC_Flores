@@ -50,16 +50,7 @@ CREATE TABLE Localidades(
 	Nombre varchar(50) not null,
 )
 GO
-CREATE TABLE Direcciones(
-	ID bigint not null IDENTITY(1,1),
-	IDUsuario bigint not null,
-	IDLocalidad int,
-	Calle varchar(50) not null,
-	Numero int not null,
-	Piso varchar(30),
-	Dpto varchar(30),
-)
-GO
+
 CREATE TABLE Usuarios(
 	ID bigint not null IDENTITY(1,1),
 	Email varchar(50) not null,
@@ -73,7 +64,7 @@ CREATE TABLE Usuarios(
 	Numero int not null,
 	Piso varchar(30),
 	Dpto varchar(30),
-	Telefono int,
+	Telefono varchar(30),
 	IDLocalidad int null,
 	CP varchar(10) not null,
 	FechaNac date not null,
@@ -102,21 +93,12 @@ CREATE TABLE Carritos(
 	CarritoVendido bit not null,
 )
 GO
-CREATE TABLE Items_X_Carrito(
+CREATE TABLE Productos_X_Carrito(
 	IDCarrito bigint not null,
-	IDItem bigint not null
+	IDProducto bigint not null
 )
 GO
-CREATE TABLE Items(
-	ID bigint not null IDENTITY(1,1),
-	Codigo varchar(10) not null,
-	Nombre varchar(60) not null,
-	Descripcion varchar(150),
-	ImagenURL varchar(200),
-	Precio decimal not null,
-	Eliminado bit not null
-)
-GO
+
 CREATE TABLE Ventas(
 	ID bigint not null IDENTITY(1001,1),
 	IDCarrito bigint not null,
@@ -150,15 +132,13 @@ ADD CONSTRAINT PK_Usuario PRIMARY KEY(ID)
 ALTER TABLE TiposUsuario
 ADD CONSTRAINT PK_TipoUsuario PRIMARY KEY(ID)
 GO
-ALTER TABLE Items
-ADD CONSTRAINT PK_Item PRIMARY KEY(ID)
-GO
 ALTER TABLE Favoritos
 ADD CONSTRAINT PK_Favorito PRIMARY KEY(ID)
 GO
 ALTER TABLE Productos_X_Favoritos
 ADD CONSTRAINT PK_Producto_X_Favorito PRIMARY KEY(IDFavoritos,IDProducto)
 GO
+
 ALTER TABLE Carritos
 ADD CONSTRAINT PK_Carrito PRIMARY KEY(ID)
 GO
@@ -210,11 +190,11 @@ GO
 ALTER TABLE Carritos
 ADD CONSTRAINT FK_CarritosUsuario FOREIGN KEY(IDUsuario) REFERENCES Usuarios(ID)
 GO
-ALTER TABLE Items_X_Carrito
-ADD CONSTRAINT FK_IxC_Carrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
+ALTER TABLE Productos_X_Carrito
+ADD CONSTRAINT FK_PxC_Carrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
 GO
-ALTER TABLE Items_X_Carrito
-ADD CONSTRAINT FK_IxC_Items FOREIGN KEY(IDItem) REFERENCES Items(ID)
+ALTER TABLE Productos_X_Carrito
+ADD CONSTRAINT FK_PxC_Productos FOREIGN KEY(IDProducto) REFERENCES Productos(ID)
 GO
 ALTER TABLE Ventas
 ADD CONSTRAINT FK_VentasCarrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
@@ -6373,11 +6353,13 @@ INNER JOIN Categorias as C ON P.IDCategoria = C.ID
 GO
 
 CREATE VIEW VW_UsuariosAdmin AS
-SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia, F.ID AS FavID, C.ID AS CarID FROM Usuarios AS U
 INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
 INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
 INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
 INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
+INNER JOIN Carritos AS C ON U.ID = C.IDUsuario
 WHERE TU.Nombre LIKE 'Admin'
 GO
 
@@ -6498,7 +6480,7 @@ CREATE PROCEDURE SP_AltaUsuario (
 	@Numero int,
 	@Piso varchar(30),
 	@Dpto varchar(30),
-	@Telefono int,
+	@Telefono varchar(30),
 	@IDLocalidad int,
 	@CP varchar(10),
 	@FechaNac date,
@@ -6522,7 +6504,7 @@ CREATE PROCEDURE SP_ModificarUsuario (
 	@Numero int,
 	@Piso varchar(30),
 	@Dpto varchar(30),
-	@Telefono int,
+	@Telefono varchar(30),
 	@IDLocalidad int,
 	@CP varchar(10),
 	@FechaNac date ) AS
@@ -6544,40 +6526,48 @@ CREATE PROCEDURE SP_ValidarUsuario (
 	@Email varchar(100),
 	@Clave varchar(10) ) AS
 BEGIN
-SELECT U.*, L.ID, D.ID, P.ID FROM Usuarios AS U
+SELECT U.*, D.ID, P.ID, F.ID, C.ID FROM Usuarios AS U
 INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
 INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
 INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
-WHERE Email = @EMail AND Clave = @Clave
+INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
+INNER JOIN Carritos AS C ON U.ID = C.IDUsuario
+WHERE Email = @EMail AND Clave = @Clave AND C.CarritoVendido = 0
 END
 GO
 
 CREATE PROCEDURE SP_ListarFavoritos (
-	@IDUsuario bigint ) AS
+	@IDFavorito bigint ) AS
 BEGIN
 SELECT P.Eliminado, P.ID, P.Nombre, M.Nombre AS Marca, P.Precio FROM Favoritos AS F
 INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
 INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-WHERE F.IDUsuario = @IDUsuario
+WHERE F.ID = @IDFavorito
 END
 GO
 
 CREATE PROCEDURE SP_AgregarFavorito (
-	@IDUsuario bigint,
+	@IDFavorito bigint,
 	@IDProducto bigint ) AS
 BEGIN
-DECLARE @IDFavorito bigint = (SELECT ID FROM Favoritos WHERE IDUsuario = @IDUsuario)
 INSERT INTO Productos_X_Favoritos VALUES (@IDFavorito, @IDProducto)
 END
 GO
 
 CREATE PROCEDURE SP_EliminarFavorito (
-	@IDUsuario bigint,
+	@IDFavorito bigint,
 	@IDProducto bigint ) AS
 BEGIN
-DECLARE @IDFavorito bigint = (SELECT ID FROM Favoritos WHERE IDUsuario = @IDUsuario)
 DELETE FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_ContarFavoritos (
+	@IDFavorito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+SELECT COUNT(*) FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
 END
 GO
 
@@ -6597,16 +6587,43 @@ WHERE IDDepartamento = @IDDepartamento
 END
 GO
 
+CREATE PROCEDURE SP_CargarProducto_X_Carrito (
+	@IDCarrito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto)
+END
+GO
 
+CREATE PROCEDURE SP_BuscarCarrito (
+	@IDUsuario bigint ) AS
+BEGIN
+SELECT * FROM Carritos WHERE IDUsuario = @IDUsuario AND CarritoVendido = 0
+END
+GO
 
+DROP PROCEDURE SP_ListarProductos_X_Carrito
 
+CREATE PROCEDURE SP_ListarProductos_X_Carrito (
+	@IDCarrito bigint ) AS
+BEGIN
+SELECT P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, PXC.IDCarrito, PXC.IDProducto, COUNT(*) AS CantidadElegida FROM Productos_X_Carrito AS PXC
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+WHERE PXC.IDCarrito = @IDCarrito
+GROUP BY P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, PXC.IDCarrito, PXC.IDProducto
+END
+GO
 
+EXEC SP_ListarProductos_X_Carrito 1
+GO
 
+SELECT p.Eliminado,p.ID, p.Codigo, p.Nombre, p.ImagenURL, pxc.IDCarrito, pxc.IDProducto, COUNT(*) FROM Productos_X_Carrito as pxc
+inner join productos as p on pxc.IDProducto = p.ID
+group by p.Eliminado,p.ID, p.Codigo, p.Nombre, p.ImagenURL, pxc.IDCarrito, pxc.IDProducto
 
-
-
-
-
+INSERT INTO Productos_X_Carrito VALUES (1,2)
 
 --Triggers
 
@@ -6620,5 +6637,39 @@ IF(@IDTipo = 2) INSERT INTO Favoritos VALUES (@IDUsuario)
 END
 GO
 
-SELECT * FROM Productos_X_Favoritos
+CREATE TRIGGER TR_CarritoXUsuario 
+ON Usuarios
+AFTER INSERT AS
+BEGIN
+DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
+DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
+IF(@IDTipo = 2) INSERT INTO Carritos VALUES (@IDUsuario,0)
+END
+GO
 
+
+
+
+SELECT * FROM USUARIOS
+GO
+SELECT * FROM FAVORITOS
+GO
+EXEC SP_AGREGARFAVORITO 1,1
+GO
+
+SELECT U.Nombres, T.Nombre AS TIPO_USUARIO, F.ID AS IDFAVORITO, P.Nombre AS PRODUCTO FROM USUARIOS AS U
+INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
+INNER JOIN TiposUsuario AS T ON U.IDTipo = T.ID
+INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
+INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
+GO
+
+SELECT U.Nombres, F.ID FROM Usuarios AS U
+INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
+
+
+SELECT U.Nombres, P.Nombre FROM Usuarios AS U
+INNER JOIN Carritos AS C ON U.ID = C.IDUsuario
+INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+GO

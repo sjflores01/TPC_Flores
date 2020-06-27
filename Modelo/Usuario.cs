@@ -12,6 +12,8 @@ namespace Modelo
         public int Tipo { get; set; }
         public string NombreUsuario { get; set; }
         public string Clave { get; set; }
+        public long IDFavorito { get; set; }
+        public long IDCarrito { get; set; }
         public bool Eliminado { get; set; }
     }
 }

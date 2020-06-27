@@ -17,15 +17,27 @@ namespace CasaMusica
         {
             usuario = (Usuario)Session["sesionUsuario"];
 
-            if (usuario != null)
+            try
             {
-                btnLogin.Visible = false;
-                btnPerfil.Visible = true;
-
-                if(usuario.Tipo == 1)
+                if (usuario != null)
                 {
-                    btnAdminView.Visible = true;
+                    btnLogin.Visible = false;
+
+                    if (usuario.Tipo == 1)
+                    {
+                        btnAdminView.Visible = true;
+                    }
+                    else
+                    {
+                        btnPerfil.Visible = true;
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

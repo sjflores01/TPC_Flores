@@ -78,7 +78,7 @@ namespace CasaMusica
                 usuario.Clave = txtBoxPassword.Text;
                 usuario.NombreUsuario = txtBoxUsuario.Text;
                 usuario.Contacto.Email = txtBoxEmail.Text;
-                usuario.Contacto.Telefono = Convert.ToInt32(txtBoxTelefono.Text);
+                usuario.Contacto.Telefono = txtBoxTelefono.Text;
                 usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
                 usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
                 usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;

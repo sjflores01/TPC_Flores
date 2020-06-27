@@ -28,7 +28,7 @@ namespace CasaMusica
 
                 usuario = usuarioNegocio.ValidarUsuario(usuario);
 
-                if (usuario != null)
+                if (usuario.ID != 0)
                 {
                     Session.Add("sesionUsuario", usuario);
 

@@ -11,52 +11,61 @@ namespace CasaMusica
 {
 
 
-    public partial class Carrito
+    public partial class VerDetalle
     {
 
         /// <summary>
-        /// Control lblBienvenida.
+        /// Control lblTxtPrecio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBienvenida;
+        protected global::System.Web.UI.WebControls.Label lblTxtPrecio;
 
         /// <summary>
-        /// Control lblCarritoVacio.
+        /// Control lblPrecio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCarritoVacio;
+        protected global::System.Web.UI.WebControls.Label lblPrecio;
 
         /// <summary>
-        /// Control lblTextPrecio.
+        /// Control txtBoxCantidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTextPrecio;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxCantidad;
 
         /// <summary>
-        /// Control lblPrecioFinal.
+        /// Control btnAgregarArticulo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPrecioFinal;
+        protected global::System.Web.UI.WebControls.Button btnAgregarArticulo;
 
         /// <summary>
-        /// Control btnVolver.
+        /// Control linkBtnElimFavorito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVolver;
+        protected global::System.Web.UI.WebControls.LinkButton linkBtnElimFavorito;
+
+        /// <summary>
+        /// Control LinkButton1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
     }
 }

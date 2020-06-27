@@ -22,16 +22,6 @@ namespace CasaMusica
                 ProductoNegocio productoNegocio = new ProductoNegocio();
                 listaProductos = productoNegocio.Listar();
 
-                if (Request.QueryString["ID"] != null)
-                {
-                    if (usuario != null)
-                    {
-                            FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
-                            favoritoNegocio.AgregarFavorito(usuario.ID, Convert.ToInt64(Request.QueryString["ID"]));
-                            Response.Redirect("DefaultUser.aspx");
-                    }
-                }
-
             }
             catch (Exception ex)
             {

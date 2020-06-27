@@ -17,7 +17,9 @@ namespace Modelo
         public Categoria Categoria { get; set; }
         public decimal Precio { get; set; }
         public long Stock { get; set; }
+        public int CantidadElegida { get; set; }
         public bool Eliminado { get; set; }
+
 
         public Producto()
         {
