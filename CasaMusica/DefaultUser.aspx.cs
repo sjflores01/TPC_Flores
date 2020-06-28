@@ -16,12 +16,12 @@ namespace CasaMusica
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            usuario = (Usuario)Session["sesionUsuario"];
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+
             try
             {
-                usuario = (Usuario)Session["sesionUsuario"];
-                ProductoNegocio productoNegocio = new ProductoNegocio();
                 listaProductos = productoNegocio.Listar();
-
             }
             catch (Exception ex)
             {

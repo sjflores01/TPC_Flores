@@ -96,6 +96,39 @@ namespace Negocio
             
         }
 
+        public bool ChequearStock(Producto producto, int cantidad)
+        {
+            AccesoADatos datos = new AccesoADatos();
+            
+            try
+            {
+                datos.SetearSP("SP_ChequearStock");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDProducto", producto.ID);
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if(cantidad > datos.Lector.GetInt64(0))
+                    {
+                        datos.CerrarConexion();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Modificar(Producto producto)
         {
             AccesoADatos datos = new AccesoADatos();
@@ -145,6 +178,30 @@ namespace Negocio
             finally
             {
                 datos.CerrarConexion();
+            }
+        }
+
+        public void ImpactoStock(List<Producto> productos)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                foreach (var item in productos)
+                {
+                    item.Stock = item.Stock - item.CantidadElegida;
+                    datos.SetearSP("SP_ModifStock");
+                    datos.Comando.Parameters.Clear();
+                    datos.SetearParametro("@IDProducto", item.ID);
+                    datos.SetearParametro("@NuevoStock", item.Stock);
+                    datos.EjecutarAccion();
+                    datos.CerrarConexion();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

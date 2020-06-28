@@ -25,6 +25,7 @@ namespace CasaMusica
             {
                 usuario = (Usuario)Session["sesionUsuario"];
                 producto = productoNegocio.Listar().Find(p => p.ID == idProducto);
+                lblPrecio.Text = producto.Precio.ToString("F2");
 
                 if (usuario != null)
                 {
@@ -78,6 +79,18 @@ namespace CasaMusica
             {
 
                 throw ex;
+            }
+        }
+
+        protected void txtBoxCantidad_TextChanged(object sender, EventArgs e)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+
+            if (!productoNegocio.ChequearStock(producto, Convert.ToInt32(txtBoxCantidad.Text)))
+            {
+                lblNoStock.Text = "No tenemos esa cantidad disponible para Vender";
+                lblNoStock.Visible = true;
+                txtBoxCantidad.Text = "";
             }
         }
     }

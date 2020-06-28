@@ -57,6 +57,41 @@ namespace Negocio
             }
         }
 
+        public void EliminarItem(long IDProducto, long IDCarrito)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_EliminarProductosXCarrito");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDCarrito", IDCarrito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public decimal SumarImporte(List<Producto> listaCarrito)
+        {
+            decimal result = 0;
+
+            foreach (var item in listaCarrito)
+            {
+                result += item.Precio * item.CantidadElegida;
+            }
+
+            return result;
+        }
+
         public List<Producto> CargarListaCarrito(long IDCarrito)
         {
             AccesoADatos datos = new AccesoADatos();
@@ -85,7 +120,8 @@ namespace Negocio
                         producto.Nombre = datos.Lector.GetString(5);
                         producto.URLImagen = datos.Lector.GetString(6);
                         producto.Precio = datos.Lector.GetDecimal(7);
-                        producto.CantidadElegida = datos.Lector.GetInt32(10);
+                        producto.Stock = datos.Lector.GetInt64(8);
+                        producto.CantidadElegida = datos.Lector.GetInt32(11);
 
                         listaCarrito.Add(producto);
                     }

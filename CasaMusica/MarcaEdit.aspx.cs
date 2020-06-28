@@ -56,6 +56,8 @@ namespace CasaMusica
                 marcaNegocio.Agregar(marca);
             }
 
+            Response.Redirect("ABM_Marcas.aspx");
+
         }
     }
 }

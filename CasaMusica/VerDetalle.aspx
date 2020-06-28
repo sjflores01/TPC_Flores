@@ -19,12 +19,19 @@
                             <asp:Label Text="Precio: $" CssClass="card-title" ID="lblTxtPrecio" runat="server" />
                             <asp:Label Text="" CssClass="card-title" ID="lblPrecio" runat="server" />
                         </h6>
-                        <div class="row form-inline">
-                            <div class="col align-content-center">
-                                <asp:Label Text="Cantidad" CssClass="card-text" runat="server" />
-                                <asp:TextBox CssClass="card-text form-control mb-2" Columns="2" MaxLength="3" ID="txtBoxCantidad" Text="1" runat="server" />
-                            </div>
-                        </div>
+                        <asp:UpdatePanel runat="server">
+                            <ContentTemplate>
+                                <div class="row form-inline">
+                                    <div class="col align-content-center">
+                                        <asp:Label Text="Cantidad" CssClass="card-text" runat="server" />
+                                        <asp:TextBox CssClass="card-text form-control mb-2" Columns="2" MaxLength="3" ID="txtBoxCantidad" Text="1" runat="server" OnTextChanged="txtBoxCantidad_TextChanged" AutoPostBack="true" />
+                                        <div class="row">
+                                            <asp:Label Text="" ID="lblNoStock" CssClass="small alert alert-danger" Visible="false" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                     </div>
                     <div class="col-md">
                         <asp:Button Text="Agregar al Carrito" CssClass="btn btn-success" ID="btnAgregarArticulo" runat="server" OnClick="btnAgregarArticulo_Click" />

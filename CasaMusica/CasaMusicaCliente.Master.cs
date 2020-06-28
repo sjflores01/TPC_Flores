@@ -12,10 +12,12 @@ namespace CasaMusica
     public partial class CasaMusicaCliente : System.Web.UI.MasterPage
     {
         public Usuario usuario { get; set; }
+        public List<Producto> listaCarrito { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["sesionUsuario"];
+            CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
 
             try
             {
@@ -30,6 +32,7 @@ namespace CasaMusica
                     else
                     {
                         btnPerfil.Visible = true;
+                        listaCarrito = carritoUserNegocio.CargarListaCarrito(usuario.IDCarrito);
                     }
                 }
 

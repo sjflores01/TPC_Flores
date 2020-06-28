@@ -20,18 +20,17 @@ namespace CasaMusica
             {
                 listaUsuarios = usuarioNegocio.Listar();
 
+                if(Request.QueryString["ID"] != null)
+                {
+                    usuarioNegocio.BajaUsuario(Convert.ToInt64(Request.QueryString["ID"]));
+                }
+
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
-        }
-
-        protected void btn_Eliminar_Click(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalBaja", "$('#modalBaja').modal();", true);
-            upModal.Update();
         }
     }
 }

@@ -76,6 +76,8 @@
     <Content Include="ABM_Usuarios.aspx" />
     <Content Include="Carrito.aspx" />
     <Content Include="CategoriaEdit.aspx" />
+    <Content Include="Compra.aspx" />
+    <Content Include="Contacto.aspx" />
     <Content Include="CrearUsuario.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultUser.aspx" />
@@ -144,6 +146,20 @@
     </Compile>
     <Compile Include="CategoriaEdit.aspx.designer.cs">
       <DependentUpon>CategoriaEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Compra.aspx.cs">
+      <DependentUpon>Compra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Compra.aspx.designer.cs">
+      <DependentUpon>Compra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contacto.aspx.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacto.aspx.designer.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
     </Compile>
     <Compile Include="CrearUsuario.aspx.cs">
       <DependentUpon>CrearUsuario.aspx</DependentUpon>

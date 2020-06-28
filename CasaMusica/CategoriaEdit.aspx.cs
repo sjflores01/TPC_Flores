@@ -58,6 +58,8 @@ namespace CasaMusica
                     categoriaNegocio.Agregar(categoria);
                 }
 
+                Response.Redirect("ABM_Categorias.aspx");
+
             }
             catch (Exception ex)
             {

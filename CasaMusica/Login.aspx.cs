@@ -26,7 +26,14 @@ namespace CasaMusica
                 usuario.Contacto.Email = txtBoxEmail.Text;
                 usuario.Clave = txtBoxPassword.Text;
 
-                usuario = usuarioNegocio.ValidarUsuario(usuario);
+                if (usuario.Contacto.Email.Contains("@musicapp"))
+                {
+                    usuario = usuarioNegocio.ValidarUsuarioAdmin(usuario);
+                }
+                else
+                {
+                    usuario = usuarioNegocio.ValidarUsuario(usuario);
+                }
 
                 if (usuario.ID != 0)
                 {

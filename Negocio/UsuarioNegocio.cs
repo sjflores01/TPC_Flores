@@ -69,6 +69,54 @@ namespace Negocio
             }
         }
 
+        public Usuario ValidarUsuarioAdmin(Usuario usuario)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM VW_UsuariosAdmin");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (usuario.Contacto.Email == datos.Lector.GetString(1) &&
+                        usuario.Clave == datos.Lector.GetString(2))
+                    {
+                        usuario.ID = datos.Lector.GetInt64(0);
+                        usuario.NombreUsuario = datos.Lector.GetString(3);
+                        usuario.Nombre = datos.Lector.GetString(4);
+                        usuario.Apellido = datos.Lector.GetString(5);
+                        usuario.Dni = datos.Lector.GetInt32(6);
+                        usuario.Tipo = datos.Lector.GetInt32(7);
+                        usuario.Contacto.Direccion.Calle = datos.Lector.GetString(8);
+                        usuario.Contacto.Direccion.Numero = datos.Lector.GetInt32(9);
+                        usuario.Contacto.Direccion.Piso = datos.Lector.GetString(10);
+                        usuario.Contacto.Direccion.Dpto = datos.Lector.GetString(11);
+                        usuario.Contacto.Telefono = datos.Lector.GetString(12);
+                        usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
+                        usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
+                        usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
+                        usuario.Contacto.Direccion.Departamento.Nombre = datos.Lector.GetString(19);
+                        usuario.Contacto.Direccion.Provincia.Nombre = datos.Lector.GetString(20);
+                        usuario.FechaNac = datos.Lector.GetDateTime(15);
+                        usuario.FechaReg = datos.Lector.GetDateTime(16);
+                    }
+                }
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public List<Usuario> ListarUltimos()
         {
             AccesoADatos datos = new AccesoADatos();
@@ -191,7 +239,7 @@ namespace Negocio
             }
         }
 
-        public void BajaUsuario(int ID)
+        public void BajaUsuario(long ID)
         {
             AccesoADatos datos = new AccesoADatos();
 
