@@ -12,11 +12,12 @@ namespace CasaMusica
     public partial class Carrito : System.Web.UI.Page
     {
         public Usuario usuario { get; set; }
-        public List<Producto> listaCarrito { get; set; }        
+        public List<Producto> listaCarrito { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
+            ProductoNegocio productoNegocio = new ProductoNegocio();
             usuario = (Usuario)Session["sesionUsuario"];
 
             try
@@ -33,10 +34,37 @@ namespace CasaMusica
                         lblPrecioFinal.Visible = true;
                         btnFinalizar.Visible = true;
 
-                        if(Request.QueryString["ElimID"] != null)
+                        if (Request.QueryString["ElimID"] != null)
                         {
                             long IDProducto = Convert.ToInt64(Request.QueryString["ElimID"]);
                             carritoUserNegocio.EliminarItem(IDProducto, usuario.IDCarrito);
+                            Response.Redirect("Carrito.aspx");
+                        }
+                        if (Request.QueryString["ModifID"] != null)
+                        {
+                            Producto producto = new Producto();
+                            producto = listaCarrito.Find(p => p.ID == Convert.ToInt64(Request.QueryString["ModifID"]));
+
+                            if (Request.QueryString["cant"] == "resta")
+                            {
+                                if(producto.CantidadElegida == 1)
+                                {
+                                    carritoUserNegocio.EliminarItem(producto.ID, usuario.IDCarrito);
+                                }
+
+                                carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, -1);
+                            }
+                            else
+                            {
+                                if (productoNegocio.ChequearStock(producto, producto.CantidadElegida + 1))
+                                {
+                                    carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, 1);
+                                }
+                                else
+                                {
+                                    lblNoStock.Visible = true;
+                                }
+                            }
                             Response.Redirect("Carrito.aspx");
                         }
 

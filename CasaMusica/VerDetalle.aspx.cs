@@ -66,7 +66,14 @@ namespace CasaMusica
             {
                 if (usuario != null)
                 {
-                    carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, Convert.ToInt64(Request.QueryString["ID"]), Convert.ToInt32(txtBoxCantidad.Text));
+                    if (carritoUserNegocio.BuscarProductoXCarrito(usuario.IDCarrito, producto.ID))
+                    {
+                        carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito,producto.ID,Convert.ToInt32(txtBoxCantidad.Text));
+                    }
+                    else
+                    {
+                        carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID , Convert.ToInt32(txtBoxCantidad.Text));
+                    }
                     Response.Redirect("DefaultUser.aspx");
                 }
                 else

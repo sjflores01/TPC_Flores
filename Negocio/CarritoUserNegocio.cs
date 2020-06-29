@@ -15,22 +15,59 @@ namespace Negocio
 
             try
             {
-                for (int i = 0; i < cantidad; i++)
-                {
-                    datos.SetearSP("SP_CargarProducto_X_Carrito");
-                    datos.Comando.Parameters.Clear();
-                    datos.SetearParametro("@IDCarrito", IDCarrito);
-                    datos.SetearParametro("@IDProducto", IDProducto);
-                    datos.EjecutarAccion();
-                    datos.CerrarConexion();
-                }
+                datos.SetearSP("SP_CargarProducto_X_Carrito");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDCarrito", IDCarrito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.SetearParametro("@Cantidad", cantidad);
+                datos.EjecutarAccion();
+                datos.CerrarConexion();
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
+
+        public bool BuscarProductoXCarrito(long IDCarrito, long IDProducto)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_BuscarProductoXCarrito");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDCarrito", IDCarrito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if(IDProducto == datos.Lector.GetInt64(0))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
 
         public CarritoUser BuscarCarrito(long IDUsuario)
         {
@@ -55,6 +92,31 @@ namespace Negocio
             {
                 throw ex;
             }
+        }
+
+        public void ModificarProductoXCarrito(long IDCarrito, long IDProducto, int cantidad)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_ModifCantidadProductoXCarrito");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDCarrito", IDCarrito);
+                datos.SetearParametro("@IDProducto", IDProducto);
+                datos.SetearParametro("Cantidad", cantidad);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+
         }
 
         public void EliminarItem(long IDProducto, long IDCarrito)

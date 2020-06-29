@@ -35,7 +35,7 @@ namespace CasaMusica
                         txtBoxApellido.Text = usuario.Apellido;
                         txtBoxNombre.Text = usuario.Nombre;
                         txtBoxDni.Text = usuario.Dni.ToString();
-                        txtBoxFechaNac.Text = usuario.FechaNac.ToString();
+                        txtBoxFechaNac.Text = usuario.FechaNac.ToShortDateString();
                         txtBoxEmail.Text = usuario.Contacto.Email;
                         txtBoxUsuario.Text = usuario.NombreUsuario;
                         txtBoxPassword.Text = usuario.Clave;
@@ -45,7 +45,10 @@ namespace CasaMusica
                         txtBoxDireccionDpto.Text = usuario.Contacto.Direccion.Dpto;
                         txtBoxTelefono.Text = usuario.Contacto.Telefono.ToString();
                         txtBoxCP.Text = usuario.Contacto.Direccion.CP;
-                        dropDownLocal.SelectedIndex = usuario.Contacto.Direccion.Localidad.ID - 1;
+                        //dropDownProv.SelectedIndex = dropDownProv.Items.IndexOf(dropDownProv.Items.FindByValue(usuario.Contacto.Direccion.Provincia.ID.ToString()));
+                        //dropDownDpto.SelectedIndex = dropDownProv.Items.IndexOf(dropDownProv.Items.FindByValue(usuario.Contacto.Direccion.Departamento.ID.ToString()));
+                        //dropDownLocal.SelectedIndex = dropDownProv.Items.IndexOf(dropDownProv.Items.FindByValue(usuario.Contacto.Direccion.Localidad.ID.ToString()));
+
                     }
                 }
 

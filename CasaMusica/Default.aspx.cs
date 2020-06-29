@@ -11,13 +11,21 @@ namespace CasaMusica
 {
     public partial class Default : System.Web.UI.Page
     {
-        public List<Usuario> listadoUsuarios { get; set; }
+        public List<Usuario> listaUltimosUsuarios { get; set; }
+        public List<Venta> listaUltimasVentas { get; set; }
+        public List<Producto> listaMasVendidos { get; set; }
+        public List<Producto> listaMasLikeados { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            VentaNegocio ventaNegocio = new VentaNegocio();
+            ProductoNegocio productoNegocio = new ProductoNegocio();
 
-            listadoUsuarios = usuarioNegocio.ListarUltimos();
+            listaUltimosUsuarios = usuarioNegocio.ListarUltimos();
+            listaUltimasVentas = ventaNegocio.ListarUltimas();
+            listaMasVendidos = productoNegocio.ListarMasVendidos();
+            listaMasLikeados = productoNegocio.ListarMasLikeados();
         }
     }
 }

@@ -98,6 +98,7 @@ namespace CasaMusica
                         productoNegocio.Agregar(producto);
                     }
 
+                    Response.Redirect("ABM_Productos.aspx");
                 }
                 catch (Exception ex)
                 {
@@ -124,6 +125,21 @@ namespace CasaMusica
             }
 
             return result;
+        }
+
+        protected void txtBoxCodigo_TextChanged(object sender, EventArgs e)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            string codigo = txtBoxCodigo.Text.ToUpper();
+
+            txtBoxCodigo.Text = codigo;
+
+            if (productoNegocio.BuscarCodigo(codigo))
+            {
+                lblCodigoExistente.Visible = true;
+                lblCodigoExistente.Text = "El codigo ingresado ya está siendo utilizado.";
+                txtBoxCodigo.Text = "";
+            }
         }
     }
 }

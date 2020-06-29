@@ -24,7 +24,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     producto = new Producto();
-                    
+
                     producto.Eliminado = datos.Lector.GetBoolean(9);
                     producto.Marca.Eliminado = datos.Lector.GetBoolean(14);
                     producto.Categoria.Eliminado = datos.Lector.GetBoolean(17);
@@ -63,6 +63,80 @@ namespace Negocio
 
         }
 
+        public List<Producto> ListarMasLikeados()
+        {
+            AccesoADatos datos = new AccesoADatos();
+            List<Producto> lista = new List<Producto>();
+            Producto producto;
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM VW_TopFavoritos");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    producto = new Producto();
+
+                    producto.Codigo = datos.Lector.GetString(0);
+                    producto.Nombre = datos.Lector.GetString(1);
+                    producto.Marca.Nombre = datos.Lector.GetString(2);
+                    producto.Categoria.Nombre = datos.Lector.GetString(3);
+                    producto.CantidadElegida = datos.Lector.GetInt32(4);
+
+                    lista.Add(producto);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public List<Producto> ListarMasVendidos()
+        {
+            AccesoADatos datos = new AccesoADatos();
+            List<Producto> lista = new List<Producto>();
+            Producto producto;
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM VW_TopVendidos");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    producto = new Producto();
+
+                    producto.Codigo = datos.Lector.GetString(0);
+                    producto.Nombre = datos.Lector.GetString(1);
+                    producto.Marca.Nombre = datos.Lector.GetString(2);
+                    producto.Categoria.Nombre = datos.Lector.GetString(3);
+                    producto.CantidadElegida = datos.Lector.GetInt32(4);
+
+                    lista.Add(producto);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Agregar(Producto producto)
         {
             AccesoADatos datos = new AccesoADatos();
@@ -93,13 +167,44 @@ namespace Negocio
             {
                 datos.CerrarConexion();
             }
-            
+
+        }
+
+        public bool BuscarCodigo(string codigo)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Productos");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (codigo == datos.Lector.GetString(1))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
 
         public bool ChequearStock(Producto producto, int cantidad)
         {
             AccesoADatos datos = new AccesoADatos();
-            
+
             try
             {
                 datos.SetearSP("SP_ChequearStock");
@@ -109,7 +214,7 @@ namespace Negocio
 
                 while (datos.Lector.Read())
                 {
-                    if(cantidad > datos.Lector.GetInt64(0))
+                    if (cantidad > datos.Lector.GetInt64(0))
                     {
                         datos.CerrarConexion();
                         return false;

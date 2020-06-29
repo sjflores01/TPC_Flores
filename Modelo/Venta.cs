@@ -10,12 +10,14 @@ namespace Modelo
     {
         public long ID { get; set; }
         public CarritoUser Carrito { get; set; }
-        public long IDUsuario { get; set; }
+        public Usuario Usuario { get; set; }
         public decimal Importe { get; set; }
+        public DateTime Fecha { get; set; }
 
         public Venta()
         {
             this.Carrito = new CarritoUser();
+            this.Usuario = new Usuario();
         }
     }
 }

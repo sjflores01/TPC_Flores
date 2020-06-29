@@ -23,11 +23,12 @@ namespace CasaMusica
             try
             {
                 venta = new Venta();
-                venta.IDUsuario = usuario.ID;
+                venta.Usuario.ID = usuario.ID;
                 venta.Carrito.ID = usuario.IDCarrito;
                 venta.Carrito.Productos = carritoUserNegocio.CargarListaCarrito(venta.Carrito.ID);
                 listaProductos = venta.Carrito.Productos;
                 venta.Importe = carritoUserNegocio.SumarImporte(venta.Carrito.Productos);
+                venta.Fecha = DateTime.Now;
 
                 lblPrecioFinal.Text = venta.Importe.ToString("F2");
 

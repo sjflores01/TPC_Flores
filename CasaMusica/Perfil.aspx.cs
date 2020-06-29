@@ -54,5 +54,11 @@ namespace CasaMusica
         {
             Response.Redirect("CrearUsuario.aspx");
         }
+
+        protected void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Session["sesionUsuario"] = null;
+            Response.Redirect("DefaultUser.aspx");
+        }
     }
 }

@@ -43,13 +43,10 @@ namespace Negocio
                         usuario.Contacto.Telefono = datos.Lector.GetString(12);
                         usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
                         usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
-                        usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
-                        usuario.Contacto.Direccion.Departamento.Nombre = datos.Lector.GetString(19);
-                        usuario.Contacto.Direccion.Provincia.Nombre = datos.Lector.GetString(20);
+                        usuario.Contacto.Direccion.Departamento.ID = datos.Lector.GetInt32(19);
+                        usuario.Contacto.Direccion.Provincia.ID = datos.Lector.GetInt32(20);
                         usuario.FechaNac = datos.Lector.GetDateTime(15);
                         usuario.FechaReg = datos.Lector.GetDateTime(16);
-                        usuario.IDFavorito = datos.Lector.GetInt64(21);
-                        usuario.IDCarrito = datos.Lector.GetInt64(22);
 
                         lista.Add(usuario);
                     }
@@ -96,9 +93,8 @@ namespace Negocio
                         usuario.Contacto.Telefono = datos.Lector.GetString(12);
                         usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
                         usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
-                        usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
-                        usuario.Contacto.Direccion.Departamento.Nombre = datos.Lector.GetString(19);
-                        usuario.Contacto.Direccion.Provincia.Nombre = datos.Lector.GetString(20);
+                        usuario.Contacto.Direccion.Departamento.ID = datos.Lector.GetInt32(19);
+                        usuario.Contacto.Direccion.Provincia.ID = datos.Lector.GetInt32(20);
                         usuario.FechaNac = datos.Lector.GetDateTime(15);
                         usuario.FechaReg = datos.Lector.GetDateTime(16);
                     }

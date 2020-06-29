@@ -24,19 +24,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%foreach (var item in listaUltimasVentas)
+                            {%>
                         <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td><a href="#" class="btn btn-dark">Ver Detalle</a></td>
+                            <td><% = item.Fecha.ToShortDateString() %></td>
+                            <td><% = item.Usuario.NombreUsuario %></td>
+                            <td><% = item.Importe.ToString("F2") %></td>
+                            <td><a href="VentaDetalle.aspx?ID=<% = item.ID %>" class="btn btn-dark">Ver Detalle</a></td>
                         </tr>
-                        <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td><a href="#" class="btn btn-dark">Ver Detalle</a></td>
-                        </tr>
-
+                        <%} %>
                     </tbody>
                 </table>
             </div>
@@ -48,15 +44,20 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Categoria</th>
+                            <th scope="col">Cant.</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <%foreach (var item in listaMasVendidos)
+                            {%>
                         <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
+                            <td><% = item.Codigo %></td>
+                            <td><% = item.Nombre %></td>
+                            <td><% = item.Marca.Nombre %></td>
+                            <td><% = item.Categoria.Nombre %></td>
+                            <td><% = item.CantidadElegida %></td>
                         </tr>
+                        <%} %>
                     </tbody>
                 </table>
             </div>
@@ -78,15 +79,20 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Categoria</th>
+                            <th scope="col">Likes</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <%foreach (var item in listaMasLikeados)
+                            {%>
                         <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
+                           <td><% = item.Codigo %></td>
+                            <td><% = item.Nombre %></td>
+                            <td><% = item.Marca.Nombre %></td>
+                            <td><% = item.Categoria.Nombre %></td>
+                            <td><% = item.CantidadElegida %></td>
                         </tr>
+                        <%} %>
                     </tbody>
                 </table>
             </div>
@@ -100,7 +106,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%foreach (var item in listadoUsuarios)
+                        <%foreach (var item in listaUltimosUsuarios)
                             {%>
                         <tr>
                             <td><% = item.FechaReg.ToShortDateString() %></td>

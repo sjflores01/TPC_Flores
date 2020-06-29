@@ -28,7 +28,7 @@
                         <th scope="row"><% = item.ID %></th>
                         <td><% = item.Contacto.Email %> </td>
                         <td><% = item.Nombre %></td>
-                        <td><% = item.FechaReg.ToString() %></td>
+                        <td><% = item.FechaReg.ToShortDateString() %></td>
                         <td><a class="btn btn-outline-primary" href="UsuarioEdit.aspx?ID=<% = item.ID %>">Modificar</a></td>
                         <td>
                             <a href="ABM_Usuarios.aspx?ID=">

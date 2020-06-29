@@ -95,7 +95,8 @@ CREATE TABLE Carritos(
 GO
 CREATE TABLE Productos_X_Carrito(
 	IDCarrito bigint not null,
-	IDProducto bigint not null
+	IDProducto bigint not null,
+	Cantidad int not null
 )
 GO
 
@@ -104,6 +105,7 @@ CREATE TABLE Ventas(
 	IDCarrito bigint not null,
 	IDUsuario bigint not null,
 	Importe money not null,
+	Fecha date not null,
 )
 GO
 
@@ -199,7 +201,6 @@ ADD CONSTRAINT FK_VentasCarrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
 go
 
 --Datos
-INSERT INTO Usuarios VALUES ('admin@musicapp.com.ar','admin1','AdminUser','Admin','Administrador','33935035','1','Av Siempreviva',123,null,null,'+123456','930','1234',GETDATE(),GETDATE(),0)
 
 INSERT INTO Categorias
 VALUES('Guitarras',0)
@@ -6341,8 +6342,8 @@ INSERT INTO TiposUsuario VALUES ('Admin')
 GO
 INSERT INTO TiposUsuario VALUES ('Cliente')
 GO
-
-
+INSERT INTO Usuarios VALUES ('admin@musicapp.com.ar','admin1','AdminUser','Admin','Administrador','33935035','1','Av Siempreviva',123,'','','+123456','930','1234',GETDATE(),GETDATE(),0)
+GO
 --Views
 
 CREATE VIEW VW_ProductosLista AS
@@ -6351,10 +6352,9 @@ SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre
 FROM Productos AS P
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
 INNER JOIN Categorias as C ON P.IDCategoria = C.ID
-GO
 
 CREATE VIEW VW_UsuariosAdmin AS
-SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+SELECT U.*, L.Nombre AS Localidad, D.ID AS Departamento, P.ID AS Provincia FROM Usuarios AS U
 INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
 INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
 INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
@@ -6372,10 +6372,31 @@ WHERE TU.Nombre LIKE 'Cliente'
 ORDER BY U.FechaReg ASC
 GO
 
+CREATE VIEW VW_UltimasVentas AS
+SELECT TOP 5 V.ID, V.Fecha, U.NombreUsuario, V.Importe FROM Ventas AS V
+INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID
+ORDER BY V.Fecha DESC
+GO
 
+CREATE VIEW VW_TopFavoritos AS
+SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca, C.Nombre AS Categoria, COUNT(*) AS [Cantidad] FROM Favoritos as F
+INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
+INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
+ORDER BY Cantidad DESC
+GO
 
-
-
+CREATE VIEW VW_TopVendidos AS
+SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca , C.Nombre AS Categoria, COUNT(*) AS [Cantidad] FROM Ventas AS V
+INNER JOIN Productos_X_Carrito AS PXC ON V.IDCarrito = PXC.IDCarrito
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
+ORDER BY Cantidad DESC
+GO
 
 --Store Procedures
 CREATE PROCEDURE SP_AltaProducto (
@@ -6455,12 +6476,14 @@ CREATE PROCEDURE SP_ModifStock (
 BEGIN
 UPDATE Productos SET Stock = @NuevoStock WHERE ID=@IDProducto
 END
+GO
 
 CREATE PROCEDURE SP_ChequearStock (
 	@IDProducto bigint ) AS
 BEGIN
 SELECT Stock FROM Productos WHERE ID = @IDProducto
 END
+GO
 
 CREATE PROCEDURE SP_ModifMarca (
 	@ID bigint,
@@ -6599,14 +6622,6 @@ WHERE IDDepartamento = @IDDepartamento
 END
 GO
 
-CREATE PROCEDURE SP_CargarProducto_X_Carrito (
-	@IDCarrito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto)
-END
-GO
-
 CREATE PROCEDURE SP_BuscarCarrito (
 	@IDUsuario bigint ) AS
 BEGIN
@@ -6614,15 +6629,40 @@ SELECT * FROM Carritos WHERE IDUsuario = @IDUsuario AND CarritoVendido = 0
 END
 GO
 
+CREATE PROCEDURE SP_CargarProducto_X_Carrito (
+	@IDCarrito bigint,
+	@IDProducto bigint,
+	@Cantidad int) AS
+BEGIN
+INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto, @Cantidad)
+END
+GO
+
+CREATE PROCEDURE SP_ModifCantidadProductoXCarrito (
+	@IDCarrito bigint,
+	@IDProducto bigint,
+	@Cantidad int ) AS
+BEGIN
+UPDATE Productos_X_Carrito SET Cantidad += @Cantidad WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_BuscarProductoXCarrito (
+	@IDCarrito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+SELECT @IDProducto FROM Productos_X_Carrito WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
+END
+GO
+
 CREATE PROCEDURE SP_ListarProductos_X_Carrito (
 	@IDCarrito bigint ) AS
 BEGIN
-SELECT P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, P.Stock, PXC.IDCarrito, PXC.IDProducto, COUNT(*) AS CantidadElegida FROM Productos_X_Carrito AS PXC
+SELECT P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, P.Stock, PXC.IDCarrito, PXC.IDProducto, PXC.Cantidad FROM Productos_X_Carrito AS PXC
 INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
 INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
 WHERE PXC.IDCarrito = @IDCarrito
-GROUP BY P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, P.Stock, PXC.IDCarrito, PXC.IDProducto
 END
 GO
 
@@ -6639,9 +6679,9 @@ CREATE PROCEDURE SP_CargarVenta (
 	@IDUsuario bigint,
 	@Importe money ) AS
 BEGIN
-INSERT INTO Ventas VALUES (@IDCarrito, @IDUsuario, @Importe)
+INSERT INTO Ventas VALUES (@IDCarrito, @IDUsuario, @Importe,GETDATE())
 END
-
+GO
 
 --Triggers
 
@@ -6675,3 +6715,6 @@ UPDATE Carritos SET CarritoVendido = 1 WHERE ID = @IDCarrito
 INSERT INTO Carritos VALUES (@IDUsuario,0)
 END
 GO
+
+
+SELECT * FROM PRODUCTOS_x_CARRITO

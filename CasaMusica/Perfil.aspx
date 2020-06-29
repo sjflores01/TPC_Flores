@@ -50,6 +50,7 @@
                         <label>Domicilio de Entrega</label>
                         <asp:TextBox Text="" ID="txtBoxDomicilio" CssClass="form-control" Enabled="false" runat="server" />
                         <asp:Button Text="Editar" ID="btnEditar" CssClass="btn btn-dark" runat="server" OnClick="btnEditar_Click" />
+                        <asp:Button Text="Cerrar Sesion" ID="btnCerrarSesion" CssClass="btn btn-dark" runat="server" OnClick="btnCerrarSesion_Click" />
                     </div>
                 </div>
             </div>
