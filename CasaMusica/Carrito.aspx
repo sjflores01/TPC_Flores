@@ -12,7 +12,7 @@
         <div class="row">
             <asp:Label Text="Tu carrito no tiene items! 
                    Que esperas!? Volvé a la home y agregá lo que quieras!"
-                ID="lblCarritoVacio" CssClass="display-4 text-info" runat="server" />
+                ID="lblCarritoVacio" CssClass="display-4 text-secondary" runat="server" />
         </div>
         <div class="row my-4">
             <table class="table text-secondary">
@@ -84,4 +84,27 @@
             </div>
         </div>
     </div>
+     <%--MODALS--%>
+            <div class="modal fade" id="modalEliminar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Carrito</asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblModalBody" runat="server" Text="">Eliminar Articulo del Carrito?</asp:Label>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button Text="Borrar" ID="btnBorrar" CssClass="btn btn-info" OnClick="btnBorrar_Click" runat="server" />
+                                <a href="ABM_Usuarios.aspx" class="btn btn-info">Volver</a>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
 </asp:Content>

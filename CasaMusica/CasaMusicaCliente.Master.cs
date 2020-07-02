@@ -13,14 +13,17 @@ namespace CasaMusica
     {
         public Usuario usuario { get; set; }
         public List<Producto> listaCarrito { get; set; }
+        public List<Categoria> listaCategoria { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["sesionUsuario"];
             CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
             try
             {
+                listaCategoria = categoriaNegocio.Listar();
                 if (usuario != null)
                 {
                     btnLogin.Visible = false;

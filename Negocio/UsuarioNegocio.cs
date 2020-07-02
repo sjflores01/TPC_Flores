@@ -66,6 +66,64 @@ namespace Negocio
             }
         }
 
+        public List<Usuario> ListarClientes()
+        {
+            AccesoADatos datos = new AccesoADatos();
+            Usuario usuario;
+            List<Usuario> lista = new List<Usuario>();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM VW_UsuariosCliente");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    usuario = new Usuario();
+
+                    usuario.Eliminado = datos.Lector.GetBoolean(17);
+
+                    if (!usuario.Eliminado)
+                    {
+                        usuario.ID = datos.Lector.GetInt64(0);
+                        usuario.Contacto.Email = datos.Lector.GetString(1);
+                        usuario.Clave = datos.Lector.GetString(2);
+                        usuario.NombreUsuario = datos.Lector.GetString(3);
+                        usuario.Nombre = datos.Lector.GetString(4);
+                        usuario.Apellido = datos.Lector.GetString(5);
+                        usuario.Dni = datos.Lector.GetInt32(6);
+                        usuario.Tipo = datos.Lector.GetInt32(7);
+                        usuario.Contacto.Direccion.Calle = datos.Lector.GetString(8);
+                        usuario.Contacto.Direccion.Numero = datos.Lector.GetInt32(9);
+                        usuario.Contacto.Direccion.Piso = datos.Lector.GetString(10);
+                        usuario.Contacto.Direccion.Dpto = datos.Lector.GetString(11);
+                        usuario.Contacto.Telefono = datos.Lector.GetString(12);
+                        usuario.Contacto.Direccion.Localidad.ID = datos.Lector.GetInt32(13);
+                        usuario.Contacto.Direccion.Localidad.Nombre = datos.Lector.GetString(18);
+                        usuario.Contacto.Direccion.CP = datos.Lector.GetString(14);
+                        usuario.Contacto.Direccion.Departamento.Nombre = datos.Lector.GetString(19);
+                        usuario.Contacto.Direccion.Provincia.Nombre = datos.Lector.GetString(20);
+                        usuario.FechaNac = datos.Lector.GetDateTime(15);
+                        usuario.FechaReg = datos.Lector.GetDateTime(16);
+
+                        lista.Add(usuario);
+                    }
+
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(Usuario usuario)
         {
             AccesoADatos datos = new AccesoADatos();
@@ -101,6 +159,68 @@ namespace Negocio
                 }
 
                 return usuario;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool BuscarUsuario(string nombreUsuario)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Usuarios");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (nombreUsuario == datos.Lector.GetString(3))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool BuscarEmail(string email)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Usuarios");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if(email == datos.Lector.GetString(1))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
             }
             catch (Exception ex)
             {

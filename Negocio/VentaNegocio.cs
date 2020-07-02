@@ -33,6 +33,47 @@ namespace Negocio
             }
         }
 
+        public List<Venta> Listar()
+        {
+            AccesoADatos datos = new AccesoADatos();
+            List<Venta> lista = new List<Venta>();
+            Venta venta;
+
+            try
+            {
+                datos.SetearQuery("SELECT V.ID, V.Fecha, U.NombreUsuario, U.ID, V.Importe, V.IDCarrito FROM Ventas AS V" +
+                    " INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID" +
+                    " INNER JOIN Carritos AS C ON V.IDCarrito = C.ID" +
+                    " ORDER BY V.Fecha DESC");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    venta = new Venta();
+
+                    venta.ID = datos.Lector.GetInt64(0);
+                    venta.Fecha = datos.Lector.GetDateTime(1);
+                    venta.Usuario.NombreUsuario = datos.Lector.GetString(2);
+                    venta.Usuario.ID = datos.Lector.GetInt64(3);
+                    venta.Importe = datos.Lector.GetDecimal(4);
+                    venta.Carrito.ID = datos.Lector.GetInt64(5);
+
+                    lista.Add(venta);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public List<Venta> ListarUltimas()
         {
             AccesoADatos datos = new AccesoADatos();
@@ -69,4 +110,6 @@ namespace Negocio
             }
         }
     }
+
+
 }

@@ -18,16 +18,34 @@ namespace CasaMusica
         {
             usuario = (Usuario)Session["sesionUsuario"];
             ProductoNegocio productoNegocio = new ProductoNegocio();
+            string filtro = Request.QueryString["list"];
 
             try
             {
-                listaProductos = productoNegocio.Listar();
+                if (!IsPostBack)
+                {
+                    if (filtro == null)
+                    {
+                        listaProductos = productoNegocio.Listar();
+                    }
+                    else
+                    {
+                        listaProductos = productoNegocio.Listar().FindAll(l => l.Categoria.Nombre == filtro);
+                    }
+                }
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+
+            listaProductos = productoNegocio.Listar().FindAll(p => p.Nombre.ToLower().Contains(txtBoxBuscar.Text.ToLower()));
         }
     }
 }

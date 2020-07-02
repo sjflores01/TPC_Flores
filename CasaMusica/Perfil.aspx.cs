@@ -13,9 +13,12 @@ namespace CasaMusica
     {
         public Usuario usuario { get; set; }
         public List<Favorito> listadoFavoritos { get; set; }
+        public List<Venta> listadoVentas { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
+            VentaNegocio ventaNegocio = new VentaNegocio();
 
             try
             {
@@ -26,8 +29,8 @@ namespace CasaMusica
                     Response.Redirect("Login.aspx");
                 }
 
-                FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
                 listadoFavoritos = favoritoNegocio.Listar(usuario.IDFavorito);
+                listadoVentas = ventaNegocio.Listar().FindAll(v => v.Usuario.ID == usuario.ID);
 
 
                 txtBoxEmail.Text = usuario.Contacto.Email;

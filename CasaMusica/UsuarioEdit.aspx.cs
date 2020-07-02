@@ -95,7 +95,25 @@ namespace CasaMusica
                 }
                 else
                 {
-                    usuarioNegocio.AltaUsuario(usuario);
+                    if (usuarioNegocio.BuscarEmail(txtBoxEmail.Text))
+                    {
+                        lblEmailExistente.Visible = true;
+                        lblEmailExistente.Text = "Email existente en BBDD, por favor ingresá otro.";
+                        txtBoxEmail.Text = "";
+
+                    }
+                    else if (usuarioNegocio.BuscarUsuario(txtBoxUsuario.Text))
+                    {
+                        lblUsuarioExistente.Visible = true;
+                        lblUsuarioExistente.Text = "El Usuario esta tomado, por favor ingresá otro.";
+                        txtBoxUsuario.Text = "";
+                    }
+                    else
+                    {
+                        usuarioNegocio.AltaUsuario(usuario);
+
+                    }
+
 
                 }
 

@@ -35,15 +35,25 @@
                 <label>Email</label>
                 <asp:TextBox runat="server" CssClass="form-control" placeholder="Email" ID="txtBoxEmail" />
                 <small class="form-text text-muted">Usa un correo válido. Se utilizará para iniciar sesión.</small>
+                <div class="row">
+                    <asp:Label Text="" Visible="false" CssClass="alert alert-danger ml-1 mt-1" ID="lblEmailExistente" runat="server" />
+                </div>
             </div>
             <div class="form-group col-md-4">
                 <label>Nombre de Usuario</label>
                 <asp:TextBox runat="server" CssClass="form-control" placeholder="Usuario" ID="txtBoxUsuario" />
+                <div class="row">
+                    <asp:Label Text="" Visible="false" CssClass="alert alert-danger ml-1 mt-1" ID="lblUsuarioExistente" runat="server" />
+                </div>
             </div>
             <div class="form-group col-md-3">
                 <label>Contraseña</label>
                 <asp:TextBox runat="server" CssClass="form-control" placeholder="Contraseña" ID="txtBoxPassword" TextMode="Password" />
                 <small class="form-text text-muted">La contraseña no puede contener caracteres especiales, y debe tener un máximo de 8 letras o numeros.</small>
+                <div class="form-check mb-3">
+                    <asp:CheckBox CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" OnCheckedChanged="chkBoxVerContraseña_CheckedChanged" />
+                    <asp:Label Text="Ver Contraseña" CssClass="form-check-label" runat="server" />
+                </div>
             </div>
 
         </div>
@@ -79,7 +89,7 @@
 
             <div class="form-group col-md-3">
                 <label>Provincia</label>
-                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true"/>
+                <asp:DropDownList CssClass="form-control" runat="server" ID="dropDownProv" OnSelectedIndexChanged="dropDownProv_SelectedIndexChanged" AutoPostBack="true" />
             </div>
             <div class="form-group col-md-4">
                 <label>Departamento</label>

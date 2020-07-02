@@ -12,6 +12,7 @@ namespace CasaMusica
     public partial class ProductoEdit : System.Web.UI.Page
     {
         public Producto producto { get; set; }
+        public string imagenURL { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,18 +26,19 @@ namespace CasaMusica
             {
                 if (!IsPostBack)
                 {
-                    lblCodigoRequerido.Visible = false;
 
                     dropDownMarcas.DataSource = marcaNegocio.Listar();
                     dropDownMarcas.SelectedIndex = -1;
                     dropDownMarcas.DataValueField = "ID";
                     dropDownMarcas.DataTextField = "Nombre";
+                    dropDownMarcas.Items.Insert(0, new ListItem("", ""));
                     dropDownMarcas.DataBind();
 
                     dropDownCategorias.DataSource = categoriaNegocio.Listar();
                     dropDownCategorias.SelectedIndex = -1;
                     dropDownCategorias.DataValueField = "ID";
                     dropDownCategorias.DataTextField = "Nombre";
+                    dropDownCategorias.Items.Insert(0, new ListItem("", ""));
                     dropDownCategorias.DataBind();
 
                     if (producto != null)
@@ -63,68 +65,44 @@ namespace CasaMusica
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (ValidarForm())
+            try
             {
-                try
+                ProductoNegocio productoNegocio = new ProductoNegocio();
+                MarcaNegocio marcaNegocio = new MarcaNegocio();
+                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+
+                if (producto == null)
                 {
-                    ProductoNegocio productoNegocio = new ProductoNegocio();
-                    MarcaNegocio marcaNegocio = new MarcaNegocio();
-                    CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-
-                    if (producto == null)
-                    {
-                        producto = new Producto();
-                    }
-
-                    producto.Codigo = txtBoxCodigo.Text;
-                    producto.Nombre = txtBoxNombre.Text;
-                    producto.Descripcion = txtBoxDescripcion.Text;
-                    producto.URLImagen = txtBoxImagen.Text;
-                    producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
-                    producto.Stock = Convert.ToInt64(txtBoxStock.Text);
-                    producto.Marca = new Marca();
-                    producto.Marca = marcaNegocio.Listar().Find(m => m.ID == Convert.ToInt64(dropDownMarcas.SelectedItem.Value));
-                    producto.Categoria = new Categoria();
-                    producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID == Convert.ToInt64(dropDownCategorias.SelectedItem.Value));
-                    producto.Eliminado = false;
-
-
-                    if (producto.ID != 0)
-                    {
-                        productoNegocio.Modificar(producto);
-                    }
-                    else
-                    {
-                        productoNegocio.Agregar(producto);
-                    }
-
-                    Response.Redirect("ABM_Productos.aspx");
-                }
-                catch (Exception ex)
-                {
-
-                    throw ex;
+                    producto = new Producto();
                 }
 
+                producto.Codigo = txtBoxCodigo.Text;
+                producto.Nombre = txtBoxNombre.Text;
+                producto.Descripcion = txtBoxDescripcion.Text;
+                producto.URLImagen = txtBoxImagen.Text;
+                producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
+                producto.Stock = Convert.ToInt64(txtBoxStock.Text);
+                producto.Marca = marcaNegocio.Listar().Find(m => m.ID == Convert.ToInt64(dropDownMarcas.SelectedItem.Value));
+                producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID == Convert.ToInt64(dropDownCategorias.SelectedItem.Value));
+                producto.Eliminado = false;
+
+
+                if (producto.ID != 0)
+                {
+                    productoNegocio.Modificar(producto);
+                }
+                else
+                {
+                    productoNegocio.Agregar(producto);
+                }
+
+                Response.Redirect("ABM_Productos.aspx");
             }
-
-        }
-
-        public bool ValidarForm()
-        {
-            bool result = false;
-
-            if (txtBoxCodigo.Text == "")
+            catch (Exception ex)
             {
-                lblCodigoRequerido.Visible = true;
-            }
-            else
-            {
-                lblCodigoRequerido.Visible = false;
-                result = true;
-            }
 
-            return result;
+                throw ex;
+            }
         }
 
         protected void txtBoxCodigo_TextChanged(object sender, EventArgs e)
@@ -140,6 +118,25 @@ namespace CasaMusica
                 lblCodigoExistente.Text = "El codigo ingresado ya está siendo utilizado.";
                 txtBoxCodigo.Text = "";
             }
+
+        }
+
+        protected void txtBoxNombre_TextChanged(object sender, EventArgs e)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            string nombre = txtBoxNombre.Text;
+
+            if (productoNegocio.BucarNombre(nombre))
+            {
+                lblNombreExistente.Visible = true;
+                lblNombreExistente.Text = "Ya hay un articulo con este nombre.";
+                txtBoxNombre.Text = "";
+            }
+        }
+
+        protected void btnPreviewImg_Click(object sender, EventArgs e)
+        {
+            imagenURL = txtBoxImagen.Text;
         }
     }
 }

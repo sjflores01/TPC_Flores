@@ -29,6 +29,8 @@
             </div>
         </div>
     </div>
+
+    <%--MODALS--%>
     <div class="modal fade" id="modalErrorLogin" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">

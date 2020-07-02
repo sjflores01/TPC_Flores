@@ -16,6 +16,9 @@
 <body>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server">
+            <%--<Scripts>
+            <asp:ScriptReference Path="~/JS/Validar_FormsAdmin.js" />
+        </Scripts>--%>
         </asp:ScriptManager>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="Default.aspx">MusicApp</a>
@@ -28,7 +31,7 @@
                         <a class="nav-link" href="Default.aspx">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Ventas</a>
+                        <a class="nav-link" href="Ventas.aspx">Ventas</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ABM

@@ -46,9 +46,16 @@ namespace CasaMusica
 
         protected void linkBtnFavorito_Click(object sender, EventArgs e)
         {
-            FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
-            favoritoNegocio.AgregarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
-            artFav = true;
+            if (usuario != null)
+            {
+                FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
+                favoritoNegocio.AgregarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
+                artFav = true;
+            }
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
         }
 
         protected void linkBtnElimFavorito_Click(object sender, EventArgs e)
@@ -68,11 +75,11 @@ namespace CasaMusica
                 {
                     if (carritoUserNegocio.BuscarProductoXCarrito(usuario.IDCarrito, producto.ID))
                     {
-                        carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito,producto.ID,Convert.ToInt32(txtBoxCantidad.Text));
+                        carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
                     }
                     else
                     {
-                        carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID , Convert.ToInt32(txtBoxCantidad.Text));
+                        carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
                     }
                     Response.Redirect("DefaultUser.aspx");
                 }

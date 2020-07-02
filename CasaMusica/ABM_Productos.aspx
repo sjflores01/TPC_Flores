@@ -49,4 +49,29 @@
             <a href="ProductoEdit.aspx" class="btn btn-dark">Agregar Nuevo</a>
         </div>
     </div>
+
+    <%--MODALS--%>
+            <div class="modal fade" id="modalEliminar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Vaja Producto</asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblModalBody" runat="server" Text="">Que queres hacer?</asp:Label>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button Text="Borrar" ID="btnBorrar" CssClass="btn btn-info" OnClick="btnBorrar_Click" runat="server" />
+                                <a href="ABM_Productos.aspx" class="btn btn-info">Volver</a>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+
 </asp:Content>

@@ -15,15 +15,6 @@ namespace CasaMusica
     {
 
         /// <summary>
-        /// Control lblCodigoRequerido.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCodigoRequerido;
-
-        /// <summary>
         /// Control txtBoxCodigo.
         /// </summary>
         /// <remarks>
@@ -51,6 +42,15 @@ namespace CasaMusica
         protected global::System.Web.UI.WebControls.TextBox txtBoxNombre;
 
         /// <summary>
+        /// Control lblNombreExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNombreExistente;
+
+        /// <summary>
         /// Control txtBoxDescripcion.
         /// </summary>
         /// <remarks>
@@ -67,6 +67,15 @@ namespace CasaMusica
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBoxImagen;
+
+        /// <summary>
+        /// Control btnPreviewImg.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPreviewImg;
 
         /// <summary>
         /// Control dropDownMarcas.

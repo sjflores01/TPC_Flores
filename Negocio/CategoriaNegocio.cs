@@ -94,6 +94,37 @@ namespace Negocio
             }
         }
 
+        public bool BuscarNombre(string nombre)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Categorias WHERE Eliminado = 0");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if(nombre == datos.Lector.GetString(1))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Baja(string ID)
         {
             AccesoADatos datos = new AccesoADatos();

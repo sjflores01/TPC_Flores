@@ -34,12 +34,14 @@ namespace CasaMusica
                         lblPrecioFinal.Visible = true;
                         btnFinalizar.Visible = true;
 
-                        if (Request.QueryString["ElimID"] != null)
+                        if (!IsPostBack)
                         {
-                            long IDProducto = Convert.ToInt64(Request.QueryString["ElimID"]);
-                            carritoUserNegocio.EliminarItem(IDProducto, usuario.IDCarrito);
-                            Response.Redirect("Carrito.aspx");
+                            if (Request.QueryString["ElimID"] != null)
+                            {
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminar", "$('#modalEliminar').modal();", true);
+                            }
                         }
+
                         if (Request.QueryString["ModifID"] != null)
                         {
                             Producto producto = new Producto();
@@ -47,7 +49,7 @@ namespace CasaMusica
 
                             if (Request.QueryString["cant"] == "resta")
                             {
-                                if(producto.CantidadElegida == 1)
+                                if (producto.CantidadElegida == 1)
                                 {
                                     carritoUserNegocio.EliminarItem(producto.ID, usuario.IDCarrito);
                                 }
@@ -92,14 +94,14 @@ namespace CasaMusica
             }
         }
 
-        protected void btnAceptarEliminar_Click(object sender, EventArgs e)
+        protected void btnBorrar_Click(object sender, EventArgs e)
         {
+            CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
 
+            long IDProducto = Convert.ToInt64(Request.QueryString["ElimID"]);
+            carritoUserNegocio.EliminarItem(IDProducto, usuario.IDCarrito);
+            Response.Redirect("Carrito.aspx");
         }
 
-        //protected void linkBtnEliminarCarrito_Click(object sender, EventArgs e)
-        //{
-        //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminarCarrito", "$('#modalEliminarCarrito').modal();", true);
-        //}
     }
 }

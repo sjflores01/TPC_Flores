@@ -20,24 +20,30 @@ namespace CasaMusica
             CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
             usuario = (Usuario)Session["sesionUsuario"];
 
-            try
+            if (usuario != null)
             {
-                venta = new Venta();
-                venta.Usuario.ID = usuario.ID;
-                venta.Carrito.ID = usuario.IDCarrito;
-                venta.Carrito.Productos = carritoUserNegocio.CargarListaCarrito(venta.Carrito.ID);
-                listaProductos = venta.Carrito.Productos;
-                venta.Importe = carritoUserNegocio.SumarImporte(venta.Carrito.Productos);
-                venta.Fecha = DateTime.Now;
+                try
+                {
+                    venta = new Venta();
+                    venta.Usuario.ID = usuario.ID;
+                    venta.Carrito.ID = usuario.IDCarrito;
+                    venta.Carrito.Productos = carritoUserNegocio.CargarListaCarrito(venta.Carrito.ID);
+                    listaProductos = venta.Carrito.Productos;
+                    venta.Importe = carritoUserNegocio.SumarImporte(venta.Carrito.Productos);
+                    venta.Fecha = DateTime.Now;
 
-                lblPrecioFinal.Text = venta.Importe.ToString("F2");
+                }
+                catch (Exception ex)
+                {
 
+                    throw ex;
+                }
             }
-            catch (Exception ex)
+            else
             {
-
-                throw;
+                Response.Redirect("DefaultUser.aspx");
             }
+
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
@@ -46,13 +52,21 @@ namespace CasaMusica
             ProductoNegocio productoNegocio = new ProductoNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
-            ventaNegocio.CargarVenta(venta);
-            productoNegocio.ImpactoStock(venta.Carrito.Productos);
+            try
+            {
+                ventaNegocio.CargarVenta(venta);
+                productoNegocio.ImpactoStock(venta.Carrito.Productos);
 
-            usuario = usuarioNegocio.ValidarUsuario(usuario);
-            Session["sesionUsuario"] = usuario;
+                usuario = usuarioNegocio.ValidarUsuario(usuario);
+                Session["sesionUsuario"] = usuario;
 
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalCompraExitosa", "$('#modalCompraExitosa').modal();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalCompraExitosa", "$('#modalCompraExitosa').modal();", true);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
         }
     }

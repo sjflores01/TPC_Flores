@@ -18,9 +18,12 @@ namespace CasaMusica
             ProductoNegocio productoNegocio = new ProductoNegocio();
             try
             {
-                if(Request.QueryString["ID"] != null && Request.QueryString["ID"] != "")
+                if (!IsPostBack)
                 {
-                    productoNegocio.Baja(Request.QueryString["ID"]);
+                    if (Request.QueryString["ID"] != null)
+                    {
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminar", "$('#modalEliminar').modal();", true);
+                    }
                 }
                 listaProductos = productoNegocio.Listar();
 
@@ -30,6 +33,13 @@ namespace CasaMusica
 
                 throw ex;
             }
+        }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            productoNegocio.Baja(Request.QueryString["ID"]);
+            Response.Redirect("ABM_Productos.aspx");
         }
     }
 }

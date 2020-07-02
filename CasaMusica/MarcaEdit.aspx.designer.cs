@@ -24,6 +24,15 @@ namespace CasaMusica
         protected global::System.Web.UI.WebControls.TextBox txtBoxCodigo;
 
         /// <summary>
+        /// Control lblCodigoExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCodigoExistente;
+
+        /// <summary>
         /// Control txtBoxNombre.
         /// </summary>
         /// <remarks>
@@ -33,6 +42,15 @@ namespace CasaMusica
         protected global::System.Web.UI.WebControls.TextBox txtBoxNombre;
 
         /// <summary>
+        /// Control lblNombreExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNombreExistente;
+
+        /// <summary>
         /// Control txtBoxImagen.
         /// </summary>
         /// <remarks>
@@ -40,6 +58,15 @@ namespace CasaMusica
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBoxImagen;
+
+        /// <summary>
+        /// Control btnPreviewImg.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPreviewImg;
 
         /// <summary>
         /// Control btnAceptar.

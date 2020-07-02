@@ -6362,6 +6362,16 @@ INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
 WHERE TU.Nombre LIKE 'Admin'
 GO
 
+CREATE VIEW VW_UsuariosCliente AS
+SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE TU.Nombre LIKE 'Cliente'
+GO
+
+
 CREATE VIEW VW_UltimosUsuarios AS
 SELECT TOP 10 U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
 INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
@@ -6389,7 +6399,7 @@ ORDER BY Cantidad DESC
 GO
 
 CREATE VIEW VW_TopVendidos AS
-SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca , C.Nombre AS Categoria, COUNT(*) AS [Cantidad] FROM Ventas AS V
+SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca , C.Nombre AS Categoria, SUM(PXC.Cantidad) AS [Cantidad] FROM Ventas AS V
 INNER JOIN Productos_X_Carrito AS PXC ON V.IDCarrito = PXC.IDCarrito
 INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
@@ -6397,6 +6407,12 @@ INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
 GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
 ORDER BY Cantidad DESC
 GO
+
+CREATE VIEW VW_ProductosXVenta (
+SELECT  FROM Ventas AS V
+INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
+INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
 
 --Store Procedures
 CREATE PROCEDURE SP_AltaProducto (
@@ -6715,6 +6731,3 @@ UPDATE Carritos SET CarritoVendido = 1 WHERE ID = @IDCarrito
 INSERT INTO Carritos VALUES (@IDUsuario,0)
 END
 GO
-
-
-SELECT * FROM PRODUCTOS_x_CARRITO

@@ -17,12 +17,22 @@ namespace CasaMusica
         {
             MarcaNegocio marcaNegocio = new MarcaNegocio();
 
-            if(Request.QueryString["ID"] != null && Request.QueryString["ID"] != "")
+            if (!IsPostBack)
             {
-                marcaNegocio.Baja(Request.QueryString["ID"]);
+                if (Request.QueryString["ID"] != null)
+                {
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminar", "$('#modalEliminar').modal();", true);
+                }
             }
 
             listadoMarcas = marcaNegocio.Listar();
+        }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            marcaNegocio.Baja(Request.QueryString["ID"]);
+            Response.Redirect("ABM_Marcas.aspx");
         }
     }
 }

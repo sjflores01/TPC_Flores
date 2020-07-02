@@ -100,6 +100,68 @@ namespace Negocio
             }
         }
 
+        public bool BuscarCodigo(string codigo)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Marcas");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if(codigo == datos.Lector.GetString(1))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool BuscarNombre(string nombre)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Marcas WHERE Eliminado = 0");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (nombre == datos.Lector.GetString(2))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Baja(string ID)
         {
             AccesoADatos datos = new AccesoADatos();

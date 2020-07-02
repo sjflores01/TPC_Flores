@@ -76,17 +76,22 @@
     <Content Include="ABM_Usuarios.aspx" />
     <Content Include="Carrito.aspx" />
     <Content Include="CategoriaEdit.aspx" />
+    <Content Include="ClienteDetalle.aspx" />
     <Content Include="Compra.aspx" />
+    <Content Include="CompraDetalle.aspx" />
     <Content Include="Contacto.aspx" />
     <Content Include="CrearUsuario.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultUser.aspx" />
-    <Content Include="JS\Funciones_Cliente.js" />
+    <Content Include="Error.aspx" />
+    <Content Include="JS\Validar_FormsAdmin.js" />
     <Content Include="Login.aspx" />
     <Content Include="MarcaEdit.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="ProductoEdit.aspx" />
     <Content Include="UsuarioEdit.aspx" />
+    <Content Include="VentaDetalle.aspx" />
+    <Content Include="Ventas.aspx" />
     <Content Include="VerDetalle.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -147,12 +152,26 @@
     <Compile Include="CategoriaEdit.aspx.designer.cs">
       <DependentUpon>CategoriaEdit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ClienteDetalle.aspx.cs">
+      <DependentUpon>ClienteDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ClienteDetalle.aspx.designer.cs">
+      <DependentUpon>ClienteDetalle.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Compra.aspx.cs">
       <DependentUpon>Compra.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Compra.aspx.designer.cs">
       <DependentUpon>Compra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CompraDetalle.aspx.cs">
+      <DependentUpon>CompraDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompraDetalle.aspx.designer.cs">
+      <DependentUpon>CompraDetalle.aspx</DependentUpon>
     </Compile>
     <Compile Include="Contacto.aspx.cs">
       <DependentUpon>Contacto.aspx</DependentUpon>
@@ -181,6 +200,13 @@
     </Compile>
     <Compile Include="DefaultUser.aspx.designer.cs">
       <DependentUpon>DefaultUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -217,6 +243,20 @@
     </Compile>
     <Compile Include="UsuarioEdit.aspx.designer.cs">
       <DependentUpon>UsuarioEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VentaDetalle.aspx.cs">
+      <DependentUpon>VentaDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VentaDetalle.aspx.designer.cs">
+      <DependentUpon>VentaDetalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas.aspx.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ventas.aspx.designer.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
     </Compile>
     <Compile Include="VerDetalle.aspx.cs">
       <DependentUpon>VerDetalle.aspx</DependentUpon>

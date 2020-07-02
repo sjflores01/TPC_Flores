@@ -67,5 +67,18 @@ namespace CasaMusica
                 throw ex;
             }
         }
+
+        protected void txtBoxNombre_TextChanged(object sender, EventArgs e)
+        {
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+            string nombre = txtBoxNombre.Text;
+
+            if (categoriaNegocio.BuscarNombre(nombre))
+            {
+                lblNombreExistente.Visible = true;
+                lblNombreExistente.Text = "Ya exuste una marca con este nombre.";
+                txtBoxNombre.Text = "";
+            }
+        }
     }
 }

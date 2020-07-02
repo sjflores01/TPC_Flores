@@ -170,6 +170,37 @@ namespace Negocio
 
         }
 
+        public bool BucarNombre(string nombre)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT * FROM Productos WHERE Eliminado = 0");
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    if (nombre == datos.Lector.GetString(2))
+                    {
+                        datos.CerrarConexion();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public bool BuscarCodigo(string codigo)
         {
             AccesoADatos datos = new AccesoADatos();

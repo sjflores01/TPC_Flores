@@ -4,19 +4,15 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
-
         <div class="row">
-
             <div class="col col-md-6">
-            <h4 class="display-4">Favoritos</h4>
+                <h4 class="display-4">Favoritos</h4>
             </div>
             <div class="col col-md-6">
                 <h4 class="display-4">Datos de Contacto</h4>
             </div>
-
         </div>
         <div class="row">
-
             <div class="col col-md-6">
                 <table class="table table-sm">
                     <thead>
@@ -53,12 +49,35 @@
                         <asp:Button Text="Cerrar Sesion" ID="btnCerrarSesion" CssClass="btn btn-dark" runat="server" OnClick="btnCerrarSesion_Click" />
                     </div>
                 </div>
+                <h4 class="display-4">Mis Pedidos</h4>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nro. Op</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">$</th>
+                                    <th scope="col">Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%foreach (var item in listadoVentas)
+                                    {%>
+                                <tr>
+                                    <td><% = item.ID %></td>
+                                    <td><% = item.Fecha.ToShortDateString() %></td>
+                                    <td><% = item.Importe.ToString("F2") %></td>
+                                    <td><a href="CompraDetalle.aspx?ID=<% = item.ID %>" class="btn btn-dark">Ver</a></td>
+                                </tr>
+                                <%} %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-
-        </div>
-        <div class="row">
             <div class="col offset-10">
-                <a href="DefaultUser.aspx" class="btn btn-primary">Ir al Home</a>
+                <a href="DefaultUser.aspx" class="btn btn-secondary">Ir al Home</a>
             </div>
         </div>
     </div>

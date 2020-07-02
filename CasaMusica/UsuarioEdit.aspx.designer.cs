@@ -60,6 +60,15 @@ namespace CasaMusica
         protected global::System.Web.UI.WebControls.TextBox txtBoxEmail;
 
         /// <summary>
+        /// Control lblEmailExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEmailExistente;
+
+        /// <summary>
         /// Control txtBoxUsuario.
         /// </summary>
         /// <remarks>
@@ -69,6 +78,15 @@ namespace CasaMusica
         protected global::System.Web.UI.WebControls.TextBox txtBoxUsuario;
 
         /// <summary>
+        /// Control lblUsuarioExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUsuarioExistente;
+
+        /// <summary>
         /// Control txtBoxPassword.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace CasaMusica
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBoxPassword;
+
+        /// <summary>
+        /// Control chkBoxVerContraseña.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkBoxVerContraseña;
 
         /// <summary>
         /// Control txtBoxDireccionCalle.

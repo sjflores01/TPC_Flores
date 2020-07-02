@@ -43,7 +43,7 @@ namespace CasaMusica
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorLogin", "#('modalErrorLogin').modal();", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorLogin", "$('#modalErrorLogin').modal();", true);
                 }
             }
             catch (Exception ex)

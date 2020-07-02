@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CasaMusica.Master" AutoEventWireup="true" CodeBehind="CategoriaEdit.aspx.cs" Inherits="CasaMusica.CategoriaEdit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -10,7 +11,10 @@
 
             <div class="form-group col-md-6">
                 <label>Nombre</label>
-                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxNombre" />
+                <asp:TextBox CssClass="form-control" runat="server" ID="txtBoxNombre" OnTextChanged="txtBoxNombre_TextChanged" />
+                <div class="row">
+                    <asp:Label Text="" Visible="false" CssClass="alert alert-danger ml-1 mt-1" ID="lblNombreExistente" runat="server" />
+                </div>
             </div>
 
         </div>

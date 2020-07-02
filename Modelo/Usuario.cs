@@ -15,5 +15,6 @@ namespace Modelo
         public long IDFavorito { get; set; }
         public long IDCarrito { get; set; }
         public bool Eliminado { get; set; }
+
     }
 }
