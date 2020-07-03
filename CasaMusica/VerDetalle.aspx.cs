@@ -48,9 +48,12 @@ namespace CasaMusica
         {
             if (usuario != null)
             {
-                FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
-                favoritoNegocio.AgregarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
-                artFav = true;
+                if (usuario.Tipo == 2)
+                {
+                    FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
+                    favoritoNegocio.AgregarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
+                    artFav = true;
+                }
             }
             else
             {
@@ -60,28 +63,42 @@ namespace CasaMusica
 
         protected void linkBtnElimFavorito_Click(object sender, EventArgs e)
         {
-            FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
-            favoritoNegocio.BorrarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
-            artFav = false;
+            try
+            {
+                if (usuario.Tipo == 2)
+                {
+                    FavoritoNegocio favoritoNegocio = new FavoritoNegocio();
+                    favoritoNegocio.BorrarFavorito(usuario.IDFavorito, Convert.ToInt64(Request.QueryString["ID"]));
+                    artFav = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         protected void btnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
 
             try
             {
                 if (usuario != null)
                 {
-                    if (carritoUserNegocio.BuscarProductoXCarrito(usuario.IDCarrito, producto.ID))
+                    if (usuario.Tipo == 2)
                     {
-                        carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
+                        CarritoUserNegocio carritoUserNegocio = new CarritoUserNegocio();
+                        if (carritoUserNegocio.BuscarProductoXCarrito(usuario.IDCarrito, producto.ID))
+                        {
+                            carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
+                        }
+                        else
+                        {
+                            carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
+                        }
+                        Response.Redirect("DefaultUser.aspx");
                     }
-                    else
-                    {
-                        carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
-                    }
-                    Response.Redirect("DefaultUser.aspx");
                 }
                 else
                 {

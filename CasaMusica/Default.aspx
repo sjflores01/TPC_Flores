@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col col-md-6">
                 <table class="table table-sm">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Fecha</th>
                             <th scope="col">Usuario</th>
@@ -38,7 +38,7 @@
             </div>
             <div class="col col-md-6">
                 <table class="table table-sm">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Codigo</th>
                             <th scope="col">Nombre</th>
@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col col-md-6">
                 <table class="table table-sm">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Codigo</th>
                             <th scope="col">Nombre</th>
@@ -98,7 +98,7 @@
             </div>
             <div class="col col-md-6">
                 <table class="table table-sm">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Fecha</th>
                             <th scope="col">Usuario</th>

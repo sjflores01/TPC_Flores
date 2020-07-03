@@ -19,7 +19,7 @@
         </asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">MusicApp</a>
+                <a class="navbar-brand" href="DefaultUser.aspx">MusicApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -54,12 +54,12 @@
                     </div>
                 </div>
             </nav>
-            <div class="row bg-dark justify-content-center">
-                <%foreach (var item in listaCategoria)
-                    {%>
-                <a class="nav-item nav-link text-light" href="DefaultUser.aspx?list=<% = item.Nombre %>"><% = item.Nombre %></a>
-                <%} %>
-            </div>
+                <div class="row bg-dark justify-content-center">
+                    <%foreach (var item in listaCategoria)
+                        {%>
+                    <a class="nav-item nav-link text-light" href="DefaultUser.aspx?list=<% = item.Nombre %>"><% = item.Nombre %></a>
+                    <%} %>
+                </div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>

@@ -58,7 +58,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">
-                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Vaja Producto</asp:Label>
+                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Baja Producto</asp:Label>
                                 </h4>
                             </div>
                             <div class="modal-body">

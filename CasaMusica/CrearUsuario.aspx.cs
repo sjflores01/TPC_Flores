@@ -36,7 +36,7 @@ namespace CasaMusica
                         txtBoxApellido.Text = usuario.Apellido;
                         txtBoxNombre.Text = usuario.Nombre;
                         txtBoxDni.Text = usuario.Dni.ToString();
-                        txtBoxFechaNac.Text = usuario.FechaNac.ToString();
+                        txtBoxFechaNac.Text = usuario.FechaNac.ToShortDateString();
                         txtBoxEmail.Text = usuario.Contacto.Email;
                         txtBoxUsuario.Text = usuario.NombreUsuario;
                         txtBoxPassword.Text = usuario.Clave;
@@ -99,11 +99,20 @@ namespace CasaMusica
                     }
                     else
                     {
-                        usuarioNegocio.AltaUsuario(usuario);
+                        if (usuarioNegocio.BuscarEmail(usuario.Contacto.Email))
+                        {
+                            lblEmailExistente.Text = "Ya hay un Usuario con ese Email";
+                            lblEmailExistente.Visible = true;
+                            txtBoxEmail.Text = "";
+                        }
+                        else
+                        {
+                            usuarioNegocio.AltaUsuario(usuario);
 
-                        Session.Add("sesionUsuario", usuarioNegocio.ValidarUsuario(usuario));
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
-                        upModal.Update();
+                            Session.Add("sesionUsuario", usuarioNegocio.ValidarUsuario(usuario));
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
+                            upModal.Update();
+                        }
                     }
 
 

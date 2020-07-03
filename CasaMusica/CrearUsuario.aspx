@@ -49,8 +49,8 @@
             <div class="form-group col-md-3">
                 <label>Contraseña</label>
                 <asp:TextBox runat="server" CssClass="form-control mb-3" placeholder="Contraseña" ID="txtBoxPassword" TextMode="Password" />
-                <small class="form-text text-muted">Debe tener entre 4-8 letras o numeros.</small>
-                <asp:RegularExpressionValidator ErrorMessage="Entre 4-8, letras o numeros!" ControlToValidate="txtBoxPassword" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?=.*\d).{4,8}$" />
+                <small class="form-text text-muted">Debe tener entre 4-8 caracteres con letras y numeros.</small>
+                <asp:RegularExpressionValidator ErrorMessage="Clave invalida!" ControlToValidate="txtBoxPassword" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?=.*\d).{4,8}$" />
                 <div class="form-check mb-3">
                     <asp:CheckBox CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" OnCheckedChanged="chkBoxVerContraseña_CheckedChanged" AutoPostBack="true" />
                     <asp:Label Text="Ver Contraseña" CssClass="form-check-label" runat="server" />
@@ -83,7 +83,8 @@
             <div class="form-group col-md-4">
                 <label>Telefono</label>
                 <asp:TextBox runat="server" CssClass="form-control mb-3" placeholder="Telefono" ID="txtBoxTelefono" />
-                <asp:RegularExpressionValidator ErrorMessage="No puede contener + - _ * /" ControlToValidate="txtBoxTelefono" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$" />
+                <small class="form-text text-muted">Si es celular sin 15.</small>
+                <asp:RegularExpressionValidator ErrorMessage="No puede contener 15 + - _ * /" ControlToValidate="txtBoxTelefono" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$" />
             </div>
             <div class="form-group col-md-2">
                 <label>CP</label>
@@ -111,8 +112,8 @@
         </asp:UpdatePanel>
         <div class="row">
             <div class="col offset-9">
-                <asp:Button Text="Aceptar" ID="btnCrearUsuario" CssClass="btn btn-primary mt-4 mb-4" runat="server" OnClick="btnCrearUsuario_Click" />
-                <asp:Button Text="Volver" ID="btnVolver" CssClass="btn btn-primary" runat="server" OnClick="btnVolver_Click" />
+                <asp:Button Text="Aceptar" ID="btnCrearUsuario" CssClass="btn btn-secondary mt-4 mb-4" runat="server" OnClick="btnCrearUsuario_Click" />
+                <a href="Login.aspx" class="btn btn-secondary">Volver</a>
             </div>
         </div>
     </div>

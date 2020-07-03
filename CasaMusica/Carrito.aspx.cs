@@ -20,69 +20,78 @@ namespace CasaMusica
             ProductoNegocio productoNegocio = new ProductoNegocio();
             usuario = (Usuario)Session["sesionUsuario"];
 
-            try
+            if (usuario != null)
             {
-                if (usuario != null)
+
+                try
                 {
-                    lblBienvenida.Text += usuario.NombreUsuario + "!";
-                    listaCarrito = carritoUserNegocio.CargarListaCarrito(usuario.IDCarrito);
-
-                    if (listaCarrito.Count > 0)
+                    if (usuario != null)
                     {
-                        lblCarritoVacio.Visible = false;
-                        lblTextPrecio.Visible = true;
-                        lblPrecioFinal.Visible = true;
-                        btnFinalizar.Visible = true;
+                        lblBienvenida.Text += usuario.NombreUsuario + "!";
+                        listaCarrito = carritoUserNegocio.CargarListaCarrito(usuario.IDCarrito);
 
-                        if (!IsPostBack)
+                        if (listaCarrito.Count > 0)
                         {
-                            if (Request.QueryString["ElimID"] != null)
-                            {
-                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminar", "$('#modalEliminar').modal();", true);
-                            }
-                        }
+                            lblCarritoVacio.Visible = false;
+                            lblTextPrecio.Visible = true;
+                            lblPrecioFinal.Visible = true;
+                            btnFinalizar.Visible = true;
 
-                        if (Request.QueryString["ModifID"] != null)
-                        {
-                            Producto producto = new Producto();
-                            producto = listaCarrito.Find(p => p.ID == Convert.ToInt64(Request.QueryString["ModifID"]));
-
-                            if (Request.QueryString["cant"] == "resta")
+                            if (!IsPostBack)
                             {
-                                if (producto.CantidadElegida == 1)
+                                if (Request.QueryString["ElimID"] != null)
                                 {
-                                    carritoUserNegocio.EliminarItem(producto.ID, usuario.IDCarrito);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminar", "$('#modalEliminar').modal();", true);
                                 }
-
-                                carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, -1);
                             }
-                            else
+
+                            if (Request.QueryString["ModifID"] != null)
                             {
-                                if (productoNegocio.ChequearStock(producto, producto.CantidadElegida + 1))
+                                Producto producto = new Producto();
+                                producto = listaCarrito.Find(p => p.ID == Convert.ToInt64(Request.QueryString["ModifID"]));
+
+                                if (Request.QueryString["cant"] == "resta")
                                 {
-                                    carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, 1);
+                                    if (producto.CantidadElegida == 1)
+                                    {
+                                        carritoUserNegocio.EliminarItem(producto.ID, usuario.IDCarrito);
+                                    }
+
+                                    carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, -1);
                                 }
                                 else
                                 {
-                                    lblNoStock.Visible = true;
+                                    if (productoNegocio.ChequearStock(producto, producto.CantidadElegida + 1))
+                                    {
+                                        carritoUserNegocio.ModificarProductoXCarrito(usuario.IDCarrito, producto.ID, 1);
+                                    }
+                                    else
+                                    {
+                                        lblNoStock.Visible = true;
+                                    }
                                 }
+                                Response.Redirect("Carrito.aspx");
                             }
-                            Response.Redirect("Carrito.aspx");
-                        }
 
-                        lblPrecioFinal.Text = carritoUserNegocio.SumarImporte(listaCarrito).ToString("F2");
-                    }
-                    else
-                    {
-                        lblCarritoVacio.Visible = true;
+                            lblPrecioFinal.Text = carritoUserNegocio.SumarImporte(listaCarrito).ToString("F2");
+                        }
+                        else
+                        {
+                            lblCarritoVacio.Visible = true;
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
 
-                throw ex;
+                    throw ex;
+                }
             }
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
+
 
         }
 

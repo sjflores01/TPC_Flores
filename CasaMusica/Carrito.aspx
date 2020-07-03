@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div class="row">
-            <asp:Label Text="Hola " CssClass="display-3 text-info" ID="lblBienvenida" runat="server" />
+            <asp:Label Text="Hola " CssClass="display-3 text-secondary" ID="lblBienvenida" runat="server" />
         </div>
     </div>
     <div class="container">
@@ -80,7 +80,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <asp:Button Text="Volver a Home" CssClass="btn btn-primary" ID="btnVolver" runat="server" PostBackUrl="~/DefaultUser.aspx" />
+                <asp:Button Text="Volver a Home" CssClass="btn btn-secondary" ID="btnVolver" runat="server" PostBackUrl="~/DefaultUser.aspx" />
             </div>
         </div>
     </div>

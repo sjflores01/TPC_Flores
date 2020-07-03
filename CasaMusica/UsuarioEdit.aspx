@@ -49,8 +49,8 @@
             <div class="form-group col-md-3">
                 <label>Contraseña</label>
                 <asp:TextBox runat="server" CssClass="form-control mb-3" placeholder="Contraseña" ID="txtBoxPassword" TextMode="Password" />
-                <small class="form-text text-muted">Debe tener entre 4-8 letras o numeros.</small>
-                <asp:RegularExpressionValidator ErrorMessage="Entre 4-8, letras o numeros!" ControlToValidate="txtBoxPassword" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?=.*\d).{4,8}$" />
+                <small class="form-text text-muted">Debe tener entre 4-8 letras y numeros.</small>
+                <asp:RegularExpressionValidator ErrorMessage="Entre 4-8 letras y numeros!" ControlToValidate="txtBoxPassword" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?=.*\d).{4,8}$" />
                 <div class="form-check mb-3">
                     <asp:CheckBox CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" OnCheckedChanged="chkBoxVerContraseña_CheckedChanged" AutoPostBack="true" />
                     <asp:Label Text="Ver Contraseña" CssClass="form-check-label" runat="server" />
@@ -83,6 +83,7 @@
             <div class="form-group col-md-4">
                 <label>Telefono</label>
                 <asp:TextBox runat="server" CssClass="form-control mb-3" placeholder="Telefono" ID="txtBoxTelefono" />
+                <small class="form-text text-muted">Sin codigo de area de Pais.</small>
                 <asp:RegularExpressionValidator ErrorMessage="No puede contener + - _ * /" ControlToValidate="txtBoxTelefono" CssClass="alert alert-danger" runat="server" ValidationExpression="^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$" />
             </div>
             <div class="form-group col-md-2">

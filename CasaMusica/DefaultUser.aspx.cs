@@ -45,7 +45,8 @@ namespace CasaMusica
         {
             ProductoNegocio productoNegocio = new ProductoNegocio();
 
-            listaProductos = productoNegocio.Listar().FindAll(p => p.Nombre.ToLower().Contains(txtBoxBuscar.Text.ToLower()));
+            listaProductos = productoNegocio.Listar().FindAll(p => p.Nombre.ToLower().Contains(txtBoxBuscar.Text.ToLower()) || p.Marca.Nombre.ToLower().Contains(txtBoxBuscar.Text.ToLower())
+                                                                || p.Categoria.Nombre.ToLower().Contains(txtBoxBuscar.Text.ToLower()));
         }
     }
 }
