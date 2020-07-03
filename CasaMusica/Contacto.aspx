@@ -3,6 +3,29 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script>
+        function ValidarFormContacto() {
+            var nombre = $("#txtBoxNombre").value;
+            var email = $("#txtBoxEmail").value;
+            var mensaje = $('#txtBoxMensaje').value;
+            var result = true;
+
+            if (nombre === undefined) {
+                $("#txtBoxNombre").addClass("is-invalid");
+                result = false;
+            }
+            if (email === "") {
+                $("#txtBoxEmail").addClass("is-invalid");
+                result = false;
+            }
+            if (mensaje === "") {
+                $("#txtBoxMensaje").addClass("is-invalid");
+                result = false;
+            }
+
+            return result;
+        }
+    </script>
     <div class="container">
         <div class="row">
             <div class="col col-md-6">
@@ -38,7 +61,7 @@
                     <asp:Label Text="Mensaje: " CssClass="form-text" Font-Size="X-Large" runat="server" />
                     <asp:TextBox CssClass="form-control" ID="txtBoxMensaje" TextMode="MultiLine" runat="server" />
                 </div>
-                <asp:Button Text="Enviar" CssClass="btn btn-secondary" runat="server" />
+                <asp:Button Text="Enviar" CssClass="btn btn-secondary" runat="server" OnClientClick="return ValidarFormContacto()" />
             </div>
         </div>
     </div>

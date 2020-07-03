@@ -3,94 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <script>
-        function ValidarFormProductoEdit() {
-
-            var codigo = $("#<% = txtBoxCodigo %>").value;
-            var nombre = $("#<% = txtBoxNombre %>").value;
-            var descripcion = $("#<% = txtBoxDescripcion %>").value;
-            var imagenURL = $("#<% = txtBoxImagen %>").value;
-            var precio = $("#<% = txtBoxPrecio %>").value;
-            var stock = $("#<% = txtBoxStock %>").value;
-            var marca = $("#<% = dropDownMarcas %>").value;
-            var categoria = $("#<% = dropDownCategorias %>").value;
-            var result = true;
-
-            if (codigo === "") {
-                $("#<% = txtBoxCodigo %>").removeClass("is-valid");
-                $("#<% = txtBoxCodigo %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxCodigo %>").removeClass("is-invalid");
-                $("#<% = txtBoxCodigo %>").addClass("is-valid");
-            }
-
-            if (nombre === "") {
-                $("#<% = txtBoxNombre %>").removeClass("is-valid");
-                $("#<% = txtBoxNombre %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxNombre %>").removeClass("is-invalid");
-                $("#<% = txtBoxNombre %>").addClass("is-valid");
-            }
-
-            if (descripcion === "") {
-                $("#<% = txtBoxDescripcion %>").removeClass("is-valid");
-                $("#<% = txtBoxDescripcion %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxDescripcion %>").removeClass("is-invalid");
-                $("#<% = txtBoxDescripcion %>").addClass("is-valid");
-            }
-
-            if (imagenURL === "") {
-                $("#<% = txtBoxImagen %>").removeClass("is-valid");
-                $("#<% = txtBoxImagen %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxImagen %>").removeClass("is-invalid");
-                $("#<% = txtBoxImagen %>").addClass("is-valid");
-            }
-
-            if (precio === "") {
-                $("#<% = txtBoxPrecio %>").removeClass("is-valid");
-                $("#<% = txtBoxPrecio %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxPrecio %>").removeClass("is-invalid");
-                $("#<% = txtBoxPrecio %>").addClass("is-valid");
-            }
-
-            if (stock === "") {
-                $("#<% = txtBoxStock %>").removeClass("is-valid");
-                $("#<% = txtBoxStock %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = txtBoxStock %>").removeClass("is-invalid");
-                $("#<% = txtBoxStock %>").addClass("is-valid");
-            }
-
-            if (marca === 0) {
-                $("#<% = dropDownMarcas %>").removeClass("is-valid");
-                $("#<% = dropDownMarcas %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = dropDownMarcas %>").removeClass("is-invalid");
-                $("#<% = dropDownMarcas %>").addClass("is-valid");
-            }
-
-            if (categoria === 0) {
-                $("#<% = dropDownCategorias %>").removeClass("is-valid");
-                $("#<% = dropDownCategorias %>").addClass("is-invalid");
-                result = false;
-            } else {
-                $("#<% = dropDownCategorias %>").removeClass("is-invalid");
-                $("#<% = dropDownCategorias %>").addClass("is-valid");
-            }
-
-            return result;
-        }
-    </script>
     <div class="container">
         <div class="row pb-3">
             <asp:Label Text="Alta/Modificacion Productos" class="display-4" runat="server" />
@@ -124,7 +36,8 @@
                 <div class="form-group">
                     <label>URL Imagen</label>
                     <asp:TextBox Text="" CssClass="form-control" runat="server" ID="txtBoxImagen" />
-                    <asp:Button Text="Vista Previa" CssClass="btn btn-secondary" ClientIDMode="Static" ID="btnPreviewImg" runat="server" OnClick="btnPreviewImg_Click" />
+                    <asp:Button Text="Vista Previa" CssClass="btn btn-secondary mt-2" ClientIDMode="Static" ID="btnPreviewImg" runat="server" OnClick="btnPreviewImg_Click" />
+                    <asp:RegularExpressionValidator runat="server" CssClass="alert alert-danger" ControlToValidate="txtBoxImagen" ErrorMessage="URL Invalida" ValidationExpression="http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&amp;=]*)?"></asp:RegularExpressionValidator>
                     <img src="<% = imagenURL %>" class="img-thumbnail" alt="Error al cargar URL" widht="100px" />
                 </div>
             </ContentTemplate>
@@ -145,16 +58,41 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-4">
                 <label>Precio</label>
-                <asp:TextBox Text="" CssClass="form-control" runat="server" ClientIDMode="Static" ID="txtBoxPrecio" />
+                <asp:TextBox Text="" CssClass="form-control mb-3" runat="server" ClientIDMode="Static" ID="txtBoxPrecio" />
+                <asp:RegularExpressionValidator runat="server" CssClass="alert alert-danger" ControlToValidate="txtBoxPrecio" ErrorMessage="Dato incorrecto" ValidationExpression="^\d+(\,\d\d)?$"></asp:RegularExpressionValidator>
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-4">
                 <label>Stock</label>
-                <asp:TextBox Text="" CssClass="form-control" runat="server" ClientIDMode="Static" ID="txtBoxStock" />
+                <asp:TextBox Text="" CssClass="form-control mb-3" type="number" runat="server" ClientIDMode="Static" ID="txtBoxStock" />
+                <asp:RegularExpressionValidator runat="server" CssClass="alert alert-danger" ControlToValidate="txtBoxStock" Display="Dynamic" ErrorMessage="Dato incorrecto" ValidationExpression="\d+"></asp:RegularExpressionValidator>
             </div>
         </div>
-        <asp:Button CssClass="btn btn-secondary" Text="Agregar" runat="server" ID="btnAgregar" OnClientClick="return ValidarFormProductoEdit()" OnClick="btnAgregar_Click" />
-        <a href="ABM_Productos.aspx" class="btn btn-primary">Volver</a>
+        <asp:Button CssClass="btn btn-secondary mb-5" Text="Agregar" runat="server" ID="btnAgregar" OnClientClick="return ValidarFormProductoEdit()" OnClick="btnAgregar_Click" />
+        <a href="ABM_Productos.aspx" class="btn btn-secondary mb-5">Volver</a>
     </div>
+
+     <%--MODALS--%>
+    <div class="modal fade" id="modalErrorForm" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <asp:Label ID="lblModalTitle" runat="server" Text="">Error!</asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblModalBody" runat="server" Text="">Debés completar todos los campos antes de continuar.</asp:Label>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
 </asp:Content>

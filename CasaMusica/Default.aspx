@@ -117,6 +117,7 @@
                     </tbody>
                 </table>
             </div>
+            <asp:Button Text="Cerrar Sesion" CssClass="btn btn-secondary" ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" runat="server" />
         </div>
     </div>
 

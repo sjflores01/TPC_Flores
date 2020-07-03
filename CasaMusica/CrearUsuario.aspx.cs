@@ -60,57 +60,65 @@ namespace CasaMusica
 
         protected void btnCrearUsuario_Click(object sender, EventArgs e)
         {
-            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-
-            try
+            if (ValidarForm())
             {
-                usuario = (Usuario)Session["sesionUsuario"];
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
-                if (usuario == null)
+                try
                 {
-                    usuario = new Usuario();
+                    usuario = (Usuario)Session["sesionUsuario"];
+
+                    if (usuario == null)
+                    {
+                        usuario = new Usuario();
+                    }
+
+                    usuario.Eliminado = false;
+                    usuario.Tipo = 2;
+                    usuario.Apellido = txtBoxApellido.Text;
+                    usuario.Nombre = txtBoxNombre.Text;
+                    usuario.Dni = Convert.ToInt32(txtBoxDni.Text);
+                    usuario.FechaReg = DateTime.Now;
+                    usuario.FechaNac = Convert.ToDateTime(txtBoxFechaNac.Text);
+                    usuario.Clave = txtBoxPassword.Text;
+                    usuario.NombreUsuario = txtBoxUsuario.Text;
+                    usuario.Contacto.Email = txtBoxEmail.Text;
+                    usuario.Contacto.Telefono = txtBoxTelefono.Text;
+                    usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
+                    usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
+                    usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
+                    usuario.Contacto.Direccion.Dpto = txtBoxDireccionDpto.Text;
+                    usuario.Contacto.Direccion.Localidad.ID = Convert.ToInt32(dropDownLocal.SelectedValue);
+                    usuario.Contacto.Direccion.CP = txtBoxCP.Text;
+
+                    if (usuario.ID != 0)
+                    {
+                        usuarioNegocio.ModificarUsuario(usuario);
+                        Session["sesionUsuario"] = usuario;
+                        Response.Redirect("Perfil.aspx");
+                    }
+                    else
+                    {
+                        usuarioNegocio.AltaUsuario(usuario);
+
+                        Session.Add("sesionUsuario", usuarioNegocio.ValidarUsuario(usuario));
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
+                        upModal.Update();
+                    }
+
+
+
                 }
-
-                usuario.Eliminado = false;
-                usuario.Tipo = 2;
-                usuario.Apellido = txtBoxApellido.Text;
-                usuario.Nombre = txtBoxNombre.Text;
-                usuario.Dni = Convert.ToInt32(txtBoxDni.Text);
-                usuario.FechaReg = DateTime.Now;
-                usuario.FechaNac = Convert.ToDateTime(txtBoxFechaNac.Text);
-                usuario.Clave = txtBoxPassword.Text;
-                usuario.NombreUsuario = txtBoxUsuario.Text;
-                usuario.Contacto.Email = txtBoxEmail.Text;
-                usuario.Contacto.Telefono = txtBoxTelefono.Text;
-                usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
-                usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
-                usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
-                usuario.Contacto.Direccion.Dpto = txtBoxDireccionDpto.Text;
-                usuario.Contacto.Direccion.Localidad.ID = Convert.ToInt32(dropDownLocal.SelectedValue);
-                usuario.Contacto.Direccion.CP = txtBoxCP.Text;
-
-                if (usuario.ID != 0)
+                catch (Exception ex)
                 {
-                    usuarioNegocio.ModificarUsuario(usuario);
-                    Session["sesionUsuario"] = usuario;
-                    Response.Redirect("Perfil.aspx");
+
+                    throw ex;
                 }
-                else
-                {
-                    usuarioNegocio.AltaUsuario(usuario);
-
-                    Session.Add("sesionUsuario", usuarioNegocio.ValidarUsuario(usuario));
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
-                    upModal.Update();
-                }
-
-
 
             }
-            catch (Exception ex)
+            else
             {
-
-                throw ex;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorForm", "$('#modalErrorForm').modal();", true);
             }
         }
 
@@ -161,6 +169,83 @@ namespace CasaMusica
 
                 throw ex;
             }
+        }
+
+        protected void chkBoxVerContraseña_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkBoxVerContraseña.Checked)
+            {
+                txtBoxPassword.TextMode = TextBoxMode.SingleLine;
+            }
+            else
+            {
+                txtBoxPassword.TextMode = TextBoxMode.Password;
+            }
+        }
+
+        public bool ValidarForm()
+        {
+            if (IsPostBack)
+            {
+                if (txtBoxApellido.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxNombre.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxUsuario.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxEmail.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxPassword.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxCP.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxDireccionCalle.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxDireccionNumero.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxPassword.Text == "")
+                {
+                    return false;
+                }
+                if (dropDownProv.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (dropDownDpto.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (dropDownLocal.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (txtBoxTelefono.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxFechaNac.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -39,33 +39,41 @@ namespace CasaMusica
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            try
+            if (ValidarForm())
             {
-                if (categoria == null)
+                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                try
                 {
-                    categoria = new Categoria();
+                    if (categoria == null)
+                    {
+                        categoria = new Categoria();
+                    }
+
+                    categoria.Nombre = txtBoxNombre.Text;
+
+                    if (categoria.ID != 0)
+                    {
+                        categoriaNegocio.Modificar(categoria);
+                    }
+                    else
+                    {
+                        categoriaNegocio.Agregar(categoria);
+                    }
+
+                    Response.Redirect("ABM_Categorias.aspx");
+
                 }
-
-                categoria.Nombre = txtBoxNombre.Text;
-
-                if (categoria.ID != 0)
+                catch (Exception ex)
                 {
-                    categoriaNegocio.Modificar(categoria);
-                }
-                else
-                {
-                    categoriaNegocio.Agregar(categoria);
-                }
 
-                Response.Redirect("ABM_Categorias.aspx");
-
+                    throw ex;
+                }
             }
-            catch (Exception ex)
+            else
             {
-
-                throw ex;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorForm", "$('#modalErrorForm').modal();", true);
             }
+
         }
 
         protected void txtBoxNombre_TextChanged(object sender, EventArgs e)
@@ -79,6 +87,19 @@ namespace CasaMusica
                 lblNombreExistente.Text = "Ya exuste una marca con este nombre.";
                 txtBoxNombre.Text = "";
             }
+        }
+
+        public bool ValidarForm()
+        {
+            if (IsPostBack)
+            {
+                if (txtBoxNombre.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

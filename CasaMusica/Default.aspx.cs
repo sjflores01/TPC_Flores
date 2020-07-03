@@ -18,14 +18,32 @@ namespace CasaMusica
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-            VentaNegocio ventaNegocio = new VentaNegocio();
-            ProductoNegocio productoNegocio = new ProductoNegocio();
+            if (!IsPostBack)
+            {
+                try
+                {
+                    UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                    VentaNegocio ventaNegocio = new VentaNegocio();
+                    ProductoNegocio productoNegocio = new ProductoNegocio();
 
-            listaUltimosUsuarios = usuarioNegocio.ListarUltimos();
-            listaUltimasVentas = ventaNegocio.ListarUltimas();
-            listaMasVendidos = productoNegocio.ListarMasVendidos();
-            listaMasLikeados = productoNegocio.ListarMasLikeados();
+                    listaUltimosUsuarios = usuarioNegocio.ListarUltimos();
+                    listaUltimasVentas = ventaNegocio.ListarUltimas();
+                    listaMasVendidos = productoNegocio.ListarMasVendidos();
+                    listaMasLikeados = productoNegocio.ListarMasLikeados();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
+            }
+        }
+
+        protected void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Session["sesionUsuario"] = null;
+            Response.Redirect("DefaultUser.aspx");
         }
     }
 }

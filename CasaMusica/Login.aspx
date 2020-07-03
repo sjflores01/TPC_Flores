@@ -8,14 +8,15 @@
             <div class="col-4 offset-4">
                 <div class="form-group">
                     <label>Email</label>
-                    <asp:TextBox runat="server" ID="txtBoxEmail" CssClass="form-control" />
+                    <asp:TextBox runat="server" ID="txtBoxEmail" CssClass="form-control mb-3" />
+                    <asp:RegularExpressionValidator ErrorMessage="Ingrese un Email valido!" ControlToValidate="txtBoxEmail" CssClass="alert alert-danger mt-4" runat="server" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
                 </div>
                 <div class="form-group">
                     <label>Contraseña</label>
                     <asp:TextBox runat="server" CssClass="form-control" ID="txtBoxPassword" TextMode="Password" />
                 </div>
                     <div class="form-check mb-3">
-                        <asp:CheckBox CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" OnCheckedChanged="chkBoxVerContraseña_CheckedChanged" />
+                        <asp:CheckBox CssClass="form-check-input" runat="server" ID="chkBoxVerContraseña" OnCheckedChanged="chkBoxVerContraseña_CheckedChanged" AutoPostBack="true" />
                         <asp:Label Text="Ver Contraseña" CssClass="form-check-label" runat="server" />
                     </div>
                 <asp:Button Text="Iniciar Sesion" ID="btnIniciarSesion" CssClass="btn btn-primary" runat="server" OnClick="btnIniciarSesion_Click" />
@@ -42,7 +43,7 @@
                                 </h4>
                             </div>
                             <div class="modal-body">
-                                <asp:Label ID="lblModalBody" runat="server" Text="">Que queres hacer?</asp:Label>
+                                <asp:Label ID="lblModalBody" runat="server" Text="">Email o Clave incorrectos</asp:Label>
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cerrar</button>

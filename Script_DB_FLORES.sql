@@ -6,6 +6,8 @@ CREATE DATABASE DB_FLORES
 GO
 USE DB_FLORES
 GO
+
+-------------------------------------Tablas----------------------------------------------
 CREATE TABLE Productos(
 	ID bigint not null IDENTITY(1,1),
 	Codigo varchar(10) not null,
@@ -109,7 +111,10 @@ CREATE TABLE Ventas(
 )
 GO
 
---Primary Keys
+
+
+
+----------------------------------------Primary Keys---------------------------------------------
 
 ALTER TABLE Productos
 ADD CONSTRAINT PK_Producto PRIMARY KEY(ID)
@@ -148,7 +153,7 @@ ALTER TABLE Ventas
 ADD CONSTRAINT PK_Venta PRIMARY KEY(ID)
 GO
 
---Unique Keys
+--------------------------------Unique Keys--------------------------------------
 ALTER TABLE Usuarios
 ADD CONSTRAINT UQ_Usuario UNIQUE(Email)
 GO
@@ -157,9 +162,7 @@ ADD CONSTRAINT UQ_UsuarioFavoritos UNIQUE(IDUsuario)
 GO
 
 
-
-
---Foreing Keys
+---------------------------------------Foreing Keys-----------------------------------------------
 ALTER TABLE Productos
 ADD CONSTRAINT FK_ProductosMarca FOREIGN KEY(IDMarca) REFERENCES Marcas(ID)
 GO
@@ -200,7 +203,408 @@ ALTER TABLE Ventas
 ADD CONSTRAINT FK_VentasCarrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
 go
 
---Datos
+
+
+--------------------------------Views--------------------------------------------
+
+CREATE VIEW VW_ProductosLista AS
+SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre, M.ImagenURL AS Marca_ImagenURL, M.Eliminado AS Marca_Eliminado,
+ C.ID AS Categoria_ID, C.Nombre AS Categoria_Nombre, C.Eliminado AS Categoria_Eliminado
+FROM Productos AS P
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias as C ON P.IDCategoria = C.ID
+
+CREATE VIEW VW_UsuariosAdmin AS
+SELECT U.*, L.Nombre AS Localidad, D.ID AS Departamento, P.ID AS Provincia FROM Usuarios AS U
+INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE TU.Nombre LIKE 'Admin'
+GO
+
+CREATE VIEW VW_UsuariosCliente AS
+SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE TU.Nombre LIKE 'Cliente'
+GO
+
+CREATE VIEW VW_UltimosUsuarios AS
+SELECT TOP 10 U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
+INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+WHERE TU.Nombre LIKE 'Cliente'
+ORDER BY U.FechaReg DESC
+GO
+
+CREATE VIEW VW_UltimasVentas AS
+SELECT TOP 5 V.ID, V.Fecha, U.NombreUsuario, V.Importe FROM Ventas AS V
+INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID
+ORDER BY V.Fecha DESC
+GO
+
+CREATE VIEW VW_TopFavoritos AS
+SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca, C.Nombre AS Categoria, COUNT(*) AS [Cantidad] FROM Favoritos as F
+INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
+INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
+ORDER BY Cantidad DESC
+GO
+
+CREATE VIEW VW_TopVendidos AS
+SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca , C.Nombre AS Categoria, SUM(PXC.Cantidad) AS [Cantidad] FROM Ventas AS V
+INNER JOIN Productos_X_Carrito AS PXC ON V.IDCarrito = PXC.IDCarrito
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
+ORDER BY Cantidad DESC
+GO
+
+CREATE VIEW VW_ProductosXVenta (
+SELECT  FROM Ventas AS V
+INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
+INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+
+
+
+
+-----------------------------Store Procedures--------------------------------------------
+
+CREATE PROCEDURE SP_AltaProducto (
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@Descripcion varchar(150),
+	@ImagenURL varchar(200),
+	@Precio money,
+	@Stock bigint,
+	@IDMarca bigint,
+	@IDCategoria int,
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Productos VALUES(@Codigo,@Nombre,@Descripcion,@ImagenURL,@Precio,@Stock,@IDMarca,@IDCategoria,@Eliminado)
+END
+GO
+
+CREATE PROCEDURE SP_AltaMarca (
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@ImagenURL varchar(200),
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Marcas VALUES(@Codigo,@Nombre,@ImagenURL,@Eliminado)
+END
+GO
+
+CREATE PROCEDURE SP_AltaCategoria (
+	@Nombre varchar(60),
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Categorias VALUES(@Nombre, @Eliminado)
+END
+GO
+
+CREATE PROCEDURE SP_BajaProducto (
+	@ID bigint ) AS
+BEGIN
+UPDATE Productos SET Eliminado = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaMarca (
+	@ID bigint ) AS
+BEGIN
+UPDATE Marcas SET Eliminado = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaCategoria (
+	@ID bigint ) AS
+BEGIN
+UPDATE Categorias SET Eliminado = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModifProducto (
+	@ID bigint,
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@Descripcion varchar(150),
+	@ImagenURL varchar(200),
+	@Precio money,
+	@Stock bigint,
+	@IDMarca bigint,
+	@IDCategoria int) AS
+BEGIN
+UPDATE Productos SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, ImagenURL = @ImagenURL, Precio = @Precio,
+					 Stock = @Stock, IDMarca = @IDMarca, IDCategoria = @IDCategoria
+				WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModifStock (
+	@IDProducto bigint,
+	@NuevoStock bigint ) AS
+BEGIN
+UPDATE Productos SET Stock = @NuevoStock WHERE ID=@IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_ChequearStock (
+	@IDProducto bigint ) AS
+BEGIN
+SELECT Stock FROM Productos WHERE ID = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_ModifMarca (
+	@ID bigint,
+	@Codigo varchar(10),
+	@Nombre varchar(60),
+	@ImagenURL varchar(200) ) AS
+BEGIN
+UPDATE Marcas SET Codigo = @Codigo, Nombre = @Nombre, ImagenURL = @ImagenURL WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModifCategoria (
+	@ID bigint,
+	@Nombre varchar(60) ) AS
+BEGIN
+UPDATE Categorias SET Nombre = @Nombre WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_AltaUsuario (
+	@Email varchar(50),
+	@Clave varchar(10),
+	@NombreUsuario varchar(150),
+	@Nombres varchar(100),
+	@Apellidos varchar(100),
+	@Dni int,
+	@IDTipo int,
+	@Calle varchar(50),
+	@Numero int,
+	@Piso varchar(30),
+	@Dpto varchar(30),
+	@Telefono varchar(30),
+	@IDLocalidad int,
+	@CP varchar(10),
+	@FechaNac date,
+	@FechaReg date,
+	@Eliminado bit ) AS
+BEGIN
+INSERT INTO Usuarios VALUES (@Email, @Clave, @NombreUsuario, @Nombres, @Apellidos, @Dni, @IDTipo, @Calle, @Numero, @Piso, @Dpto, @Telefono, @IDLocalidad, @CP, @FechaNac, @FechaReg, @Eliminado)
+END
+GO
+
+CREATE PROCEDURE SP_ModificarUsuario (
+	@ID bigint,
+	@Email varchar(50),
+	@Clave varchar(10),
+	@NombreUsuario varchar(150),
+	@Nombres varchar(100),
+	@Apellidos varchar(100),
+	@Dni int,
+	@IDTipo int,
+	@Calle varchar(50),
+	@Numero int,
+	@Piso varchar(30),
+	@Dpto varchar(30),
+	@Telefono varchar(30),
+	@IDLocalidad int,
+	@CP varchar(10),
+	@FechaNac date ) AS
+BEGIN
+UPDATE Usuarios SET Email = @Email, Clave = @Clave, NombreUsuario = @NombreUsuario, Nombres = @Nombres, Apellidos = @Apellidos, Dni = @Dni,
+Calle = @Calle, Numero = @Numero, Piso = @Piso, Dpto = @Dpto, Telefono = @Telefono, IDLocalidad = @IDLocalidad, CP = @CP, FechaNac = @FechaNac
+WHERE @ID = ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaUsuario (
+	@ID bigint ) AS
+BEGIN
+UPDATE Usuarios SET Eliminado = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ValidarUsuario (
+	@Email varchar(100),
+	@Clave varchar(10) ) AS
+BEGIN
+SELECT U.*, D.ID, P.ID, F.ID, C.ID FROM Usuarios AS U
+INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
+INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
+INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
+INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
+INNER JOIN Carritos AS C ON U.ID = C.IDUsuario
+WHERE Email = @EMail AND Clave = @Clave AND C.CarritoVendido = 0
+END
+GO
+
+CREATE PROCEDURE SP_ListarFavoritos (
+	@IDFavorito bigint ) AS
+BEGIN
+SELECT P.Eliminado, P.ID, P.Nombre, M.Nombre AS Marca, P.Precio FROM Favoritos AS F
+INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
+INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+WHERE F.ID = @IDFavorito
+END
+GO
+
+CREATE PROCEDURE SP_AgregarFavorito (
+	@IDFavorito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+INSERT INTO Productos_X_Favoritos VALUES (@IDFavorito, @IDProducto)
+END
+GO
+
+CREATE PROCEDURE SP_EliminarFavorito (
+	@IDFavorito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+DELETE FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_ContarFavoritos (
+	@IDFavorito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+SELECT COUNT(*) FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_FiltrarDptoXProv (
+	@IDProvincia int ) AS
+BEGIN
+SELECT * FROM Departamentos
+WHERE IDProvincia = @IDProvincia
+END
+GO
+
+CREATE PROCEDURE SP_FiltrarLocalidadXDpto (
+	@IDDepartamento int ) AS
+BEGIN
+SELECT * FROM Localidades
+WHERE IDDepartamento = @IDDepartamento
+END
+GO
+
+CREATE PROCEDURE SP_BuscarCarrito (
+	@IDUsuario bigint ) AS
+BEGIN
+SELECT * FROM Carritos WHERE IDUsuario = @IDUsuario AND CarritoVendido = 0
+END
+GO
+
+CREATE PROCEDURE SP_CargarProducto_X_Carrito (
+	@IDCarrito bigint,
+	@IDProducto bigint,
+	@Cantidad int) AS
+BEGIN
+INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto, @Cantidad)
+END
+GO
+
+CREATE PROCEDURE SP_ModifCantidadProductoXCarrito (
+	@IDCarrito bigint,
+	@IDProducto bigint,
+	@Cantidad int ) AS
+BEGIN
+UPDATE Productos_X_Carrito SET Cantidad += @Cantidad WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_BuscarProductoXCarrito (
+	@IDCarrito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+SELECT @IDProducto FROM Productos_X_Carrito WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_ListarProductos_X_Carrito (
+	@IDCarrito bigint ) AS
+BEGIN
+SELECT P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, P.Stock, PXC.IDCarrito, PXC.IDProducto, PXC.Cantidad FROM Productos_X_Carrito AS PXC
+INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+INNER JOIN Marcas AS M ON P.IDMarca = M.ID
+INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
+WHERE PXC.IDCarrito = @IDCarrito
+END
+GO
+
+CREATE PROCEDURE SP_EliminarProductosXCarrito (
+	@IDCarrito bigint,
+	@IDProducto bigint ) AS
+BEGIN
+DELETE FROM Productos_X_Carrito WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
+END
+GO
+
+CREATE PROCEDURE SP_CargarVenta (
+	@IDCarrito bigint,
+	@IDUsuario bigint,
+	@Importe money ) AS
+BEGIN
+INSERT INTO Ventas VALUES (@IDCarrito, @IDUsuario, @Importe,GETDATE())
+END
+GO
+
+--Triggers
+
+CREATE TRIGGER TR_FavoritosXUsuario 
+ON Usuarios
+AFTER INSERT AS
+BEGIN
+DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
+DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
+IF(@IDTipo = 2) INSERT INTO Favoritos VALUES (@IDUsuario)
+END
+GO
+
+CREATE TRIGGER TR_CarritoXUsuario 
+ON Usuarios
+AFTER INSERT AS
+BEGIN
+DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
+DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
+IF(@IDTipo = 2) INSERT INTO Carritos VALUES (@IDUsuario,0)
+END
+GO
+
+CREATE TRIGGER TR_SetearCarritoVendido
+ON Ventas
+AFTER INSERT AS
+BEGIN
+DECLARE @IDCarrito bigint = (SELECT IDCarrito FROM inserted)
+DECLARE @IDUsuario bigint = (SELECT IDUsuario FROM inserted)
+UPDATE Carritos SET CarritoVendido = 1 WHERE ID = @IDCarrito
+INSERT INTO Carritos VALUES (@IDUsuario,0)
+END
+GO
+
+
+
+
+
+
+
+
+
+----------------------------------------Datos-----------------------------------------
 
 INSERT INTO Categorias
 VALUES('Guitarras',0)
@@ -232,9 +636,6 @@ GO
 INSERT INTO Productos
 VALUES('BAS01','Fender Jazz Bass','Bajo Electrico Fender. Año:2005. Color: Wood','https://www.doctorbass.net/imagftp/IMm2_Fender-Am-Dlx-JBV-Nat-1.jpg',153231.31,4,1,2,0)
 GO
-
-
-
 
 -- PROVINCIAS
 INSERT INTO [Provincias] VALUES('BUENOS AIRES')
@@ -6343,391 +6744,4 @@ GO
 INSERT INTO TiposUsuario VALUES ('Cliente')
 GO
 INSERT INTO Usuarios VALUES ('admin@musicapp.com.ar','admin1','AdminUser','Admin','Administrador','33935035','1','Av Siempreviva',123,'','','+123456','930','1234',GETDATE(),GETDATE(),0)
-GO
---Views
-
-CREATE VIEW VW_ProductosLista AS
-SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre, M.ImagenURL AS Marca_ImagenURL, M.Eliminado AS Marca_Eliminado,
- C.ID AS Categoria_ID, C.Nombre AS Categoria_Nombre, C.Eliminado AS Categoria_Eliminado
-FROM Productos AS P
-INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-INNER JOIN Categorias as C ON P.IDCategoria = C.ID
-
-CREATE VIEW VW_UsuariosAdmin AS
-SELECT U.*, L.Nombre AS Localidad, D.ID AS Departamento, P.ID AS Provincia FROM Usuarios AS U
-INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
-INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
-INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
-INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
-WHERE TU.Nombre LIKE 'Admin'
-GO
-
-CREATE VIEW VW_UsuariosCliente AS
-SELECT U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
-INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
-INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
-INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
-INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
-WHERE TU.Nombre LIKE 'Cliente'
-GO
-
-
-CREATE VIEW VW_UltimosUsuarios AS
-SELECT TOP 10 U.*, L.Nombre AS Localidad, D.Nombre AS Departamento, P.Nombre AS Provincia FROM Usuarios AS U
-INNER JOIN TiposUsuario AS TU ON U.IDTipo = TU.ID
-INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
-INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
-INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
-WHERE TU.Nombre LIKE 'Cliente'
-ORDER BY U.FechaReg ASC
-GO
-
-CREATE VIEW VW_UltimasVentas AS
-SELECT TOP 5 V.ID, V.Fecha, U.NombreUsuario, V.Importe FROM Ventas AS V
-INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID
-ORDER BY V.Fecha DESC
-GO
-
-CREATE VIEW VW_TopFavoritos AS
-SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca, C.Nombre AS Categoria, COUNT(*) AS [Cantidad] FROM Favoritos as F
-INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
-INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
-INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
-GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
-ORDER BY Cantidad DESC
-GO
-
-CREATE VIEW VW_TopVendidos AS
-SELECT TOP 10 P.Codigo, P.Nombre, M.Nombre AS Marca , C.Nombre AS Categoria, SUM(PXC.Cantidad) AS [Cantidad] FROM Ventas AS V
-INNER JOIN Productos_X_Carrito AS PXC ON V.IDCarrito = PXC.IDCarrito
-INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
-INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
-GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
-ORDER BY Cantidad DESC
-GO
-
-CREATE VIEW VW_ProductosXVenta (
-SELECT  FROM Ventas AS V
-INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
-INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
-INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
-
---Store Procedures
-CREATE PROCEDURE SP_AltaProducto (
-	@Codigo varchar(10),
-	@Nombre varchar(60),
-	@Descripcion varchar(150),
-	@ImagenURL varchar(200),
-	@Precio money,
-	@Stock bigint,
-	@IDMarca bigint,
-	@IDCategoria int,
-	@Eliminado bit ) AS
-BEGIN
-INSERT INTO Productos VALUES(@Codigo,@Nombre,@Descripcion,@ImagenURL,@Precio,@Stock,@IDMarca,@IDCategoria,@Eliminado)
-END
-GO
-
-CREATE PROCEDURE SP_AltaMarca (
-	@Codigo varchar(10),
-	@Nombre varchar(60),
-	@ImagenURL varchar(200),
-	@Eliminado bit ) AS
-BEGIN
-INSERT INTO Marcas VALUES(@Codigo,@Nombre,@ImagenURL,@Eliminado)
-END
-GO
-
-CREATE PROCEDURE SP_AltaCategoria (
-	@Nombre varchar(60),
-	@Eliminado bit ) AS
-BEGIN
-INSERT INTO Categorias VALUES(@Nombre, @Eliminado)
-END
-GO
-
-CREATE PROCEDURE SP_BajaProducto (
-	@ID bigint ) AS
-BEGIN
-UPDATE Productos SET Eliminado = 1 WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_BajaMarca (
-	@ID bigint ) AS
-BEGIN
-UPDATE Marcas SET Eliminado = 1 WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_BajaCategoria (
-	@ID bigint ) AS
-BEGIN
-UPDATE Categorias SET Eliminado = 1 WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_ModifProducto (
-	@ID bigint,
-	@Codigo varchar(10),
-	@Nombre varchar(60),
-	@Descripcion varchar(150),
-	@ImagenURL varchar(200),
-	@Precio money,
-	@Stock bigint,
-	@IDMarca bigint,
-	@IDCategoria int) AS
-BEGIN
-UPDATE Productos SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, ImagenURL = @ImagenURL, Precio = @Precio,
-					 Stock = @Stock, IDMarca = @IDMarca, IDCategoria = @IDCategoria
-				WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_ModifStock (
-	@IDProducto bigint,
-	@NuevoStock bigint ) AS
-BEGIN
-UPDATE Productos SET Stock = @NuevoStock WHERE ID=@IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_ChequearStock (
-	@IDProducto bigint ) AS
-BEGIN
-SELECT Stock FROM Productos WHERE ID = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_ModifMarca (
-	@ID bigint,
-	@Codigo varchar(10),
-	@Nombre varchar(60),
-	@ImagenURL varchar(200) ) AS
-BEGIN
-UPDATE Marcas SET Codigo = @Codigo, Nombre = @Nombre, ImagenURL = @ImagenURL WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_ModifCategoria (
-	@ID bigint,
-	@Nombre varchar(60) ) AS
-BEGIN
-UPDATE Categorias SET Nombre = @Nombre WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_AltaUsuario (
-	@Email varchar(50),
-	@Clave varchar(10),
-	@NombreUsuario varchar(150),
-	@Nombres varchar(100),
-	@Apellidos varchar(100),
-	@Dni int,
-	@IDTipo int,
-	@Calle varchar(50),
-	@Numero int,
-	@Piso varchar(30),
-	@Dpto varchar(30),
-	@Telefono varchar(30),
-	@IDLocalidad int,
-	@CP varchar(10),
-	@FechaNac date,
-	@FechaReg date,
-	@Eliminado bit ) AS
-BEGIN
-INSERT INTO Usuarios VALUES (@Email, @Clave, @NombreUsuario, @Nombres, @Apellidos, @Dni, @IDTipo, @Calle, @Numero, @Piso, @Dpto, @Telefono, @IDLocalidad, @CP, @FechaNac, @FechaReg, @Eliminado)
-END
-GO
-
-CREATE PROCEDURE SP_ModificarUsuario (
-	@ID bigint,
-	@Email varchar(50),
-	@Clave varchar(10),
-	@NombreUsuario varchar(150),
-	@Nombres varchar(100),
-	@Apellidos varchar(100),
-	@Dni int,
-	@IDTipo int,
-	@Calle varchar(50),
-	@Numero int,
-	@Piso varchar(30),
-	@Dpto varchar(30),
-	@Telefono varchar(30),
-	@IDLocalidad int,
-	@CP varchar(10),
-	@FechaNac date ) AS
-BEGIN
-UPDATE Usuarios SET Email = @Email, Clave = @Clave, NombreUsuario = @NombreUsuario, Nombres = @Nombres, Apellidos = @Apellidos, Dni = @Dni,
-Calle = @Calle, Numero = @Numero, Piso = @Piso, Dpto = @Dpto, Telefono = @Telefono, IDLocalidad = @IDLocalidad, CP = @CP, FechaNac = @FechaNac
-WHERE @ID = ID
-END
-GO
-
-CREATE PROCEDURE SP_BajaUsuario (
-	@ID bigint ) AS
-BEGIN
-UPDATE Usuarios SET Eliminado = 1 WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE SP_ValidarUsuario (
-	@Email varchar(100),
-	@Clave varchar(10) ) AS
-BEGIN
-SELECT U.*, D.ID, P.ID, F.ID, C.ID FROM Usuarios AS U
-INNER JOIN Localidades AS L ON U.IDLocalidad = L.ID
-INNER JOIN Departamentos AS D ON L.IDDepartamento = D.ID
-INNER JOIN Provincias AS P ON D.IDProvincia = P.ID
-INNER JOIN Favoritos AS F ON U.ID = F.IDUsuario
-INNER JOIN Carritos AS C ON U.ID = C.IDUsuario
-WHERE Email = @EMail AND Clave = @Clave AND C.CarritoVendido = 0
-END
-GO
-
-CREATE PROCEDURE SP_ListarFavoritos (
-	@IDFavorito bigint ) AS
-BEGIN
-SELECT P.Eliminado, P.ID, P.Nombre, M.Nombre AS Marca, P.Precio FROM Favoritos AS F
-INNER JOIN Productos_X_Favoritos AS PXF ON F.ID = PXF.IDFavoritos
-INNER JOIN Productos AS P ON PXF.IDProducto = P.ID
-INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-WHERE F.ID = @IDFavorito
-END
-GO
-
-CREATE PROCEDURE SP_AgregarFavorito (
-	@IDFavorito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-INSERT INTO Productos_X_Favoritos VALUES (@IDFavorito, @IDProducto)
-END
-GO
-
-CREATE PROCEDURE SP_EliminarFavorito (
-	@IDFavorito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-DELETE FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_ContarFavoritos (
-	@IDFavorito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-SELECT COUNT(*) FROM Productos_X_Favoritos WHERE IDFavoritos = @IDFavorito AND IDProducto = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_FiltrarDptoXProv (
-	@IDProvincia int ) AS
-BEGIN
-SELECT * FROM Departamentos
-WHERE IDProvincia = @IDProvincia
-END
-GO
-
-CREATE PROCEDURE SP_FiltrarLocalidadXDpto (
-	@IDDepartamento int ) AS
-BEGIN
-SELECT * FROM Localidades
-WHERE IDDepartamento = @IDDepartamento
-END
-GO
-
-CREATE PROCEDURE SP_BuscarCarrito (
-	@IDUsuario bigint ) AS
-BEGIN
-SELECT * FROM Carritos WHERE IDUsuario = @IDUsuario AND CarritoVendido = 0
-END
-GO
-
-CREATE PROCEDURE SP_CargarProducto_X_Carrito (
-	@IDCarrito bigint,
-	@IDProducto bigint,
-	@Cantidad int) AS
-BEGIN
-INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto, @Cantidad)
-END
-GO
-
-CREATE PROCEDURE SP_ModifCantidadProductoXCarrito (
-	@IDCarrito bigint,
-	@IDProducto bigint,
-	@Cantidad int ) AS
-BEGIN
-UPDATE Productos_X_Carrito SET Cantidad += @Cantidad WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_BuscarProductoXCarrito (
-	@IDCarrito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-SELECT @IDProducto FROM Productos_X_Carrito WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_ListarProductos_X_Carrito (
-	@IDCarrito bigint ) AS
-BEGIN
-SELECT P.Eliminado, M.Eliminado, C.Eliminado, P.ID, P.Codigo, P.Nombre, P.ImagenURL, P.Precio, P.Stock, PXC.IDCarrito, PXC.IDProducto, PXC.Cantidad FROM Productos_X_Carrito AS PXC
-INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
-INNER JOIN Marcas AS M ON P.IDMarca = M.ID
-INNER JOIN Categorias AS C ON P.IDCategoria = C.ID
-WHERE PXC.IDCarrito = @IDCarrito
-END
-GO
-
-CREATE PROCEDURE SP_EliminarProductosXCarrito (
-	@IDCarrito bigint,
-	@IDProducto bigint ) AS
-BEGIN
-DELETE FROM Productos_X_Carrito WHERE IDCarrito = @IDCarrito AND IDProducto = @IDProducto
-END
-GO
-
-CREATE PROCEDURE SP_CargarVenta (
-	@IDCarrito bigint,
-	@IDUsuario bigint,
-	@Importe money ) AS
-BEGIN
-INSERT INTO Ventas VALUES (@IDCarrito, @IDUsuario, @Importe,GETDATE())
-END
-GO
-
---Triggers
-
-CREATE TRIGGER TR_FavoritosXUsuario 
-ON Usuarios
-AFTER INSERT AS
-BEGIN
-DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
-DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
-IF(@IDTipo = 2) INSERT INTO Favoritos VALUES (@IDUsuario)
-END
-GO
-
-CREATE TRIGGER TR_CarritoXUsuario 
-ON Usuarios
-AFTER INSERT AS
-BEGIN
-DECLARE @IDUsuario bigint = (SELECT ID FROM inserted)
-DECLARE @IDTipo int = (SELECT IDTipo FROM inserted)
-IF(@IDTipo = 2) INSERT INTO Carritos VALUES (@IDUsuario,0)
-END
-GO
-
-CREATE TRIGGER TR_SetearCarritoVendido
-ON Ventas
-AFTER INSERT AS
-BEGIN
-DECLARE @IDCarrito bigint = (SELECT IDCarrito FROM inserted)
-DECLARE @IDUsuario bigint = (SELECT IDUsuario FROM inserted)
-UPDATE Carritos SET CarritoVendido = 1 WHERE ID = @IDCarrito
-INSERT INTO Carritos VALUES (@IDUsuario,0)
-END
 GO

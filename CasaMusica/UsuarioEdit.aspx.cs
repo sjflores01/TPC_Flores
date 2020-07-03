@@ -62,69 +62,75 @@ namespace CasaMusica
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-
-            try
+            if (ValidarForm())
             {
-                if (usuario == null)
-                {
-                    usuario = new Usuario();
-                }
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
-                usuario.Eliminado = false;
-                usuario.Tipo = 1;
-                usuario.Apellido = txtBoxApellido.Text;
-                usuario.Nombre = txtBoxNombre.Text;
-                usuario.Dni = Convert.ToInt32(txtBoxDni.Text);
-                usuario.FechaReg = DateTime.Now;
-                usuario.FechaNac = Convert.ToDateTime(txtBoxFechaNac.Text);
-                usuario.Clave = txtBoxPassword.Text;
-                usuario.NombreUsuario = txtBoxUsuario.Text;
-                usuario.Contacto.Email = txtBoxEmail.Text;
-                usuario.Contacto.Telefono = txtBoxTelefono.Text;
-                usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
-                usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
-                usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
-                usuario.Contacto.Direccion.Dpto = txtBoxDireccionDpto.Text;
-                usuario.Contacto.Direccion.Localidad.ID = Convert.ToInt32(dropDownLocal.SelectedValue);
-                usuario.Contacto.Direccion.CP = txtBoxCP.Text;
-
-                if (usuario.ID != 0)
+                try
                 {
-                    usuarioNegocio.ModificarUsuario(usuario);
-                }
-                else
-                {
-                    if (usuarioNegocio.BuscarEmail(txtBoxEmail.Text))
+                    if (usuario == null)
                     {
-                        lblEmailExistente.Visible = true;
-                        lblEmailExistente.Text = "Email existente en BBDD, por favor ingresá otro.";
-                        txtBoxEmail.Text = "";
-
+                        usuario = new Usuario();
                     }
-                    else if (usuarioNegocio.BuscarUsuario(txtBoxUsuario.Text))
+
+                    usuario.Eliminado = false;
+                    usuario.Tipo = 1;
+                    usuario.Apellido = txtBoxApellido.Text;
+                    usuario.Nombre = txtBoxNombre.Text;
+                    usuario.Dni = Convert.ToInt32(txtBoxDni.Text);
+                    usuario.FechaReg = DateTime.Now;
+                    usuario.FechaNac = Convert.ToDateTime(txtBoxFechaNac.Text);
+                    usuario.Clave = txtBoxPassword.Text;
+                    usuario.NombreUsuario = txtBoxUsuario.Text;
+                    usuario.Contacto.Email = txtBoxEmail.Text;
+                    usuario.Contacto.Telefono = txtBoxTelefono.Text;
+                    usuario.Contacto.Direccion.Calle = txtBoxDireccionCalle.Text;
+                    usuario.Contacto.Direccion.Numero = Convert.ToInt32(txtBoxDireccionNumero.Text);
+                    usuario.Contacto.Direccion.Piso = txtBoxDireccionPiso.Text;
+                    usuario.Contacto.Direccion.Dpto = txtBoxDireccionDpto.Text;
+                    usuario.Contacto.Direccion.Localidad.ID = Convert.ToInt32(dropDownLocal.SelectedValue);
+                    usuario.Contacto.Direccion.CP = txtBoxCP.Text;
+
+                    if (usuario.ID != 0)
                     {
-                        lblUsuarioExistente.Visible = true;
-                        lblUsuarioExistente.Text = "El Usuario esta tomado, por favor ingresá otro.";
-                        txtBoxUsuario.Text = "";
+                        usuarioNegocio.ModificarUsuario(usuario);
                     }
                     else
                     {
-                        usuarioNegocio.AltaUsuario(usuario);
+                        if (usuarioNegocio.BuscarEmail(txtBoxEmail.Text))
+                        {
+                            lblEmailExistente.Visible = true;
+                            lblEmailExistente.Text = "Email existente en BBDD, por favor ingresá otro.";
+                            txtBoxEmail.Text = "";
 
+                        }
+                        else if (usuarioNegocio.BuscarUsuario(txtBoxUsuario.Text))
+                        {
+                            lblUsuarioExistente.Visible = true;
+                            lblUsuarioExistente.Text = "El Usuario esta tomado, por favor ingresá otro.";
+                            txtBoxUsuario.Text = "";
+                        }
+                        else
+                        {
+                            usuarioNegocio.AltaUsuario(usuario);
+
+                        }
                     }
 
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalNuevoUsuario", "$('#modalNuevoUsuario').modal();", true);
 
                 }
+                catch (Exception ex)
+                {
 
-                Response.Redirect("ABM_Usuarios.aspx");
-
+                    throw ex;
+                }
             }
-            catch (Exception ex)
+            else
             {
-
-                throw ex;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorForm", "$('#modalErrorForm').modal();", true);
             }
+            
         }
 
         protected void dropDownProv_SelectedIndexChanged(object sender, EventArgs e)
@@ -169,6 +175,83 @@ namespace CasaMusica
 
                 throw ex;
             }
+        }
+
+        protected void chkBoxVerContraseña_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkBoxVerContraseña.Checked)
+            {
+                txtBoxPassword.TextMode = TextBoxMode.SingleLine;
+            }
+            else
+            {
+                txtBoxPassword.TextMode = TextBoxMode.Password;
+            }
+        }
+
+        public bool ValidarForm()
+        {
+            if (IsPostBack)
+            {
+                if (txtBoxApellido.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxNombre.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxUsuario.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxEmail.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxPassword.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxCP.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxDireccionCalle.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxDireccionNumero.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxPassword.Text == "")
+                {
+                    return false;
+                }
+                if (dropDownProv.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (dropDownDpto.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (dropDownLocal.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (txtBoxTelefono.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxFechaNac.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

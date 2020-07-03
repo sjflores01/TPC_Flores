@@ -65,43 +65,51 @@ namespace CasaMusica
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            try
+            if (ValidarForm())
             {
-                ProductoNegocio productoNegocio = new ProductoNegocio();
-                MarcaNegocio marcaNegocio = new MarcaNegocio();
-                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-
-                if (producto == null)
+                try
                 {
-                    producto = new Producto();
+                    ProductoNegocio productoNegocio = new ProductoNegocio();
+                    MarcaNegocio marcaNegocio = new MarcaNegocio();
+                    CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+
+                    if (producto == null)
+                    {
+                        producto = new Producto();
+                    }
+
+                    producto.Codigo = txtBoxCodigo.Text;
+                    producto.Nombre = txtBoxNombre.Text;
+                    producto.Descripcion = txtBoxDescripcion.Text;
+                    producto.URLImagen = txtBoxImagen.Text;
+                    producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
+                    producto.Stock = Convert.ToInt64(txtBoxStock.Text);
+                    producto.Marca = marcaNegocio.Listar().Find(m => m.ID == Convert.ToInt64(dropDownMarcas.SelectedItem.Value));
+                    producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID == Convert.ToInt64(dropDownCategorias.SelectedItem.Value));
+                    producto.Eliminado = false;
+
+
+                    if (producto.ID != 0)
+                    {
+                        productoNegocio.Modificar(producto);
+                    }
+                    else
+                    {
+                        productoNegocio.Agregar(producto);
+                    }
+
+                    Response.Redirect("ABM_Productos.aspx");
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
                 }
 
-                producto.Codigo = txtBoxCodigo.Text;
-                producto.Nombre = txtBoxNombre.Text;
-                producto.Descripcion = txtBoxDescripcion.Text;
-                producto.URLImagen = txtBoxImagen.Text;
-                producto.Precio = Convert.ToDecimal(txtBoxPrecio.Text);
-                producto.Stock = Convert.ToInt64(txtBoxStock.Text);
-                producto.Marca = marcaNegocio.Listar().Find(m => m.ID == Convert.ToInt64(dropDownMarcas.SelectedItem.Value));
-                producto.Categoria = categoriaNegocio.Listar().Find(c => c.ID == Convert.ToInt64(dropDownCategorias.SelectedItem.Value));
-                producto.Eliminado = false;
-
-
-                if (producto.ID != 0)
-                {
-                    productoNegocio.Modificar(producto);
-                }
-                else
-                {
-                    productoNegocio.Agregar(producto);
-                }
-
-                Response.Redirect("ABM_Productos.aspx");
             }
-            catch (Exception ex)
+            else
             {
-
-                throw ex;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorForm", "$('#modalErrorForm').modal();", true);
             }
         }
 
@@ -138,5 +146,47 @@ namespace CasaMusica
         {
             imagenURL = txtBoxImagen.Text;
         }
+
+        public bool ValidarForm()
+        {
+            if (IsPostBack)
+            {
+                if (txtBoxCodigo.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxNombre.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxDescripcion.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxImagen.Text == "")
+                {
+                    return false;
+                }
+                if (dropDownMarcas.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (dropDownCategorias.SelectedItem == null)
+                {
+                    return false;
+                }
+                if (txtBoxStock.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxPrecio.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
     }
 }

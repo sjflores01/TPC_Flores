@@ -34,32 +34,49 @@ namespace CasaMusica
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-
-            if (marca == null)
+            if (ValidarForm())
             {
-                marca = new Marca();
-            }
+                MarcaNegocio marcaNegocio = new MarcaNegocio();
 
-            marca.Codigo = txtBoxCodigo.Text;
-            marca.Nombre = txtBoxNombre.Text;
-            marca.URLImagen = txtBoxImagen.Text;
+                try
+                {
+                    if (marca == null)
+                    {
+                        marca = new Marca();
+                    }
 
-            if (marca.ID != 0)
-            {
-                marca.Codigo = txtBoxCodigo.Text;
-                marca.Nombre = txtBoxNombre.Text;
-                marca.URLImagen = txtBoxImagen.Text;
+                    marca.Codigo = txtBoxCodigo.Text;
+                    marca.Nombre = txtBoxNombre.Text;
+                    marca.URLImagen = txtBoxImagen.Text;
 
-                marcaNegocio.Modificar(marca);
+                    if (marca.ID != 0)
+                    {
+                        marca.Codigo = txtBoxCodigo.Text;
+                        marca.Nombre = txtBoxNombre.Text;
+                        marca.URLImagen = txtBoxImagen.Text;
+
+                        marcaNegocio.Modificar(marca);
+                    }
+                    else
+                    {
+                        marcaNegocio.Agregar(marca);
+                    }
+
+                    Response.Redirect("ABM_Marcas.aspx");
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
             }
             else
             {
-                marcaNegocio.Agregar(marca);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalErrorForm", "$('#modalErrorForm').modal();", true);
             }
-
-            Response.Redirect("ABM_Marcas.aspx");
-
+            
         }
 
         protected void btnPreviewImg_Click(object sender, EventArgs e)
@@ -93,6 +110,27 @@ namespace CasaMusica
                 lblNombreExistente.Text = "Ya exuste una marca con este nombre.";
                 txtBoxNombre.Text = "";
             }
+        }
+
+        public bool ValidarForm()
+        {
+            if (IsPostBack)
+            {
+                if (txtBoxCodigo.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxNombre.Text == "")
+                {
+                    return false;
+                }
+                if (txtBoxImagen.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

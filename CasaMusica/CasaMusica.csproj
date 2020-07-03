@@ -84,7 +84,6 @@
     <Content Include="Default.aspx" />
     <Content Include="DefaultUser.aspx" />
     <Content Include="Error.aspx" />
-    <Content Include="JS\Validar_FormsAdmin.js" />
     <Content Include="Login.aspx" />
     <Content Include="MarcaEdit.aspx" />
     <Content Include="Perfil.aspx" />
