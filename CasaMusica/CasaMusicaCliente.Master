@@ -39,7 +39,7 @@
                                     <path fill-rule="evenodd" d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z" />
                                 </svg>
                             </a>
-                            <div class="dropdown-menu align-self-end" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu align-self-end ml-2" aria-labelledby="dropdownMenuLink">
                                 <% if (listaCarrito != null)
                                     {%>
                                 <%foreach (var item in listaCarrito)

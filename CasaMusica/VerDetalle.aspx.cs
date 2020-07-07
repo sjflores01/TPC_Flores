@@ -37,10 +37,10 @@ namespace CasaMusica
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw ex;
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -95,7 +95,7 @@ namespace CasaMusica
                         }
                         else
                         {
-                            carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID, Convert.ToInt32(txtBoxCantidad.Text));
+                            carritoUserNegocio.AgregarProductoCarrito(usuario.IDCarrito, producto.ID, producto.Precio, Convert.ToInt32(txtBoxCantidad.Text));
                         }
                         Response.Redirect("DefaultUser.aspx");
                     }

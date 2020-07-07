@@ -49,5 +49,43 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col col-md-2">
+                <div class="form-group">
+                    <label class="form-text">Actualizar Estado:</label>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <asp:DropDownList ID="dropDownEstado" CssClass="form-control" runat="server">
+                </asp:DropDownList>
+            </div>
+            <div class="col col-md-2">
+                <asp:Button Text="Actualizar" CssClass="btn btn-success" ID="btnActualizarEstado" runat="server" OnClick="btnActualizarEstado_Click" />
+            </div>
+        </div>
+    </div>
+
+    <%--MODALS--%>
+    <div class="modal fade" id="modalActualizacion" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <asp:Label ID="lblModalTitle" runat="server" Text="">Venta</asp:Label>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <asp:Label ID="lblModalBody" runat="server" Text="">El estado fue actualizado con éxito. ¿Qué queres hacer?</asp:Label>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="Default.aspx" class="btn btn-secondary">Ir al Inicio</a>
+                            <a href="Ventas.aspx" class="btn btn-secondary">Ir a Ventas</a>
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
     </div>
 </asp:Content>

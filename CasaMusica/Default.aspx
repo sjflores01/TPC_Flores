@@ -20,6 +20,7 @@
                             <th scope="col">Fecha</th>
                             <th scope="col">Usuario</th>
                             <th scope="col">$</th>
+                            <th scope="col">Estado</th>
                             <th scope="col">Ver</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                             <td><% = item.Fecha.ToShortDateString() %></td>
                             <td><% = item.Usuario.NombreUsuario %></td>
                             <td><% = item.Importe.ToString("F2") %></td>
+                            <td><% = item.Estado.Nombre %></td>
                             <td><a href="VentaDetalle.aspx?ID=<% = item.ID %>" class="btn btn-dark">Ver Detalle</a></td>
                         </tr>
                         <%} %>

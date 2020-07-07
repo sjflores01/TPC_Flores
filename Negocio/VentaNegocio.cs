@@ -18,7 +18,6 @@ namespace Negocio
                 datos.SetearSP("SP_CargarVenta");
                 datos.Comando.Parameters.Clear();
                 datos.SetearParametro("@IDCarrito", venta.Carrito.ID);
-                datos.SetearParametro("@IDUsuario", venta.Usuario.ID);
                 datos.SetearParametro("@Importe", venta.Importe);
                 datos.EjecutarAccion();
             }
@@ -41,9 +40,10 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("SELECT V.ID, V.Fecha, U.NombreUsuario, U.ID, V.Importe, V.IDCarrito FROM Ventas AS V" +
-                    " INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID" +
+                datos.SetearQuery("SELECT V.ID, V.Fecha, U.NombreUsuario, U.ID, V.Importe, V.IDCarrito, E.ID, E.Estado FROM Ventas AS V" +
                     " INNER JOIN Carritos AS C ON V.IDCarrito = C.ID" +
+                    " INNER JOIN Estados AS E ON V.IDEstado = E.ID" +
+                    " INNER JOIN Usuarios AS U ON C.IDUsuario = U.ID" +
                     " ORDER BY V.Fecha DESC");
                 datos.EjecutarLector();
 
@@ -57,6 +57,8 @@ namespace Negocio
                     venta.Usuario.ID = datos.Lector.GetInt64(3);
                     venta.Importe = datos.Lector.GetDecimal(4);
                     venta.Carrito.ID = datos.Lector.GetInt64(5);
+                    venta.Estado.ID = datos.Lector.GetInt32(6);
+                    venta.Estado.Nombre = datos.Lector.GetString(7);
 
                     lista.Add(venta);
                 }
@@ -67,6 +69,29 @@ namespace Negocio
             {
 
                 throw;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void ActualizarEstado(long IDVenta, int IDEstado)
+        {
+            AccesoADatos datos = new AccesoADatos();
+
+            try
+            {
+                datos.SetearSP("SP_ActualizarVenta");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDVenta", IDVenta);
+                datos.SetearParametro("@IDEstado", IDEstado);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
             finally
             {
@@ -93,6 +118,7 @@ namespace Negocio
                     venta.Fecha = datos.Lector.GetDateTime(1);
                     venta.Usuario.NombreUsuario = datos.Lector.GetString(2);
                     venta.Importe = datos.Lector.GetDecimal(3);
+                    venta.Estado.Nombre = datos.Lector.GetString(4);
 
                     lista.Add(venta);
                 }

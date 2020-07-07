@@ -46,6 +46,7 @@
     <Compile Include="Contacto.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="Direccion.cs" />
+    <Compile Include="Estado.cs" />
     <Compile Include="Favorito.cs" />
     <Compile Include="Localidad.cs" />
     <Compile Include="Marca.cs" />

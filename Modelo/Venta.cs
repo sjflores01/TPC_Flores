@@ -13,11 +13,13 @@ namespace Modelo
         public Usuario Usuario { get; set; }
         public decimal Importe { get; set; }
         public DateTime Fecha { get; set; }
+        public Estado Estado { get; set; }
 
         public Venta()
         {
             this.Carrito = new CarritoUser();
             this.Usuario = new Usuario();
+            this.Estado = new Estado();
         }
     }
 }

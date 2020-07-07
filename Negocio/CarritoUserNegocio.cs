@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class CarritoUserNegocio
     {
-        public void AgregarProductoCarrito(long IDCarrito, long IDProducto, int cantidad)
+        public void AgregarProductoCarrito(long IDCarrito, long IDProducto, decimal precioProducto, int cantidad)
         {
             AccesoADatos datos = new AccesoADatos();
 
@@ -20,6 +20,7 @@ namespace Negocio
                 datos.SetearParametro("@IDCarrito", IDCarrito);
                 datos.SetearParametro("@IDProducto", IDProducto);
                 datos.SetearParametro("@Cantidad", cantidad);
+                datos.SetearParametro("@Precio", precioProducto);
                 datos.EjecutarAccion();
                 datos.CerrarConexion();
             }

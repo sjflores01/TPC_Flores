@@ -31,6 +31,7 @@ namespace CasaMusica
                     listaProductos = venta.Carrito.Productos;
                     venta.Importe = carritoUserNegocio.SumarImporte(venta.Carrito.Productos);
                     venta.Fecha = DateTime.Now;
+                    venta.Estado.ID = 1;
 
                 }
                 catch (Exception ex)

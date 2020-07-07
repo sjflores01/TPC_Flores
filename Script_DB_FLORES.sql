@@ -92,26 +92,31 @@ GO
 CREATE TABLE Carritos(
 	ID bigint not null IDENTITY(1,1),
 	IDUsuario bigint not null,
-	CarritoVendido bit not null,
+	CarritoVendido bit not null
 )
 GO
 CREATE TABLE Productos_X_Carrito(
 	IDCarrito bigint not null,
 	IDProducto bigint not null,
-	Cantidad int not null
+	Cantidad int not null,
+	Precio money not null,
 )
 GO
 
 CREATE TABLE Ventas(
 	ID bigint not null IDENTITY(1001,1),
 	IDCarrito bigint not null,
-	IDUsuario bigint not null,
 	Importe money not null,
 	Fecha date not null,
+	IDEstado int not null
 )
 GO
 
-
+CREATE TABLE Estados(
+	ID int not null IDENTITY(1,1),
+	Estado varchar(40) not null
+)
+GO
 
 
 ----------------------------------------Primary Keys---------------------------------------------
@@ -145,12 +150,17 @@ GO
 ALTER TABLE Productos_X_Favoritos
 ADD CONSTRAINT PK_Producto_X_Favorito PRIMARY KEY(IDFavoritos,IDProducto)
 GO
-
 ALTER TABLE Carritos
 ADD CONSTRAINT PK_Carrito PRIMARY KEY(ID)
 GO
 ALTER TABLE Ventas
 ADD CONSTRAINT PK_Venta PRIMARY KEY(ID)
+GO
+ALTER TABLE Estados
+ADD CONSTRAINT PK_Estado PRIMARY KEY (ID)
+GO
+ALTER TABLE Productos_X_Carrito
+ADD CONSTRAINT PK_Producto_X_Carrito PRIMARY KEY (IDCarrito,IDProducto)
 GO
 
 --------------------------------Unique Keys--------------------------------------
@@ -201,8 +211,10 @@ ADD CONSTRAINT FK_PxC_Productos FOREIGN KEY(IDProducto) REFERENCES Productos(ID)
 GO
 ALTER TABLE Ventas
 ADD CONSTRAINT FK_VentasCarrito FOREIGN KEY(IDCarrito) REFERENCES Carritos(ID)
-go
-
+GO
+ALTER TABLE Ventas
+ADD CONSTRAINT FK_VentasEstado FOREIGN KEY(IDEstado) REFERENCES Estados(ID)
+GO
 
 
 --------------------------------Views--------------------------------------------
@@ -213,6 +225,7 @@ SELECT P.*, M.ID AS Marca_ID, M.Codigo AS Marca_Codigo, M.Nombre AS Marca_Nombre
 FROM Productos AS P
 INNER JOIN Marcas AS M ON P.IDMarca = M.ID
 INNER JOIN Categorias as C ON P.IDCategoria = C.ID
+GO
 
 CREATE VIEW VW_UsuariosAdmin AS
 SELECT U.*, L.Nombre AS Localidad, D.ID AS Departamento, P.ID AS Provincia FROM Usuarios AS U
@@ -243,8 +256,10 @@ ORDER BY U.FechaReg DESC
 GO
 
 CREATE VIEW VW_UltimasVentas AS
-SELECT TOP 5 V.ID, V.Fecha, U.NombreUsuario, V.Importe FROM Ventas AS V
-INNER JOIN Usuarios AS U ON V.IDUsuario = U.ID
+SELECT TOP 5 V.ID, V.Fecha, U.NombreUsuario, V.Importe, E.Estado FROM Ventas AS V
+INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
+INNER JOIN Usuarios AS U ON C.IDUsuario = U.ID
+INNER JOIN Estados AS E ON V.IDEstado = E.ID
 ORDER BY V.Fecha DESC
 GO
 
@@ -268,11 +283,11 @@ GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
 ORDER BY Cantidad DESC
 GO
 
-CREATE VIEW VW_ProductosXVenta (
-SELECT  FROM Ventas AS V
-INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
-INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
-INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
+--CREATE VIEW VW_ProductosXVenta (
+--SELECT  FROM Ventas AS V
+--INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
+--INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
+--INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
 
 
 
@@ -512,9 +527,10 @@ GO
 CREATE PROCEDURE SP_CargarProducto_X_Carrito (
 	@IDCarrito bigint,
 	@IDProducto bigint,
-	@Cantidad int) AS
+	@Cantidad int,
+	@Precio money ) AS
 BEGIN
-INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto, @Cantidad)
+INSERT INTO Productos_X_Carrito VALUES (@IDCarrito, @IDProducto, @Cantidad, @Precio)
 END
 GO
 
@@ -556,12 +572,20 @@ GO
 
 CREATE PROCEDURE SP_CargarVenta (
 	@IDCarrito bigint,
-	@IDUsuario bigint,
 	@Importe money ) AS
 BEGIN
-INSERT INTO Ventas VALUES (@IDCarrito, @IDUsuario, @Importe,GETDATE())
+INSERT INTO Ventas VALUES (@IDCarrito, @Importe,GETDATE(),1)
 END
 GO
+
+CREATE PROCEDURE SP_ActualizarVenta (
+	@IDVenta bigint,
+	@IDEstado int ) AS
+BEGIN
+UPDATE Ventas SET IDEstado = @IDEstado WHERE ID = @IDVenta
+END
+GO
+
 
 --Triggers
 
@@ -590,12 +614,11 @@ ON Ventas
 AFTER INSERT AS
 BEGIN
 DECLARE @IDCarrito bigint = (SELECT IDCarrito FROM inserted)
-DECLARE @IDUsuario bigint = (SELECT IDUsuario FROM inserted)
+DECLARE @IDUsuario bigint = (SELECT IDUsuario FROM Carritos WHERE ID=@IDCarrito)
 UPDATE Carritos SET CarritoVendido = 1 WHERE ID = @IDCarrito
 INSERT INTO Carritos VALUES (@IDUsuario,0)
 END
 GO
-
 
 
 
@@ -635,6 +658,18 @@ VALUES('GTR01','Fender American Standard Stratocaster','Guitarra Electrica Fende
 GO
 INSERT INTO Productos
 VALUES('BAS01','Fender Jazz Bass','Bajo Electrico Fender. Año:2005. Color: Wood','https://www.doctorbass.net/imagftp/IMm2_Fender-Am-Dlx-JBV-Nat-1.jpg',153231.31,4,1,2,0)
+GO
+INSERT INTO Estados
+VALUES('Reservado')
+GO
+INSERT INTO Estados
+VALUES('En preparación')
+GO
+INSERT INTO Estados
+VALUES('Enviado')
+GO
+INSERT INTO Estados
+VALUES('Entregado')
 GO
 
 -- PROVINCIAS
@@ -6745,3 +6780,4 @@ INSERT INTO TiposUsuario VALUES ('Cliente')
 GO
 INSERT INTO Usuarios VALUES ('admin@musicapp.com.ar','admin1','AdminUser','Admin','Administrador','33935035','1','Av Siempreviva',123,'','','+123456','930','1234',GETDATE(),GETDATE(),0)
 GO
+

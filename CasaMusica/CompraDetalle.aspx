@@ -48,5 +48,10 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col col-md-3">
+                <p class="alert alert-success">Estado: <% = venta.Estado.Nombre %></p>
+            </div>
+        </div>
     </div>
 </asp:Content>
