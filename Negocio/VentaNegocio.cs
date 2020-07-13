@@ -44,7 +44,7 @@ namespace Negocio
                     " INNER JOIN Carritos AS C ON V.IDCarrito = C.ID" +
                     " INNER JOIN Estados AS E ON V.IDEstado = E.ID" +
                     " INNER JOIN Usuarios AS U ON C.IDUsuario = U.ID" +
-                    " ORDER BY V.Fecha DESC");
+                    " ORDER BY V.ID DESC");
                 datos.EjecutarLector();
 
                 while (datos.Lector.Read())
@@ -60,6 +60,43 @@ namespace Negocio
                     venta.Estado.ID = datos.Lector.GetInt32(6);
                     venta.Estado.Nombre = datos.Lector.GetString(7);
 
+                    lista.Add(venta);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public List<Venta> ListarVentasXUsuario(long IDUsuario)
+        {
+            AccesoADatos datos = new AccesoADatos();
+            List<Venta> lista = new List<Venta>();
+            Venta venta;
+
+            try
+            {
+                datos.SetearSP("SP_ListarUltimasVentas_X_Usuario");
+                datos.Comando.Parameters.Clear();
+                datos.SetearParametro("@IDUsuario", IDUsuario);
+                datos.EjecutarLector();
+
+                while (datos.Lector.Read())
+                {
+                    venta = new Venta();
+
+                    venta.ID = datos.Lector.GetInt64(0);
+                    venta.Fecha = datos.Lector.GetDateTime(1);
+                    venta.Importe = datos.Lector.GetDecimal(2);
+                    
                     lista.Add(venta);
                 }
 

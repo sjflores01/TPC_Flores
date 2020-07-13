@@ -40,7 +40,7 @@
                         <tr>
                             <th scope="row"><% = item.Codigo %></th>
                             <td><% = item.Nombre %></td>
-                            <td><% = item.Precio %></td>
+                            <td>$<% = item.Precio.ToString("F2") %></td>
                             <td><% = item.CantidadElegida %></td>
                             <td>Reserva</td>
                         </tr>

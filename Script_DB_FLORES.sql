@@ -283,12 +283,6 @@ GROUP BY P.Codigo, P.Nombre, M.Nombre, C.Nombre
 ORDER BY Cantidad DESC
 GO
 
---CREATE VIEW VW_ProductosXVenta (
---SELECT  FROM Ventas AS V
---INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
---INNER JOIN Productos_X_Carrito AS PXC ON C.ID = PXC.IDCarrito
---INNER JOIN Productos AS P ON PXC.IDProducto = P.ID
-
 
 
 
@@ -585,6 +579,19 @@ BEGIN
 UPDATE Ventas SET IDEstado = @IDEstado WHERE ID = @IDVenta
 END
 GO
+
+CREATE PROCEDURE SP_ListarUltimasVentas_X_Usuario (
+	@IDUsuario bigint ) AS
+BEGIN
+SELECT TOP 10 V.ID, V.Fecha, V.Importe FROM Ventas AS V
+INNER JOIN Carritos AS C ON V.IDCarrito = C.ID
+INNER JOIN Estados AS E ON V.IDEstado = E.ID
+INNER JOIN Usuarios AS U ON C.IDUsuario = U.ID
+WHERE U.ID = @IDUsuario
+ORDER BY V.Fecha DESC
+END
+
+
 
 
 --Triggers

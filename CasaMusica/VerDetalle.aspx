@@ -9,7 +9,7 @@
                 <div class="card mb-6">
                     <div class="row no-gutters">
                         <div class="col-md-8">
-                            <img src="<% = producto.URLImagen %>" class="rounded" alt="...">
+                            <img src="<% = producto.URLImagen %>" width="700 px" class="rounded" alt="...">
                         </div>
                         <div class="col-md-4">
                             <div class="card-body">

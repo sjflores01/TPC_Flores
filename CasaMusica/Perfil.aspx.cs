@@ -30,7 +30,7 @@ namespace CasaMusica
                 }
 
                 listadoFavoritos = favoritoNegocio.Listar(usuario.IDFavorito);
-                listadoVentas = ventaNegocio.Listar().FindAll(v => v.Usuario.ID == usuario.ID);
+                listadoVentas = ventaNegocio.ListarVentasXUsuario(usuario.ID);
 
 
                 txtBoxEmail.Text = usuario.Contacto.Email;
